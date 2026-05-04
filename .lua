@@ -895,7 +895,7 @@ local function runFixLag()
     -- =========================
     -- 💬 DISCORD POPUP (hiện sau 6s)
     -- =========================
-    task.wait(6)
+    task.wait(3)
 
     local discordGui = Instance.new("ScreenGui", game.CoreGui)
     discordGui.ResetOnSpawn = false
