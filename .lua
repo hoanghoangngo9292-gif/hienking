@@ -25,23 +25,11 @@ local function isExpired(dateStr)
     if not y then return true end
     y, m, d = tonumber(y), tonumber(m), tonumber(d)
 
-    local ok, result = pcall(function()
-        return game:GetService("HttpService"):GetAsync("https://worldtimeapi.org/api/timezone/Asia/Ho_Chi_Minh")
-    end)
-
-    local todayY, todayM, todayD
-    if ok and result then
-        local dateRaw = result:match('"datetime":"(%d+%-(%d+)%-(%d+))')
-        if dateRaw then
-            todayY, todayM, todayD = dateRaw:match("(%d+)-(%d+)-(%d+)")
-            todayY, todayM, todayD = tonumber(todayY), tonumber(todayM), tonumber(todayD)
-        end
-    end
-
-    if not todayY then
-        local t = os.date("*t")
-        todayY, todayM, todayD = t.year, t.month, t.day
-    end
+    -- UTC+7 cho Viet Nam
+    local nowUTC = os.time()
+    local nowVN = nowUTC + 7 * 3600
+    local t = os.date("!*t", nowVN)
+    local todayY, todayM, todayD = t.year, t.month, t.day
 
     if todayY > y then return true end
     if todayY == y and todayM > m then return true end
@@ -56,33 +44,47 @@ local JSONBIN_URL = "https://api.jsonbin.io/v3/b/69f70bdcaaba8821976677a0/latest
 local JSONBIN_KEY = "$2a$10$3dZhQhscBbWpVvSlJLEfve1EAcLFMYAX/TAw06LndJOcKfOLQe2k2"
 
 local function checkWhitelist(hwid)
-    local ok, result = pcall(function()
+    local _status = "notwhitelisted"
+    local _date = nil
+    pcall(function()
         local requesting = http_request or request or (syn and syn.request) or (fluxus and fluxus.request)
-        if not requesting then return "notwhitelisted" end
-
+        if not requesting then return end
         local res = requesting({
             Url = JSONBIN_URL,
             Method = "GET",
-            Headers = {
-                ["X-Master-Key"] = JSONBIN_KEY
-            }
+            Headers = { ["X-Master-Key"] = JSONBIN_KEY }
         })
-        if not res or not res.Body then return "notwhitelisted" end
-
+        if not res or not res.Body then return end
         local HttpService = game:GetService("HttpService")
         local data = HttpService:JSONDecode(res.Body)
         local hwids = data and data.record and data.record.hwids
-        if not hwids then return "notwhitelisted" end
-
+        if not hwids then return end
         for _, entry in ipairs(hwids) do
             if entry.hwid == hwid then
-                if isExpired(entry.date) then return "expired"
-                else return "whitelisted" end
+                _date = entry.date
+                if isExpired(entry.date) then
+                    _status = "expired"
+                else
+                    _status = "whitelisted"
+                end
+                return
             end
         end
-        return "notwhitelisted"
     end)
-    return (ok and result) or "notwhitelisted"
+    return _status, _date
+end
+
+local function daysRemaining(dateStr)
+    if dateStr == "forever" then return "Vinh vien" end
+    local y, m, d = dateStr:match("(%d+)-(%d+)-(%d+)")
+    if not y then return "?" end
+    y, m, d = tonumber(y), tonumber(m), tonumber(d)
+    local t = os.date("*t")
+    local expTime = os.time({year=y, month=m, day=d, hour=23, min=59, sec=59})
+    local nowTime = os.time({year=t.year, month=t.month, day=t.day, hour=0, min=0, sec=0})
+    local diff = math.floor((expTime - nowTime) / 86400)
+    if diff < 0 then return "Het han" end
+    return diff .. " ngay"
 end
 
 -- ================================
@@ -189,8 +191,12 @@ local function createBaseUI(titleText, titleColor)
     DISCORD.Font = Enum.Font.Merriweather
     Instance.new("UICorner", DISCORD).CornerRadius = UDim.new(0.1, 0)
     DISCORD.MouseButton1Up:Connect(function()
-        local cb = toclipboard
-        if cb then cb("https://discord.gg/x9pATE8Uxe") end
+        local cb = toclipboard or setclipboard
+        if cb then
+            cb("discord.gg/x9pATE8Uxe")
+            DISCORD.Text = "✅ Copied!"
+            task.delay(1.5, function() DISCORD.Text = "Discord" end)
+        end
     end)
 
     local FacebookImage = Instance.new("ImageLabel")
@@ -314,8 +320,6 @@ local function runFixLag()
     local StarterGui = game:GetService("StarterGui")
     local TeleportService = game:GetService("TeleportService")
     local VirtualUser = game:GetService("VirtualUser")
-
-    task.wait(0.5)
 
     -- =========================
     -- 🚀 FPS CAP 150
@@ -826,7 +830,8 @@ local function runFixLag()
     bannerText.TextStrokeTransparency = 0
     bannerText.TextStrokeColor3 = Color3.new(0,0,0)
 
-    local bStroke = Instance.new("UIStroke", bannerText)
+    local bStroke = Instance.new("UIStroke")
+    bStroke.Parent = bannerText
     bStroke.Thickness = 3
     bStroke.Color = Color3.fromRGB(0,255,170)
 
@@ -846,10 +851,12 @@ local function runFixLag()
         gear.BackgroundTransparency = 1
         gear.Image = "rbxassetid://6031280882"
         gear.ImageColor3 = Color3.fromRGB(0,255,170)
-        local glow = Instance.new("UIStroke", gear)
+        local glow = Instance.new("UIStroke")
+        glow.Parent = gear
         glow.Thickness = 3
         glow.Color = Color3.fromRGB(0,255,170)
-        local glow2 = Instance.new("UIStroke", gear)
+        local glow2 = Instance.new("UIStroke")
+        glow2.Parent = gear
         glow2.Thickness = 7
         glow2.Color = Color3.fromRGB(0,255,170)
         glow2.Transparency = 0.7
@@ -886,16 +893,16 @@ local function runFixLag()
     end)
 
     task.delay(4, function()
-        TweenService:Create(bg, TweenInfo.new(0.5), {BackgroundTransparency = 1}):Play()
+        TweenService:Create(bg, TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
         TweenService:Create(bannerText, TweenInfo.new(0.5), {TextTransparency = 1, TextStrokeTransparency = 1}):Play()
         task.wait(0.6)
         bannerGui:Destroy()
     end)
 
     -- =========================
-    -- 💬 DISCORD POPUP (hiện sau 2s)
+    -- 💬 DISCORD POPUP (hien sau khi banner xong, khong block)
     -- =========================
-    task.wait(2)
+    task.delay(4.5, function()
 
     local discordGui = Instance.new("ScreenGui", game.CoreGui)
     discordGui.ResetOnSpawn = false
@@ -908,7 +915,8 @@ local function runFixLag()
     discordBg.BorderSizePixel = 0
     Instance.new("UICorner", discordBg)
 
-    local dStroke = Instance.new("UIStroke", discordBg)
+    local dStroke = Instance.new("UIStroke")
+    dStroke.Parent = discordBg
     dStroke.Thickness = 2
     dStroke.Color = Color3.fromRGB(88,101,242)
 
@@ -944,15 +952,16 @@ local function runFixLag()
     dLink.TextColor3 = Color3.fromRGB(0,255,170)
     Instance.new("UICorner", dLink)
 
-    local dLinkStroke = Instance.new("UIStroke", dLink)
+    local dLinkStroke = Instance.new("UIStroke")
+    dLinkStroke.Parent = dLink
     dLinkStroke.Thickness = 1
     dLinkStroke.Color = Color3.fromRGB(0,255,170)
 
     dLink.MouseButton1Click:Connect(function()
-        pcall(function() setclipboard("discord.gg/x9pATE8Uxe") end)
+        local cb = toclipboard or setclipboard
+        if cb then cb("https://discord.gg/x9pATE8Uxe") end
         dLink.Text = "✅ Đã copy!"
-        task.wait(1.5)
-        dLink.Text = "discord.gg/x9pATE8Uxe"
+        task.delay(1.5, function() dLink.Text = "discord.gg/x9pATE8Uxe" end)
     end)
 
     TweenService:Create(discordBg, TweenInfo.new(0.4, Enum.EasingStyle.Back), {
@@ -960,7 +969,7 @@ local function runFixLag()
         Position = UDim2.new(0.5,-230,0.5,-75)
     }):Play()
 
-    task.delay(6, function()
+    task.delay(2, function()
         TweenService:Create(discordBg, TweenInfo.new(0.4), {BackgroundTransparency = 1}):Play()
         TweenService:Create(dTitle, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
         TweenService:Create(dDesc, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
@@ -968,6 +977,7 @@ local function runFixLag()
         task.wait(0.5)
         discordGui:Destroy()
     end)
+    end) -- ket thuc task.delay popup
 
     -- =========================
     -- 📊 FPS COUNTER
@@ -1010,54 +1020,157 @@ local function runFixLag()
         end
     end)
 
+    -- WATERMARK REMOVED - replaced by QuickDiscord button
+
     -- =========================
-    -- 🔗 WATERMARK DISCORD
+    -- 👤 INFO BAR: Ten user + Thoi han
     -- =========================
-    local wmGui = Instance.new("ScreenGui", game.CoreGui)
-    wmGui.ResetOnSpawn = false
-    wmGui.Name = "WatermarkGui"
+    local infoGui = Instance.new("ScreenGui", game.CoreGui)
+    infoGui.ResetOnSpawn = false
+    infoGui.Name = "InfoBarGui"
 
-    local wmBg = Instance.new("TextButton", wmGui)
-    wmBg.Size = UDim2.new(0,170,0,22)
-    wmBg.Position = UDim2.new(1,-175,0,10)
-    wmBg.BackgroundColor3 = Color3.fromRGB(10,10,20)
-    wmBg.BackgroundTransparency = 0.3
-    wmBg.BorderSizePixel = 0
-    wmBg.Text = "discord.gg/x9pATE8Uxe"
-    wmBg.TextScaled = true
-    wmBg.Font = Enum.Font.GothamBold
-    wmBg.TextColor3 = Color3.fromRGB(0,255,170)
-    wmBg.TextStrokeTransparency = 0
-    wmBg.TextStrokeColor3 = Color3.new(0,0,0)
-    Instance.new("UICorner", wmBg)
+    local infoBg = Instance.new("Frame", infoGui)
+    infoBg.Size = UDim2.new(0, 0, 0, 22)
+    infoBg.Position = UDim2.new(0, 10, 0, 36)
+    infoBg.BackgroundColor3 = Color3.fromRGB(10, 10, 20)
+    infoBg.BackgroundTransparency = 0.3
+    infoBg.BorderSizePixel = 0
+    Instance.new("UICorner", infoBg)
+    local infoStroke = Instance.new("UIStroke")
+    infoStroke.Parent = infoBg
+    infoStroke.Thickness = 1
+    infoStroke.Color = Color3.fromRGB(0, 255, 127)
 
-    local wmStroke = Instance.new("UIStroke", wmBg)
-    wmStroke.Thickness = 1
-    wmStroke.Color = Color3.fromRGB(88,101,242)
+    local infoLabel = Instance.new("TextLabel", infoBg)
+    infoLabel.Size = UDim2.new(1, -8, 1, 0)
+    infoLabel.Position = UDim2.new(0, 4, 0, 0)
+    infoLabel.BackgroundTransparency = 1
+    infoLabel.TextScaled = true
+    infoLabel.Font = Enum.Font.GothamBold
+    infoLabel.TextColor3 = Color3.fromRGB(0, 255, 127)
+    infoLabel.TextStrokeTransparency = 0
+    infoLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+    infoLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-    wmBg.MouseButton1Click:Connect(function()
-        pcall(function() setclipboard("discord.gg/x9pATE8Uxe") end)
-        wmBg.Text = "✅ Đã copy!"
-        task.wait(1.5)
-        wmBg.Text = "discord.gg/x9pATE8Uxe"
+    local _userName = (LocalPlayer and LocalPlayer.Name) or "Unknown"
+    local _remain = (getgenv().HIENVIP_DATE and daysRemaining(getgenv().HIENVIP_DATE)) or "?"
+    infoLabel.Text = "👤 " .. _userName .. "  |  ⏳ " .. _remain
+
+    task.spawn(function()
+        TweenService:Create(infoBg, TweenInfo.new(0.4, Enum.EasingStyle.Back), {
+            Size = UDim2.new(0, 175, 0, 22)
+        }):Play()
+    end)
+
+    -- =========================
+    -- ⚡ NUT DISCORD NHANH (top-right, 1 cham copy)
+    -- =========================
+    local quickGui = Instance.new("ScreenGui", game.CoreGui)
+    quickGui.ResetOnSpawn = false
+    quickGui.Name = "QuickDiscordGui"
+
+    local quickBtn = Instance.new("TextButton", quickGui)
+    quickBtn.Size = UDim2.new(0, 95, 0, 32)
+    quickBtn.Position = UDim2.new(1, -150, 0, -50)
+    quickBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
+    quickBtn.BackgroundTransparency = 0.1
+    quickBtn.BorderSizePixel = 0
+    quickBtn.Text = "DISCORD"
+    quickBtn.TextScaled = true
+    quickBtn.Font = Enum.Font.GothamBlack
+    quickBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    quickBtn.TextStrokeTransparency = 0
+    quickBtn.TextStrokeColor3 = Color3.new(0, 0, 0)
+    Instance.new("UICorner", quickBtn)
+    local quickStroke = Instance.new("UIStroke")
+    quickStroke.Parent = quickBtn
+    quickStroke.Thickness = 1.5
+    quickStroke.Color = Color3.fromRGB(0, 200, 255)
+
+    quickBtn.MouseButton1Click:Connect(function()
+        local cb = toclipboard or setclipboard
+        if cb then
+            cb("https://discord.gg/x9pATE8Uxe")
+        else
+            pcall(function() setclipboard("https://discord.gg/x9pATE8Uxe") end)
+        end
+        quickBtn.Text = "✅ Copied!"
+        quickBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 100)
+        task.delay(0.8, function()
+            quickBtn.Text = "DISCORD"
+            quickBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
+        end)
     end)
 
     RunService.Heartbeat:Connect(function()
-        if not game.CoreGui:FindFirstChild("WatermarkGui") then wmGui.Parent = game.CoreGui end
         if not game.CoreGui:FindFirstChild("FPSGui") then fpsGui.Parent = game.CoreGui end
+        if not game.CoreGui:FindFirstChild("InfoBarGui") then infoGui.Parent = game.CoreGui end
+        if not game.CoreGui:FindFirstChild("QuickDiscordGui") then quickGui.Parent = game.CoreGui end
     end)
 end
 
 -- ================================
--- 🔐 KHỞI CHẠY
+-- 🔐 KHỞI CHẠY NGAY LAP TUC
 -- ================================
 local myHWID = getHWID()
-local status = checkWhitelist(myHWID)
+local myName = game:GetService("Players").LocalPlayer.Name
 
-if status == "whitelisted" then
-    runFixLag()
-elseif status == "expired" then
-    showExpiredUI()
-else
-    showNotWhitelistedUI()
-end
+-- Hien loading indicator NGAY LAP TUC trong khi doi API
+local loadGui = Instance.new("ScreenGui", game.CoreGui)
+loadGui.ResetOnSpawn = false
+local loadBg = Instance.new("Frame", loadGui)
+loadBg.Size = UDim2.new(0, 200, 0, 36)
+loadBg.Position = UDim2.new(0.5, -100, 0, 10)
+loadBg.BackgroundColor3 = Color3.fromRGB(10, 10, 20)
+loadBg.BackgroundTransparency = 0.2
+loadBg.BorderSizePixel = 0
+Instance.new("UICorner", loadBg)
+local loadStroke = Instance.new("UIStroke")
+loadStroke.Parent = loadBg
+loadStroke.Color = Color3.fromRGB(0, 255, 127)
+loadStroke.Thickness = 1.5
+local loadLabel = Instance.new("TextLabel", loadBg)
+loadLabel.Size = UDim2.new(1, 0, 1, 0)
+loadLabel.BackgroundTransparency = 1
+loadLabel.Text = "⏳ HIEN VIP đang kiểm tra..."
+loadLabel.TextScaled = true
+loadLabel.Font = Enum.Font.GothamBold
+loadLabel.TextColor3 = Color3.fromRGB(0, 255, 127)
+loadLabel.TextStrokeTransparency = 0
+loadLabel.TextStrokeColor3 = Color3.new(0,0,0)
+
+-- Dot nhay de biet dang load
+task.spawn(function()
+    local dots = {".", "..", "..."}
+    local i = 1
+    while loadGui.Parent do
+        loadLabel.Text = "⏳ HIEN VIP đang kiểm tra" .. dots[i]
+        i = i % 3 + 1
+        task.wait(0.4)
+    end
+end)
+
+-- Check whitelist trong background
+task.spawn(function()
+    local status, myDate = checkWhitelist(myHWID)
+    -- An loading indicator
+    pcall(function() loadGui:Destroy() end)
+
+    if status == "whitelisted" then
+        getgenv().HIENVIP_DATE = myDate
+        local StarterGui2 = game:GetService("StarterGui")
+        local remaining = daysRemaining(myDate)
+        pcall(function()
+            StarterGui2:SetCore("SendNotification", {
+                Title = "HIEN VIP - Xin chao " .. myName .. "!",
+                Text = "Thoi han: " .. remaining,
+                Duration = 5
+            })
+        end)
+        runFixLag()
+    elseif status == "expired" then
+        showExpiredUI()
+    else
+        showNotWhitelistedUI()
+    end
+end)
