@@ -116,7 +116,8 @@ local function createBaseUI(titleText, titleColor)
     Owner.BackgroundTransparency = 1
     Owner.Position = UDim2.new(0.638, 0, 0.383, 0)
     Owner.Size = UDim2.new(0.276, 0, 0.518, 0)
-    Owner.Image = "rbxassetid://139606938707907"
+    Owner.Image = "rbxassetid://108249120255582"
+
     Instance.new("UICorner", Owner).CornerRadius = UDim.new(0.1, 0)
 
     local Cancel = Instance.new("ImageButton")
