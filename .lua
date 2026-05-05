@@ -220,9 +220,13 @@ local function createBaseUI(titleText, titleColor)
     FACEBOOK.Font = Enum.Font.Merriweather
     Instance.new("UICorner", FACEBOOK).CornerRadius = UDim.new(0.1, 0)
     FACEBOOK.MouseButton1Up:Connect(function()
-        local cb = toclipboard
-        if cb then cb("https://www.facebook.com/share/1Akictracm/?mibextid=wwXIfr") end
-    end)
+    local cb = toclipboard
+    if cb then cb("https://www.facebook.com/share/1Akictracm/?mibextid=wwXIfr") end
+    FACEBOOK.Text = "✅ Copied!"
+    task.wait(1.5)
+    FACEBOOK.Text = "Facebook"
+end)
+
 
     -- Animate mở
     local openTween = TweenService:Create(SSS, TweenInfo.new(0.3, Enum.EasingStyle.Back), {
