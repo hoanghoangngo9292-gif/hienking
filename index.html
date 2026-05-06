@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +6,7 @@
 <title>hienvip Obfuscator</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#020008;--sur:#0a0015;--bor:#2a0050;--acc:#9000ff;--ac2:#ff00cc;--gld:#ffd700;--gl2:#ffaa00;--txt:#e0c8ff;--dim:#6a4a8a;--glow:0 0 20px #9000ff88;--gglow:0 0 20px #ffd70088}
+:root{--bg:#020008;--sur:#0a0015;--bor:#2a0050;--acc:#9000ff;--ac2:#ff00cc;--gld:#ffd700;--txt:#e0c8ff;--dim:#6a4a8a;--glow:0 0 20px #9000ff88;--gglow:0 0 20px #ffd70088}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--txt);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(144,0,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(144,0,255,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
@@ -93,7 +92,6 @@ footer span{color:var(--gld)}
     <div class="ptitle">Bảo Vệ Cơ Bản</div>
     <div class="grid">
       <label class="opt"><input type="checkbox" id="o_rename" checked><div><div class="ol">Đổi Tên Biến</div><div class="od">Hex random 16 ký tự</div></div></label>
-      <label class="opt"><input type="checkbox" id="o_string" checked><div><div class="ol">Mã Hoá String</div><div class="od">XOR byte-level encode</div></div></label>
       <label class="opt"><input type="checkbox" id="o_junk" checked><div><div class="ol">Junk Code</div><div class="od">Dead code injection</div></div></label>
       <label class="opt"><input type="checkbox" id="o_proxy" checked><div><div class="ol">Proxy Functions</div><div class="od">Ẩn stdlib calls</div></div></label>
     </div>
@@ -107,14 +105,13 @@ footer span{color:var(--gld)}
   <div class="panel gp">
     <div class="ptitle gt">★ Premium — Full Script Encryption</div>
     <div class="grid">
-      <label class="opt go"><input type="checkbox" id="o_fullenc" checked><div><div class="ol g">Full Script Encrypt</div><div class="od">Toàn bộ → byte array đa lớp</div></div></label>
-      <label class="opt go"><input type="checkbox" id="o_multikey" checked><div><div class="ol g">Multi-Key XOR</div><div class="od">3-5 key độc lập</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_fullenc" checked><div><div class="ol g">Full Script Encrypt</div><div class="od">Byte array đa lớp</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_multikey" checked><div><div class="ol g">Multi-Key</div><div class="od">3-5 key độc lập</div></div></label>
       <label class="opt go"><input type="checkbox" id="o_rot" checked><div><div class="ol g">Byte Rotation</div><div class="od">Xoay +N mod 256</div></div></label>
-      <label class="opt go"><input type="checkbox" id="o_antidump" checked><div><div class="ol g">Anti-Dump</div><div class="od">Chống extract/dump</div></div></label>
       <label class="opt go"><input type="checkbox" id="o_watermark" checked><div><div class="ol g">Watermark Ẩn</div><div class="od">Chữ ký vô hình</div></div></label>
     </div>
     <hr>
-    <p class="info"><span>★ Full Encrypt</span> chuyển toàn bộ script thành <span>mảng byte mã hoá nhiều lớp</span>. Decoder dùng <span>bit32</span> — tương thích <span>Lua 5.1 / Roblox</span> 100%.</p>
+    <p class="info"><span>★ Full Encrypt</span> mã hoá toàn bộ script thành byte array. Decoder <span>không dùng bit32 hay ~</span> — tương thích mọi executor Roblox mobile.</p>
   </div>
 
   <div class="panel">
@@ -135,7 +132,7 @@ footer span{color:var(--gld)}
     <div class="ptitle">Kết Quả — Đã Mã Hoá</div>
     <textarea id="out" placeholder="-- Kết quả premium xuất hiện ở đây..." readonly style="min-height:220px"></textarea>
     <div class="stats" id="sts" style="display:none">
-      <div class="stat"><div class="sv g" id="s_b">0</div><div class="slab">BYTES MÃ HOÁ</div></div>
+      <div class="stat"><div class="sv g" id="s_b">0</div><div class="slab">BYTES</div></div>
       <div class="stat"><div class="sv g" id="s_l">0</div><div class="slab">LỚP BẢO VỆ</div></div>
       <div class="stat"><div class="sv" id="s_z">0%</div><div class="slab">TĂNG SIZE</div></div>
     </div>
@@ -145,42 +142,24 @@ footer span{color:var(--gld)}
     </div>
   </div>
 
-  <footer><span>hienvip Obfuscator</span> — Premium Lua Protection v4.0 — Made with 💜 by hienvip</footer>
+  <footer><span>hienvip Obfuscator</span> — Premium Lua Protection v5.0 — Made with 💜 by hienvip</footer>
 </div>
 <div class="notif" id="notif"></div>
 
 <script>
 document.getElementById('jlv').oninput=function(){document.getElementById('jval').textContent=this.value};
-
 function showN(m){const n=document.getElementById('notif');n.textContent=m;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2800)}
+function clearAll(){document.getElementById('inp').value='';document.getElementById('out').value='';document.getElementById('sts').style.display='none'}
+function loadEx(){document.getElementById('inp').value='local Players = game:GetService("Players")\nlocal player = Players.LocalPlayer\nprint("Hello " .. player.Name)'}
 
-function clearAll(){
-  document.getElementById('inp').value='';
-  document.getElementById('out').value='';
-  document.getElementById('sts').style.display='none';
-}
-
-function loadEx(){
-  document.getElementById('inp').value=`-- Roblox Script vi du
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local myName = player.Name
-print("Hello " .. myName)`;
-}
-
-function rn(l){
-  const a='abcdefghijklmnopqrstuvwxyz',h='0123456789abcdef';
-  let s=a[Math.floor(Math.random()*26)];
-  for(let i=0;i<(l||14);i++) s+=h[Math.floor(Math.random()*16)];
-  return s;
-}
+function rn(l){const a='abcdefghijklmnopqrstuvwxyz',h='0123456789abcdef';let s=a[Math.floor(Math.random()*26)];for(let i=0;i<(l||14);i++)s+=h[Math.floor(Math.random()*16)];return s}
 function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 
 function strToBytes(str){
   const b=[];
   for(let i=0;i<str.length;i++){
     const c=str.charCodeAt(i);
-    if(c<128){b.push(c)}
+    if(c<128)b.push(c);
     else if(c<2048){b.push((c>>6)|192);b.push((c&63)|128)}
     else{b.push((c>>12)|224);b.push(((c>>6)&63)|128);b.push((c&63)|128)}
   }
@@ -191,7 +170,7 @@ function genKeys(l){const k=[];for(let i=0;i<l;i++)k.push(ri(1,200));return k}
 
 function fmtBytes(bytes){
   const ch=[];
-  for(let i=0;i<bytes.length;i+=20) ch.push(bytes.slice(i,i+20).join(','));
+  for(let i=0;i<bytes.length;i+=20)ch.push(bytes.slice(i,i+20).join(','));
   return'{'+ch.join(',')+'}';
 }
 
@@ -204,23 +183,38 @@ function genJunk(lv){
     ()=>`do local ${rn(6)}=${ri(0,999)} end`,
   ];
   const lines=[];
-  for(let i=0;i<lv*3;i++) lines.push(t[ri(0,t.length-1)]());
+  for(let i=0;i<lv*3;i++)lines.push(t[ri(0,t.length-1)]());
   return lines.join('\n')+'\n';
+}
+
+// Pure math XOR — no bit32, no ~ needed
+// Works on any Lua 5.1 executor
+function makePureMathXorFunc(vXor){
+  return `local function ${vXor}(a,b)
+  local r=0
+  local m=1
+  for _=1,8 do
+    local ab=a%2
+    local bb=b%2
+    if ab~=bb then r=r+m end
+    a=math.floor(a/2)
+    b=math.floor(b/2)
+    m=m*2
+  end
+  return r
+end\n`;
 }
 
 function obfuscate(){
   const input=document.getElementById('inp').value.trim();
   if(!input){showN('Vui long nhap code!');return}
-
   const o={
     rename:document.getElementById('o_rename').checked,
-    string:document.getElementById('o_string').checked,
     junk:document.getElementById('o_junk').checked,
     proxy:document.getElementById('o_proxy').checked,
     fullenc:document.getElementById('o_fullenc').checked,
     multikey:document.getElementById('o_multikey').checked,
     rot:document.getElementById('o_rot').checked,
-    antidump:document.getElementById('o_antidump').checked,
     watermark:document.getElementById('o_watermark').checked,
   };
   const jlv=parseInt(document.getElementById('jlv').value);
@@ -243,12 +237,12 @@ function obfuscate(){
       document.getElementById('s_l').textContent=layers;
       document.getElementById('s_z').textContent='+'+inc+'%';
       document.getElementById('sts').style.display='flex';
-      showN('PREMIUM OBFUSCATE THANH CONG!')
+      showN('OBFUSCATE THANH CONG!')
     },300)
   }
 
   setTimeout(()=>{
-    sp(10,'Phan tich code...');
+    sp(10,'Phan tich...');
     let code=input;
 
     // Rename vars
@@ -264,7 +258,7 @@ function obfuscate(){
       let m;
       while((m=re.exec(input))!==null){
         const nm=m[1];
-        if(!vm[nm]&&!kw.has(nm)){vm[nm]=rn(14)}
+        if(!vm[nm]&&!kw.has(nm)){vm[nm]=rn(12)}
       }
       for(const[orig,obfd]of Object.entries(vm)){
         try{code=code.replace(new RegExp(`\\b${orig}\\b`,'g'),obfd)}catch(e){}
@@ -272,114 +266,81 @@ function obfuscate(){
       layers++;
     }
 
-    sp(30,'Proxy functions...');
-    let header='-- [[ hienvip Obfuscator Premium v4.0 ]] --\n-- [[ Protected by hienvip ]] --\n';
+    sp(30,'Proxy + Junk...');
+    let header='-- [[ hienvip Obfuscator Premium v5.0 ]] --\n-- [[ Protected by hienvip ]] --\n';
 
     if(o.proxy){
       const pm={};
-      for(const fn of['print','warn','tostring','tonumber','type','pairs','ipairs',
-        'pcall','error','assert','rawget','rawset','setmetatable','getmetatable','math','string','table','task']){
+      for(const fn of['print','warn','tostring','tonumber','type','pairs','ipairs','pcall','error','math','string','table','task']){
         pm[fn]=rn(10);
       }
-      for(const[orig,alias]of Object.entries(pm)){
-        header+=`local ${alias}=${orig}\n`;
-      }
+      for(const[orig,alias]of Object.entries(pm)){header+=`local ${alias}=${orig}\n`}
       for(const[orig,alias]of Object.entries(pm)){
         try{code=code.replace(new RegExp(`\\b${orig}\\b`,'g'),alias)}catch(e){}
       }
       layers++;
     }
 
-    if(o.junk){
-      header+=genJunk(jlv);
-      layers++;
-    }
+    if(o.junk){header+=genJunk(jlv);layers++}
 
     let body=header+code;
-
     sp(55,'Full Encryption...');
-
     if(!o.fullenc){finish(body);return}
 
-    // Convert to bytes
+    // Encode to bytes
     let bytes=strToBytes(body);
 
-    // Layer 1: multi-key XOR
+    // Layer 1: XOR với key1
     const nk=o.multikey?ri(3,5):2;
     const k1=genKeys(nk);
     bytes=bytes.map((b,i)=>b^k1[i%k1.length]);
     layers+=nk;
 
-    // Layer 2: second XOR
-    const k2=genKeys(ri(2,4));
+    // Layer 2: XOR với key2
+    const k2=genKeys(ri(2,3));
     bytes=bytes.map((b,i)=>b^k2[i%k2.length]);
     layers++;
 
-    // Layer 3: byte rotation
-    const rotN=o.rot?ri(10,100):0;
-    if(o.rot){
-      bytes=bytes.map(b=>(b+rotN)%256);
-      layers++;
-    }
+    // Layer 3: rotation
+    const rotN=o.rot?ri(5,50):0;
+    if(o.rot){bytes=bytes.map(b=>(b+rotN)%256);layers++}
 
-    // Layer 4: nibble swap every 4th byte
-    bytes=bytes.map((b,i)=>{
-      if(i%4===0) return((b&0x0f)<<4)|((b&0xf0)>>4);
-      return b;
-    });
-    layers++;
-
-    // Variable names
+    // Var names
+    const vXor=rn(8);
     const vB=rn(8),vK1=rn(8),vK2=rn(8),vRN=rn(6);
     const vR=rn(8),vi=rn(4),vb=rn(4),vLD=rn(8),vEx=rn(8);
-    const vHi=rn(5),vLo=rn(5),vFloor=rn(7);
 
     const byteStr=fmtBytes(bytes);
     const k1s='{'+k1.join(',')+'}';
     const k2s='{'+k2.join(',')+'}';
 
-    let ad='';
-    if(o.antidump){
-      ad=`local ${rn(6)}=rawget\nlocal ${rn(6)}=type\n`;
-      layers++;
-    }
-
     let wm='';
     if(o.watermark){
-      const wmS='hienvip_'+Math.floor(Date.now()/1000);
-      const wmB=strToBytes(wmS);
+      const wmB=strToBytes('hienvip_'+Math.floor(Date.now()/1000));
       wm=`local _wm={${wmB.join(',')}}\n`;
     }
 
-    const head='-- [[ hienvip Obfuscator Premium v4.0 ]] --\n-- [[ PROTECTED - DO NOT DEOBFUSCATE ]] --\n';
+    const head='-- [[ hienvip Obfuscator Premium v5.0 ]] --\n-- [[ PROTECTED - DO NOT DEOBFUSCATE ]] --\n';
 
-    // DECODER: 100% Lua 5.1 / Roblox compatible
-    // Uses bit32.bxor instead of ~ operator
-    // Uses math.floor(x/16) instead of x//16
+    // DECODER: 100% pure Lua 5.1, zero bit32, zero ~
+    // XOR dùng hàm math thuần
     const loader=
-`${head}${ad}${wm}local ${vFloor}=math.floor
-local ${vB}=${byteStr}
+`${head}${wm}${makePureMathXorFunc(vXor)}local ${vB}=${byteStr}
 local ${vK1}=${k1s}
 local ${vK2}=${k2s}
 local ${vRN}=${rotN}
 local ${vR}=""
 for ${vi}=1,#${vB} do
   local ${vb}=${vB}[${vi}]
-  if(${vi}-1)%4==0 then
-    local ${vHi}=${vFloor}(${vb}/16)%16
-    local ${vLo}=${vb}%16
-    ${vb}=${vLo}*16+${vHi}
-  end
   ${vb}=(${vb}-${vRN}+256)%256
-  ${vb}=bit32.bxor(${vb},${vK2}[((${vi}-1)%#${vK2})+1])
-  ${vb}=bit32.bxor(${vb},${vK1}[((${vi}-1)%#${vK1})+1])
+  ${vb}=${vXor}(${vb},${vK2}[((${vi}-1)%#${vK2})+1])
+  ${vb}=${vXor}(${vb},${vK1}[((${vi}-1)%#${vK1})+1])
   ${vR}=${vR}..string.char(${vb})
 end
 local ${vLD}=loadstring or load
 local ${vEx}=${vLD}(${vR})
-if ${vEx} then ${vEx}() end
+if ${vEx} then ${vEx}() else error("hienvip: decode failed") end
 `;
-
     finish(loader);
   },200)
 }
@@ -388,24 +349,18 @@ function copyOut(){
   const o=document.getElementById('out').value;
   if(!o){showN('Chua co output!');return}
   if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(o)
-      .then(()=>showN('DA SAO CHEP!'))
-      .catch(()=>fallbackCopy(o))
+    navigator.clipboard.writeText(o).then(()=>showN('DA SAO CHEP!')).catch(()=>fallbackCopy(o))
   }else{fallbackCopy(o)}
 }
-
 function fallbackCopy(text){
   const ta=document.createElement('textarea');
-  ta.value=text;
-  ta.style.position='fixed';ta.style.top='0';ta.style.left='0';
+  ta.value=text;ta.style.position='fixed';ta.style.top='0';ta.style.left='0';
   ta.style.opacity='0';ta.style.width='2em';ta.style.height='2em';
-  document.body.appendChild(ta);
-  ta.focus();ta.select();ta.setSelectionRange(0,text.length);
+  document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,text.length);
   try{document.execCommand('copy');showN('DA SAO CHEP!')}
   catch(e){showN('Dung nut TAI .LUA nhe!')}
   document.body.removeChild(ta)
 }
-
 function dlOut(){
   const o=document.getElementById('out').value;
   if(!o){showN('Chua co output!');return}
@@ -416,6 +371,5 @@ function dlOut(){
   showN('DA TAI XUONG!')
 }
 </script>
-
 </body>
 </html>
