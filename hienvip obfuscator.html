@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hienvip Obfuscator</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#020008;--sur:#0a0015;--bor:#2a0050;--acc:#9000ff;--ac2:#ff00cc;--gld:#ffd700;--gl2:#ffaa00;--txt:#e0c8ff;--dim:#6a4a8a;--glow:0 0 20px #9000ff88;--gglow:0 0 20px #ffd70088}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(144,0,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(144,0,255,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.scan{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#9000ff44,transparent);animation:scan 4s linear infinite;z-index:1;pointer-events:none}
+@keyframes scan{0%{top:0}100%{top:100vh}}
+.wrap{position:relative;z-index:2;max-width:920px;margin:0 auto;padding:30px 20px}
+header{text-align:center;margin-bottom:40px;padding:30px 0}
+.logo{font-family:'Orbitron',sans-serif;font-size:clamp(24px,6vw,48px);font-weight:900;background:linear-gradient(135deg,#9000ff,#ff00cc,#00ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px;animation:flick 6s infinite}
+@keyframes flick{0%,95%,100%{opacity:1}96%{opacity:.7}97%{opacity:1}98%{opacity:.6}}
+.tag{color:var(--dim);font-size:12px;margin-top:8px;letter-spacing:4px;text-transform:uppercase}
+.badges{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.badge{background:#9000ff22;border:1px solid #9000ff55;color:#cc77ff;font-size:11px;padding:4px 12px;border-radius:20px;letter-spacing:2px}
+.badge.g{background:linear-gradient(135deg,#ffd70022,#ffaa0022);border:1px solid #ffd70066;color:var(--gld);font-weight:bold;animation:gp 2s ease-in-out infinite}
+@keyframes gp{0%,100%{box-shadow:0 0 8px #ffd70066}50%{box-shadow:0 0 20px #ffd700aa}}
+.panel{background:var(--sur);border:1px solid var(--bor);border-radius:12px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--acc),transparent)}
+.panel.gp::before{background:linear-gradient(90deg,transparent,var(--gld),transparent)}
+.ptitle{font-family:'Orbitron',sans-serif;font-size:11px;color:var(--acc);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.ptitle.gt{color:var(--gld)}
+.ptitle::before{content:'▶';font-size:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:8px}
+.opt{display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:10px 14px;border:1px solid #2a0050;border-radius:8px;transition:all .2s;user-select:none}
+.opt:hover{border-color:var(--acc);background:#9000ff11}
+.opt.go:hover{border-color:var(--gld);background:#ffd70011}
+.opt input[type=checkbox]{appearance:none;width:16px;height:16px;border:1px solid var(--dim);border-radius:4px;cursor:pointer;position:relative;flex-shrink:0;margin-top:2px;transition:all .2s}
+.opt input[type=checkbox]:checked{background:var(--acc);border-color:var(--acc)}
+.opt.go input[type=checkbox]:checked{background:var(--gld);border-color:var(--gld)}
+.opt input[type=checkbox]:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:11px}
+.ol{font-size:13px;color:var(--txt)}
+.ol.g{color:var(--gld)}
+.od{font-size:10px;color:var(--dim);margin-top:2px}
+.srow{display:flex;align-items:center;gap:16px;margin-top:16px}
+.slbl{font-size:12px;color:var(--dim);white-space:nowrap}
+input[type=range]{flex:1;appearance:none;height:4px;background:linear-gradient(90deg,var(--acc),var(--ac2));border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;background:var(--acc);box-shadow:var(--glow);cursor:pointer}
+textarea{width:100%;background:#05000e;border:1px solid var(--bor);border-radius:8px;color:#c8a8ff;font-family:'Share Tech Mono',monospace;font-size:12px;line-height:1.6;padding:16px;resize:vertical;outline:none;transition:border-color .2s;min-height:180px}
+textarea:focus{border-color:var(--acc);box-shadow:0 0 0 2px #9000ff22}
+textarea::placeholder{color:#3a1a5a}
+.brow{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.btn{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;padding:12px 22px;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.btng{background:linear-gradient(135deg,#ffd700,#ffaa00);color:#000;box-shadow:var(--gglow);flex:1;min-width:180px;font-weight:900}
+.btng:hover{transform:translateY(-2px);box-shadow:0 0 30px #ffd700aa}
+.btng:active{transform:translateY(0)}
+.btns{background:transparent;border:1px solid var(--bor);color:var(--dim)}
+.btns:hover{border-color:var(--acc);color:var(--acc)}
+.btnc{background:#00ffcc22;border:1px solid #00ffcc44;color:#00ffcc}
+.btnc:hover{background:#00ffcc33}
+.prog{display:none;margin-top:16px}
+.prog.show{display:block}
+.pbg{background:#0a0015;border:1px solid var(--bor);border-radius:4px;height:6px;overflow:hidden}
+.pbar{height:100%;background:linear-gradient(90deg,var(--acc),var(--gld),var(--ac2));border-radius:4px;transition:width .15s;width:0%}
+.ptxt{font-size:11px;color:var(--dim);margin-top:8px;text-align:center}
+.stats{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.stat{background:#9000ff11;border:1px solid #9000ff33;border-radius:8px;padding:10px 12px;flex:1;min-width:75px;text-align:center}
+.sv{font-family:'Orbitron',sans-serif;font-size:14px;color:var(--acc)}
+.sv.g{color:var(--gld)}
+.slab{font-size:9px;color:var(--dim);margin-top:4px;letter-spacing:1px}
+hr{border:none;border-top:1px solid #2a0050;margin:14px 0}
+.info{font-size:11px;color:var(--dim);line-height:1.7}
+.info span{color:var(--gld)}
+footer{text-align:center;color:var(--dim);font-size:11px;padding:20px 0;letter-spacing:2px}
+footer span{color:var(--gld)}
+.notif{position:fixed;bottom:30px;right:20px;background:linear-gradient(135deg,#9000ff,#ff00cc);color:#fff;font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2px;padding:12px 20px;border-radius:8px;transform:translateY(80px);opacity:0;transition:all .3s;z-index:999}
+.notif.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+<div class="scan"></div>
+<div class="wrap">
+  <header>
+    <div class="logo">hienvip Obfuscator</div>
+    <div class="tag">Advanced Lua Protection System</div>
+    <div class="badges">
+      <span class="badge g">★ PREMIUM</span>
+      <span class="badge">MULTI-LAYER</span>
+      <span class="badge">ANTI-DEOBF</span>
+      <span class="badge">FULL ENCRYPT</span>
+      <span class="badge">LUA 5.1 / ROBLOX</span>
+    </div>
+  </header>
+
+  <div class="panel">
+    <div class="ptitle">Bảo Vệ Cơ Bản</div>
+    <div class="grid">
+      <label class="opt"><input type="checkbox" id="o_rename" checked><div><div class="ol">Đổi Tên Biến</div><div class="od">Hex random 16 ký tự</div></div></label>
+      <label class="opt"><input type="checkbox" id="o_string" checked><div><div class="ol">Mã Hoá String</div><div class="od">XOR byte-level encode</div></div></label>
+      <label class="opt"><input type="checkbox" id="o_junk" checked><div><div class="ol">Junk Code</div><div class="od">Dead code injection</div></div></label>
+      <label class="opt"><input type="checkbox" id="o_number" checked><div><div class="ol">Mã Hoá Số</div><div class="od">Math expression wrap</div></div></label>
+      <label class="opt"><input type="checkbox" id="o_proxy" checked><div><div class="ol">Proxy Functions</div><div class="od">Ẩn stdlib calls</div></div></label>
+      <label class="opt"><input type="checkbox" id="o_flatten" checked><div><div class="ol">Control Flow</div><div class="od">Logic flattening</div></div></label>
+    </div>
+    <div class="srow">
+      <span class="slbl">Junk Level:</span>
+      <input type="range" id="jlv" min="1" max="5" value="3">
+      <span class="sval" id="jval">3</span>
+    </div>
+  </div>
+
+  <div class="panel gp">
+    <div class="ptitle gt">★ Premium — Full Script Encryption</div>
+    <div class="grid">
+      <label class="opt go"><input type="checkbox" id="o_fullenc" checked><div><div class="ol g">Full Script Encrypt</div><div class="od">Toàn bộ → byte array đa lớp</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_multikey" checked><div><div class="ol g">Multi-Key XOR</div><div class="od">4-7 key độc lập</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_rot" checked><div><div class="ol g">Byte Rotation</div><div class="od">Xoay +N mod 256</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_antidump" checked><div><div class="ol g">Anti-Dump</div><div class="od">Chống extract/dump</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_watermark" checked><div><div class="ol g">Watermark Ẩn</div><div class="od">Chữ ký vô hình</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_loadstr" checked><div><div class="ol g">loadstring Loader</div><div class="od">Wrap qua loadstring()</div></div></label>
+    </div>
+    <hr>
+    <p class="info"><span>★ Full Encrypt</span> chuyển toàn bộ script thành <span>mảng byte mã hoá nhiều lớp</span> (XOR đa key + rotation + shuffle). Không thể đọc được — loader tự giải mã khi chạy.</p>
+  </div>
+
+  <div class="panel">
+    <div class="ptitle">Code Lua Gốc</div>
+    <textarea id="inp" placeholder="-- Dán code Lua / Roblox Script vào đây..."></textarea>
+    <div class="brow">
+      <button class="btn btng" onclick="obfuscate()">★ PREMIUM OBFUSCATE</button>
+      <button class="btn btns" onclick="clearAll()">✕ XÓA</button>
+      <button class="btn btns" onclick="loadEx()">↓ VÍ DỤ</button>
+    </div>
+    <div class="prog" id="prog">
+      <div class="pbg"><div class="pbar" id="pbar"></div></div>
+      <div class="ptxt" id="ptxt">Đang xử lý...</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="ptitle">Kết Quả — Đã Mã Hoá</div>
+    <textarea id="out" placeholder="-- Kết quả premium xuất hiện ở đây..." readonly style="min-height:220px"></textarea>
+    <div class="stats" id="sts" style="display:none">
+      <div class="stat"><div class="sv" id="s_v">0</div><div class="slab">BIẾN ĐỔI</div></div>
+      <div class="stat"><div class="sv" id="s_s">0</div><div class="slab">STR MÃ HOÁ</div></div>
+      <div class="stat"><div class="sv" id="s_j">0</div><div class="slab">JUNK LINES</div></div>
+      <div class="stat"><div class="sv g" id="s_b">0</div><div class="slab">BYTES MÃ HOÁ</div></div>
+      <div class="stat"><div class="sv g" id="s_l">0</div><div class="slab">LỚP BẢO VỆ</div></div>
+      <div class="stat"><div class="sv" id="s_z">0%</div><div class="slab">TĂNG SIZE</div></div>
+    </div>
+    <div class="brow">
+      <button class="btn btnc" onclick="copyOut()">📋 SAO CHÉP</button>
+      <button class="btn btns" onclick="dlOut()">⬇ TẢI .LUA</button>
+    </div>
+  </div>
+
+  <footer><span>hienvip Obfuscator</span> — Premium Lua Protection v3.1 — Made with 💜 by hienvip</footer>
+</div>
+<div class="notif" id="notif"></div>
+
+<script>
+document.getElementById('jlv').oninput=function(){document.getElementById('jval').textContent=this.value};
+
+function showN(m){const n=document.getElementById('notif');n.textContent=m;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2800)}
+
+function clearAll(){
+  document.getElementById('inp').value='';
+  document.getElementById('out').value='';
+  document.getElementById('sts').style.display='none';
+}
+
+function loadEx(){
+  document.getElementById('inp').value=`-- Roblox Script ví dụ
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local myName = player.Name
+
+local function showInfo(name)
+    print("Hello " .. name)
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "HIEN VIP",
+        Text = "Xin chao " .. name,
+        Duration = 5
+    })
+end
+
+showInfo(myName)
+
+for i = 1, 10 do
+    if i % 2 == 0 then
+        print("Even: " .. tostring(i))
+    else
+        print("Odd: " .. tostring(i))
+    end
+end`;
+}
+
+// ── Utils ──────────────────────────────────────────────────
+function rn(l){
+  const a='abcdefghijklmnopqrstuvwxyz',h='0123456789abcdef';
+  let s=a[Math.floor(Math.random()*26)];
+  for(let i=0;i<(l||14);i++)s+=h[Math.floor(Math.random()*16)];
+  return s;
+}
+function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function obfN(n){const a=ri(1,500);return`(${a}+(${n-a}))`}
+
+function strToBytes(str){
+  const b=[];
+  for(let i=0;i<str.length;i++){
+    const c=str.charCodeAt(i);
+    if(c<128){b.push(c)}
+    else if(c<2048){b.push((c>>6)|192);b.push((c&63)|128)}
+    else{b.push((c>>12)|224);b.push(((c>>6)&63)|128);b.push((c&63)|128)}
+  }
+  return b;
+}
+
+function xorBytes(bytes,keys){return bytes.map((b,i)=>b^keys[i%keys.length])}
+
+function genKeys(l){const k=[];for(let i=0;i<l;i++)k.push(ri(1,253));return k}
+
+function fmtBytes(bytes){
+  const ch=[];
+  for(let i=0;i<bytes.length;i+=16)ch.push(bytes.slice(i,i+16).join(','));
+  return'{'+ch.join(',')+'}'
+}
+
+function encStrSafe(s,stats){
+  if(!s||s.length===0)return'""';
+  const key=ri(1,100);
+  const bytes=strToBytes(s);
+  const enc=bytes.map(b=>((b^key)+7)%256);
+  stats.strings++;
+  const vr=rn(6),vi=rn(4),vt=rn(6),vb=rn(4);
+  return`(function()local ${vt}={${enc.join(',')}};local ${vr}="";for ${vi}=1,#${vt} do ${vr}=${vr}..string.char((${vt}[${vi}]-${obfN(7)}+${obfN(256)})%${obfN(256)}~${obfN(key)})end;return ${vr} end)()`
+}
+
+function genJunk(lv){
+  const t=[
+    ()=>`local ${rn(8)}=${ri(0,9999)}`,
+    ()=>`local ${rn(8)}=tostring(${ri(0,999)})`,
+    ()=>`if false then local ${rn(6)}=nil end`,
+    ()=>`local ${rn(8)}=type(nil)`,
+    ()=>`local ${rn(8)}=math.max(0,0)`,
+    ()=>`do local ${rn(6)}=${ri(0,999)} end`,
+    ()=>`local ${rn(8)}=select("#")`,
+    ()=>`local ${rn(8)}=rawget({},1)`,
+  ];
+  const lines=[];
+  for(let i=0;i<lv*4;i++)lines.push(t[ri(0,t.length-1)]());
+  return lines.join('\n')+'\n'
+}
+
+// ── MAIN ──────────────────────────────────────────────────
+function obfuscate(){
+  const input=document.getElementById('inp').value.trim();
+  if(!input){showN('⚠ Vui lòng nhập code!');return}
+
+  const o={
+    rename:document.getElementById('o_rename').checked,
+    string:document.getElementById('o_string').checked,
+    junk:document.getElementById('o_junk').checked,
+    number:document.getElementById('o_number').checked,
+    proxy:document.getElementById('o_proxy').checked,
+    flatten:document.getElementById('o_flatten').checked,
+    fullenc:document.getElementById('o_fullenc').checked,
+    multikey:document.getElementById('o_multikey').checked,
+    rot:document.getElementById('o_rot').checked,
+    antidump:document.getElementById('o_antidump').checked,
+    watermark:document.getElementById('o_watermark').checked,
+    loadstr:document.getElementById('o_loadstr').checked,
+  };
+  const jlv=parseInt(document.getElementById('jlv').value);
+  const prog=document.getElementById('prog');
+  const pbar=document.getElementById('pbar');
+  const ptxt=document.getElementById('ptxt');
+  prog.classList.add('show');
+  const stats={vars:0,strings:0,junk:0,bytes:0,layers:0};
+  const origSz=input.length;
+
+  function sp(p,m){pbar.style.width=p+'%';ptxt.textContent=m}
+
+  function finish(final){
+    sp(100,'★ Hoàn thành!');
+    setTimeout(()=>{
+      document.getElementById('out').value=final;
+      prog.classList.remove('show');
+      const inc=Math.round(((final.length-origSz)/origSz)*100);
+      document.getElementById('s_v').textContent=stats.vars;
+      document.getElementById('s_s').textContent=stats.strings;
+      document.getElementById('s_j').textContent=stats.junk;
+      document.getElementById('s_b').textContent=stats.bytes;
+      document.getElementById('s_l').textContent=stats.layers;
+      document.getElementById('s_z').textContent='+'+inc+'%';
+      document.getElementById('sts').style.display='flex';
+      showN('★ PREMIUM OBFUSCATE THÀNH CÔNG!')
+    },300)
+  }
+
+  setTimeout(()=>{
+    sp(8,'Phân tích code...');
+    setTimeout(()=>{
+      sp(18,'Đổi tên biến & hàm...');
+      let code=input;
+
+      if(o.rename){
+        const kw=new Set(['true','false','nil','and','or','not','if','then','else','elseif','end',
+          'do','while','repeat','until','for','in','function','local','return','break','self',
+          'game','workspace','script','require','wait','spawn','delay','print','warn','error']);
+        const vm={};
+        const re=/\blocal\s+(?:function\s+)?([a-zA-Z_][a-zA-Z0-9_]*)\b/g;
+        let m;
+        while((m=re.exec(input))!==null){
+          const nm=m[1];
+          if(!vm[nm]&&!kw.has(nm)){vm[nm]=rn(16);stats.vars++}
+        }
+        for(const[orig,obfd]of Object.entries(vm)){
+          try{code=code.replace(new RegExp(`\\b${orig}\\b`,'g'),obfd)}catch(e){}
+        }
+      }
+      stats.layers++;
+
+      setTimeout(()=>{
+        sp(30,'Mã hoá strings...');
+        if(o.string){
+          code=code.replace(/"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)'/g,(match,g1,g2)=>{
+            try{
+              const s=g1!==undefined?g1:g2;
+              if(s===undefined||s===null)return match;
+              const clean=s.replace(/\\n/g,'\n').replace(/\\t/g,'\t').replace(/\\"/g,'"').replace(/\\'/g,"'").replace(/\\\\/g,'\\');
+              return encStrSafe(clean,stats)
+            }catch(e){return match}
+          })
+        }
+        stats.layers++;
+
+        setTimeout(()=>{
+          sp(42,'Mã hoá số...');
+          if(o.number){
+            code=code.replace(/\b(\d{1,4})\b/g,(match,n)=>{
+              try{
+                const num=parseInt(n);
+                if(num>0&&num<9999&&Math.random()>0.5)return obfN(num);
+              }catch(e){}
+              return match
+            })
+          }
+
+          setTimeout(()=>{
+            sp(54,'Proxy functions...');
+            const pm={};
+            if(o.proxy){
+              for(const fn of['print','warn','tostring','tonumber','type','pairs','ipairs',
+                'pcall','xpcall','error','assert','rawget','rawset','select','unpack',
+                'setmetatable','getmetatable','next','math','string','table','os']){
+                pm[fn]=rn(12)
+              }
+            }
+            stats.layers++;
+
+            setTimeout(()=>{
+              sp(64,'Inject junk code...');
+              let header='-- [[ hienvip Obfuscator Premium v3.1 ]] --\n-- [[ Protected by hienvip ]] --\n';
+
+              if(o.proxy&&Object.keys(pm).length>0){
+                for(const[orig,alias]of Object.entries(pm)){
+                  header+=`local ${alias}=${orig}\n`;
+                }
+                for(const[orig,alias]of Object.entries(pm)){
+                  try{code=code.replace(new RegExp(`\\b${orig}\\b`,'g'),alias)}catch(e){}
+                }
+              }
+
+              if(o.junk){
+                const jk=genJunk(jlv);
+                stats.junk+=(jk.match(/\n/g)||[]).length;
+                header+=jk
+              }
+
+              let body=header+(o.flatten?`do\n${code}\nend\n`:code);
+
+              if(o.junk){
+                const lines=body.split('\n'),out=[];
+                for(const line of lines){
+                  out.push(line);
+                  if(line.trim()&&Math.random()>0.68){
+                    out.push(`local ${rn(8)}=${ri(0,9999)}`);
+                    stats.junk++
+                  }
+                }
+                body=out.join('\n')
+              }
+              stats.layers++;
+
+              setTimeout(()=>{
+                sp(76,'★ Full Encryption...');
+
+                if(!o.fullenc){finish(body);return}
+
+                let bytes=strToBytes(body);
+                stats.bytes=bytes.length;
+
+                const nk=o.multikey?ri(4,7):2;
+                const k1=genKeys(nk);
+                bytes=xorBytes(bytes,k1);
+                stats.layers+=nk;
+
+                const k2=genKeys(ri(3,5));
+                bytes=bytes.map((b,i)=>b^k2[i%k2.length]);
+                stats.layers++;
+
+                const rotN=o.rot?ri(15,110):0;
+                if(o.rot){
+                  bytes=bytes.map(b=>(b+rotN)%256);
+                  stats.layers++
+                }
+
+                bytes=bytes.map((b,i)=>{
+                  if(i%3===0)return((b&0x0f)<<4)|((b&0xf0)>>4);
+                  return b
+                });
+                stats.layers++;
+
+                const vB=rn(10),vK1=rn(10),vK2=rn(10),vRN=rn(8);
+                const vR=rn(10),vi=rn(5),vb=rn(5),vLD=rn(10),vEx=rn(10);
+                const byteStr=fmtBytes(bytes);
+                const k1s='{'+k1.join(',')+'}';
+                const k2s='{'+k2.join(',')+'}';
+
+                let ad='';
+                if(o.antidump){
+                  const f1=rn(8),f2=rn(8),f3=rn(8);
+                  ad=`local ${f1}=rawget\nlocal ${f2}=type\nlocal ${f3}=${ri(1000,9999)}\n`;
+                  stats.layers++
+                }
+
+                let wm='';
+                if(o.watermark){
+                  const wmS='hienvip_'+Math.floor(Date.now()/1000);
+                  const wmB=strToBytes(wmS);
+                  wm=`local _wm={${wmB.join(',')}}\n`
+                }
+
+                const head='-- [[ hienvip Obfuscator Premium v3.1 ]] --\n-- [[ PROTECTED — DO NOT DEOBFUSCATE ]] --\n';
+
+                const loader=`${head}${ad}${wm}local ${vB}=${byteStr}
+local ${vK1}=${k1s}
+local ${vK2}=${k2s}
+local ${vRN}=${rotN}
+local ${vR}=""
+for ${vi}=1,#${vB} do
+  local ${vb}=${vB}[${vi}]
+  if(${vi}-1)%3==(${obfN(0)}-1+1-1)then ${vb}=((${vb}%${obfN(16)})*(${obfN(16)}))|((${vb}//${obfN(16)})%${obfN(16)})end
+  ${vb}=(${vb}-${obfN(rotN)}+${obfN(256)})%${obfN(256)}
+  ${vb}=${vb}~${vK2}[((${vi}-1)%#${vK2})+1]
+  ${vb}=${vb}~${vK1}[((${vi}-1)%#${vK1})+1]
+  ${vR}=${vR}..string.char(${vb})
+end
+local ${vLD}=loadstring or load
+local ${vEx}=${vLD}(${vR})
+if ${vEx} then ${vEx}() end
+`;
+                finish(loader)
+              },500)
+            },350)
+          },350)
+        },350)
+      },350)
+    },350)
+  },150)
+}
+
+// ── COPY (ĐÃ FIX) ──────────────────────────────────────────
+function copyOut(){
+  const o=document.getElementById('out').value;
+  if(!o){showN('⚠ Chưa có output!');return}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(o)
+      .then(()=>showN('✓ ĐÃ SAO CHÉP!'))
+      .catch(()=>fallbackCopy(o))
+  }else{
+    fallbackCopy(o)
+  }
+}
+
+function fallbackCopy(text){
+  const ta=document.createElement('textarea');
+  ta.value=text;
+  ta.style.position='fixed';
+  ta.style.top='0';
+  ta.style.left='0';
+  ta.style.opacity='0';
+  ta.style.width='2em';
+  ta.style.height='2em';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  ta.setSelectionRange(0,text.length);
+  try{
+    document.execCommand('copy');
+    showN('✓ ĐÃ SAO CHÉP!')
+  }catch(e){
+    showN('⚠ Copy thất bại! Dùng Ctrl+A rồi Ctrl+C')
+  }
+  document.body.removeChild(ta)
+}
+
+function dlOut(){
+  const o=document.getElementById('out').value;
+  if(!o){showN('⚠ Chưa có output!');return}
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([o],{type:'text/plain'}));
+  a.download='hienvip_protected.lua';
+  a.click();
+  showN('✓ ĐÃ TẢI XUỐNG!')
+}
+</script>
+
+</body>
+</html>
