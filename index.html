@@ -165,9 +165,8 @@ function genStringScatter(src,N){const nu=n=>N?numMagic(n):String(n);return src.
 
 function genDeepFunctionWrap(src,N){const nu=n=>N?numMagic(n):String(n);const depth=3;let result=src;for(let i=0;i<depth;i++){const vA=rndName(6),vB=rndName(6);result=`(function()\nlocal ${vA}=${nu(ri(1,100))};local ${vB}=${nu(ri(1,100))};\n${result}\nend)()`}return result}
 
-// ══ V10 (safe versions) ══
+// ══ V10 ══
 function genGarbageFlood(N){
-  // Giới hạn an toàn: 50 entries thay vì 200-1000
   const nu=n=>N?numMagic(n):String(n);
   const count=50;
   let code='';
@@ -242,9 +241,9 @@ function genMutationNoise(N){
   return code;
 }
 
-
-
 // ══ BASE64 OUTER LAYER ══
+// SỬA: nu dùng String(n) thay numMagic — outer layer chỉ là wrapper,
+// bảo mật thật nằm ở XOR/VM/Polymorphic bên trong (vẫn dùng numMagic đầy đủ)
 function toBase64Lua(src){
   var ch='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
   var bytes=strToBytes(src),b64='';
@@ -259,20 +258,20 @@ function toBase64Lua(src){
 }
 
 function genBase64Layer(src,N){
-  var nu=function(n){return N?numMagic(n):String(n);};
+  // ★ FIX: Outer Base64 decoder KHÔNG dùng numMagic
+  // Các layer bên trong (XOR, VM, Polymorphic) vẫn giữ numMagic đầy đủ
+  var nu=function(n){return String(n);};
   var b64=toBase64Lua(src);
   var vSC=rndName(6),vLook=rndName(8),vTbl=rndName(8),vI=rndName(5);
   var vB64=rndName(8),vDec=rndName(8),vOut=rndName(8),vN=rndName(5);
   var vLS=rndName(6),vFn=rndName(6),vEr=rndName(6);
 
-  // Build lookup table bytes
   var chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
   var cBytes=strToBytes(chars);
   var cLines=[];
   for(var ci=0;ci<cBytes.length;ci+=16)
     cLines.push(cBytes.slice(ci,ci+16).map(function(x){return nu(x);}).join(','));
 
-  // Split b64 thành chunks 80 chars
   var chunks=[];
   for(var bi=0;bi<b64.length;bi+=80) chunks.push('"'+b64.slice(bi,bi+80)+'"');
   var b64str=chunks.join('..');
@@ -281,25 +280,25 @@ function genBase64Layer(src,N){
   code+='local '+vSC+'=string.char\n';
   code+='local '+vLook+'={}\n';
   code+='local '+vTbl+'={\n'+cLines.join(',\n')+'\n}\n';
-  code+='for '+vI+'='+nu(1)+',#'+vTbl+' do\n';
-  code+='  '+vLook+'['+vSC+'('+vTbl+'['+vI+'])]='+'('+vI+'-'+nu(1)+')\n';
+  code+='for '+vI+'=1,#'+vTbl+' do\n';
+  code+='  '+vLook+'['+vSC+'('+vTbl+'['+vI+'])]=('+'('+vI+'-1))\n';
   code+='end\n';
   code+='local '+vB64+'='+b64str+'\n';
   code+='local function '+vDec+'(s)\n';
   code+='  local '+vOut+'=""\n';
   code+='  local '+vN+'=#s\n';
-  code+='  for '+vI+'='+nu(1)+','+vN+','+nu(4)+' do\n';
-  code+='    local a=('+vLook+'[s:sub('+vI+','+vI+')] or '+nu(0)+')\n';
-  code+='    local b=('+vLook+'[s:sub('+vI+'+'+nu(1)+','+vI+'+'+nu(1)+')] or '+nu(0)+')\n';
-  code+='    local c=('+vLook+'[s:sub('+vI+'+'+nu(2)+','+vI+'+'+nu(2)+')] or '+nu(0)+')\n';
-  code+='    local d=('+vLook+'[s:sub('+vI+'+'+nu(3)+','+vI+'+'+nu(3)+')] or '+nu(0)+')\n';
-  code+='    local n=(a*'+nu(262144)+')+(b*'+nu(4096)+')+(c*'+nu(64)+')+d\n';
-  code+='    '+vOut+'='+vOut+'..'+vSC+'(math.floor((n/'+nu(65536)+')%'+nu(256)+'))\n';
-  code+='    if s:sub('+vI+'+'+nu(2)+','+vI+'+'+nu(2)+')"=" then\n';
-  code+='      '+vOut+'='+vOut+'..'+vSC+'(math.floor((n/'+nu(256)+')%'+nu(256)+'))\n';
+  code+='  for '+vI+'=1,'+vN+',4 do\n';
+  code+='    local a=('+vLook+'[s:sub('+vI+','+vI+')] or 0)\n';
+  code+='    local b=('+vLook+'[s:sub('+vI+'+1,'+vI+'+1)] or 0)\n';
+  code+='    local c=('+vLook+'[s:sub('+vI+'+2,'+vI+'+2)] or 0)\n';
+  code+='    local d=('+vLook+'[s:sub('+vI+'+3,'+vI+'+3)] or 0)\n';
+  code+='    local n=(a*262144)+(b*4096)+(c*64)+d\n';
+  code+='    '+vOut+'='+vOut+'..'+vSC+'(math.floor((n/65536)%256))\n';
+  code+='    if s:sub('+vI+'+2,'+vI+'+2)~="=" then\n';
+  code+='      '+vOut+'='+vOut+'..'+vSC+'(math.floor((n/256)%256))\n';
   code+='    end\n';
-  code+='    if s:sub('+vI+'+'+nu(3)+','+vI+'+'+nu(3)+')"=" then\n';
-  code+='      '+vOut+'='+vOut+'..'+vSC+'(math.floor(n%'+nu(256)+'))\n';
+  code+='    if s:sub('+vI+'+3,'+vI+'+3)~="=" then\n';
+  code+='      '+vOut+'='+vOut+'..'+vSC+'(math.floor(n%256))\n';
   code+='    end\n';
   code+='  end\n';
   code+='  return '+vOut+'\n';
@@ -320,10 +319,9 @@ function obfuscate(){
   const input=document.getElementById('inp').value.trim();
   if(!input){showN('Vui lòng nhập code!');return}
 
-  // Tất cả MAX — cố định
-  const N=true; // numMagic on
-  const jlv=5;  // junk level
-  const wlv=2;  // wrap layers
+  const N=true;
+  const jlv=5;
+  const wlv=2;
   const origSz=input.length;
   let tL=0,tK=0,tW=0;
 
@@ -353,7 +351,6 @@ function obfuscate(){
       sp(3,'Phân tích...');
       let code=input;
 
-      // Rename
       sp(5,'Rename...');
       const kw=new Set(['true','false','nil','and','or','not','if','then','else','elseif','end','do','while','repeat','until','for','in','function','local','return','break','self','game','workspace','script','require','wait','spawn','delay','print','warn','error','task','pcall','xpcall','pairs','ipairs','tostring','tonumber','type','math','string','table','os','coroutine','select','unpack','rawget','rawset','setmetatable','getmetatable','bit32','Instance','Color3','Vector2','Vector3','UDim','UDim2','TweenInfo','Enum','Players','HttpGet','loadstring','HttpService','RunService','TweenService','_G','_ENV','getfenv','load']);
       const vm={};const re=/\blocal\s+(?:function\s+)?([a-zA-Z_][a-zA-Z0-9_]*)\b/g;let mm;
@@ -361,7 +358,6 @@ function obfuscate(){
       for(const[orig,obfd] of Object.entries(vm)){try{code=code.replace(new RegExp('\\b'+orig+'\\b','g'),obfd)}catch(e){}}
       tL++;
 
-      // Proxy
       sp(10,'Proxy...');
       let ph='';
       const pm={print:rndName(12),warn:rndName(12),pcall:rndName(12),error:rndName(12),task:rndName(12),pairs:rndName(12),ipairs:rndName(12)};
@@ -369,24 +365,20 @@ function obfuscate(){
       for(const[k,v] of Object.entries(pm)){try{code=code.replace(new RegExp('\\b'+k+'\\b','g'),v)}catch(e){}}
       tL++;
 
-      // String Scatter
       sp(13,'String Scatter...');
       code=genStringScatter(code,N);tL++;
 
-      // Junk + helpers
       sp(16,'Junk...');
       const junk=genJunk(jlv,N);tL++;
       const ad=genAntiDump();tL++;
       const ff=genFakeFlow(N);tL++;
       const wm=`local ${rndName(10)}={${strToBytes('hienvip_v10').map(c=>N?numMagic(c):c).join(',')}}\n`;
 
-      // Env Lock + Anti Debug
       sp(20,'Env Lock...');
       const envLock=genEnvLock(N);tL++;
       sp(23,'Anti-Debug...');
       const antiDbg=genAntiDebug(N);tL++;
 
-      // V10
       sp(26,'Garbage Flood...');
       const garbage=genGarbageFlood(N);tL+=2;
       sp(30,'Trap Chain...');
@@ -401,24 +393,20 @@ function obfuscate(){
       sp(42,'Assemble...');
       let inner=mutNoise+garbage+envLock+antiDbg+trapChain+tableProxy+callRedir+ad+ph+junk+ff+code;
 
-      // Deep wrap + flow
       sp(46,'Function Wrap...');
       inner=genDeepFunctionWrap(inner,N);tL++;
       sp(50,'Flow Flatten...');
       inner=genStateMachineWrapper(inner,N);tL++;
       inner=`local ${rndName(8)}=${opaqueTrue()} and true or false\n`+inner;tL++;
 
-      // VM
       sp(55,'VM Layer...');
       const vmR=genVMLayer(inner,N);
       inner=vmR.code;tL+=vmR.layers;tK+=vmR.keys;
 
-      // Polymorphic
       sp(62,'Polymorphic...');
       const pr=genPolymorphicLayer(inner,N);
       inner=pr.code;tL+=pr.layers;tK+=pr.keys;
 
-      // XOR Multi-layer
       sp(65,'Encrypting...');
       let cur=inner;
       tW=wlv;
@@ -429,8 +417,8 @@ function obfuscate(){
       }
 
       sp(95,'Base64 Layer...');
-      const b64r = genBase64Layer(wm+cur, N);
-      tL += b64r.layers;
+      const b64r=genBase64Layer(wm+cur,N);
+      tL+=b64r.layers;
       sp(98,'Final...');
       finish(b64r.code);
 
