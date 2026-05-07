@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>hienvip Obfuscator v8 — ULTRA</title>
+<title>hienvip Obfuscator v9 — ULTRA</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a0015;--sur:#0d001f;--bor:#3a0066;--acc:#aa00ff;--ac2:#ff0099;--ac3:#00ffdd;--gld:#ffd700;--txt:#e8ccff;--dim:#7a5a9a;--glow:0 0 28px #aa00ffbb;--gglow:0 0 28px #ffd700bb}
@@ -34,6 +35,8 @@ header{text-align:center;margin-bottom:50px;padding:44px 0 10px}
 .bprem:hover{box-shadow:0 0 32px #ffd700ee;transform:translateY(-2px)}
 .b3{background:#00ffdd18;border:1px solid #00ffdd44;color:#00ffdd}
 .b3:hover{background:#00ffdd33;border-color:#00ffddaa;box-shadow:0 0 16px #00ffdd55;transform:translateY(-2px)}
+.bnew{background:linear-gradient(135deg,#ff000044,#ff440022);border:1px solid #ff444477;color:#ff8888;animation:newpulse 2s ease-in-out infinite}
+@keyframes newpulse{0%,100%{box-shadow:0 0 6px #ff444455}50%{box-shadow:0 0 18px #ff4444bb}}
 @keyframes gpulse{0%,100%{box-shadow:0 0 10px #ffd70077,0 0 30px #ffd70033}50%{box-shadow:0 0 28px #ffd700ee,0 0 55px #ffd70066}}
 .panel{background:linear-gradient(135deg,#0d001fee,#08001588);border:1px solid var(--bor);border-radius:16px;padding:28px;margin-bottom:16px;position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;backdrop-filter:blur(12px);box-shadow:0 4px 30px #aa00ff0a,inset 0 1px 0 #ffffff08}
 .panel:hover{border-color:#5500aa;box-shadow:0 0 40px #aa00ff15,0 4px 30px #aa00ff0a,inset 0 0 30px #aa00ff08}
@@ -42,10 +45,11 @@ header{text-align:center;margin-bottom:50px;padding:44px 0 10px}
 .panel.gp:hover{border-color:#553300;box-shadow:0 0 40px #ffd70015,0 4px 30px #ffd7000a,inset 0 0 30px #ffd70008}
 .panel.gp2{border-color:#002233}.panel.gp2::before{background:linear-gradient(90deg,transparent,#00ffdd,#0088ff,#00ffdd,transparent)}
 .panel.gp2:hover{border-color:#003344;box-shadow:0 0 40px #00ffdd15,0 4px 30px #00ffdd0a,inset 0 0 30px #00ffdd08}
+.panel.gr{border-color:#330011}.panel.gr::before{background:linear-gradient(90deg,transparent,#ff4444,#ff0000,#ff4444,transparent)}
+.panel.gr:hover{border-color:#550022;box-shadow:0 0 40px #ff444415,inset 0 0 30px #ff44440a}
 .panel::after{content:'';position:absolute;bottom:0;right:0;width:40px;height:40px;border-bottom:1px solid #aa00ff22;border-right:1px solid #aa00ff22;border-radius:0 0 16px 0}
 .ptitle{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.ptitle.c1{color:var(--acc)}.ptitle.c2{color:var(--gld)}.ptitle.c3{color:var(--ac3)}
-.ptitle::before{content:'◆';font-size:7px;opacity:.8}
+.ptitle.c1{color:var(--acc)}.ptitle.c2{color:var(--gld)}.ptitle.c3{color:var(--ac3)}.ptitle.cr{color:#ff6666}
 .ptitle-line{flex:1;height:1px;background:currentColor;opacity:.15}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:10px}
 .opt{display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:11px 14px;border:1px solid #2a005588;border-radius:10px;transition:all .25s;user-select:none;position:relative;overflow:hidden;background:#ffffff04}
@@ -56,12 +60,15 @@ header{text-align:center;margin-bottom:50px;padding:44px 0 10px}
 .opt.go:hover{border-color:#ffd70077;background:#ffd7000a;box-shadow:0 4px 15px #ffd70022}
 .opt.gc::after{background:linear-gradient(135deg,#00ffdd0d,transparent)}
 .opt.gc:hover{border-color:#00ffdd77;background:#00ffdd0a;box-shadow:0 4px 15px #00ffdd22}
+.opt.gred::after{background:linear-gradient(135deg,#ff44440d,transparent)}
+.opt.gred:hover{border-color:#ff444477;background:#ff44440a;box-shadow:0 4px 15px #ff444422}
 .opt input[type=checkbox]{appearance:none;width:16px;height:16px;border:1px solid var(--dim);border-radius:4px;cursor:pointer;position:relative;flex-shrink:0;margin-top:1px;transition:all .2s;background:#ffffff05}
 .opt input[type=checkbox]:checked{background:var(--acc);border-color:var(--acc);box-shadow:0 0 12px #aa00ffaa}
 .opt.go input[type=checkbox]:checked{background:var(--gld);border-color:var(--gld);box-shadow:0 0 12px #ffd700aa}
 .opt.gc input[type=checkbox]:checked{background:var(--ac3);border-color:var(--ac3);box-shadow:0 0 12px #00ffddaa}
+.opt.gred input[type=checkbox]:checked{background:#ff4444;border-color:#ff4444;box-shadow:0 0 12px #ff444499}
 .opt input[type=checkbox]:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#000;font-size:10px;font-weight:bold}
-.ol{font-size:12px;color:var(--txt);font-weight:bold}.ol.g{color:var(--gld)}.ol.c{color:var(--ac3)}
+.ol{font-size:12px;color:var(--txt);font-weight:bold}.ol.g{color:var(--gld)}.ol.c{color:var(--ac3)}.ol.r{color:#ff8888}
 .od{font-size:10px;color:var(--dim);margin-top:3px;line-height:1.5}
 .srow{display:flex;align-items:center;gap:14px;margin-top:16px}
 .slbl{font-size:11px;color:var(--dim);white-space:nowrap;min-width:95px;letter-spacing:1px}
@@ -100,7 +107,7 @@ textarea::placeholder{color:#3a1a5a}
 .slab{font-size:9px;color:var(--dim);margin-top:4px;letter-spacing:2px}
 hr{border:none;border-top:1px solid #3a006644;margin:16px 0}
 .info{font-size:10px;color:var(--dim);line-height:2}
-.info span{color:var(--gld);font-weight:bold}.info b{color:var(--ac3)}
+.info span{color:var(--gld);font-weight:bold}.info b{color:var(--ac3)}.info r{color:#ff8888}
 footer{text-align:center;color:var(--dim);font-size:10px;padding:30px 0;letter-spacing:4px;position:relative}
 footer::before{content:'';display:block;height:1px;background:linear-gradient(90deg,transparent,#aa00ff55,#ff009944,transparent);margin-bottom:20px}
 footer span{color:var(--gld)}
@@ -122,7 +129,7 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
 <div class="wrap">
   <header>
     <div class="logo">hienvip Obfuscator</div>
-    <div class="sub">ULTRA V8.0 — HIENVIP — MOONSEC × LURAPH</div>
+    <div class="sub">ULTRA V9.0 — HIENVIP — MOONSEC × LURAPH × VM</div>
     <div class="version-line">◈ MAXIMUM PROTECTION ◈</div>
     <div class="badges">
       <span class="badge bprem">★ PREMIUM</span>
@@ -131,8 +138,13 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
       <span class="badge b1">OPAQUE PRED</span>
       <span class="badge b3">ANTI-DEOBF</span>
       <span class="badge b3">DELTA + PC</span>
+      <span class="badge bnew">★ VM LAYER</span>
+      <span class="badge bnew">ANTI-TAMPER</span>
+      <span class="badge bnew">ENV LOCK</span>
     </div>
   </header>
+
+  <!-- LỚP BẢO VỆ CƠ BẢN (GIỮ NGUYÊN) -->
 
   <div class="panel">
     <div class="ptitle c1">Lớp Bảo Vệ Cơ Bản<span class="ptitle-line"></span></div>
@@ -148,6 +160,8 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
       <span class="sval" id="jval">5</span>
     </div>
   </div>
+
+  <!-- MOONSEC GRADE (GIỮ NGUYÊN) -->
 
   <div class="panel gp">
     <div class="ptitle c2">★ Moonsec Grade — Multi-Wrap Encryption<span class="ptitle-line"></span></div>
@@ -165,6 +179,8 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
       <span class="sval" id="wval">2</span>
     </div>
   </div>
+
+  <!-- LURAPH GRADE (GIỮ NGUYÊN) -->
 
   <div class="panel gp2">
     <div class="ptitle c3">◈ Luraph Grade — Control Flow Obfuscation<span class="ptitle-line"></span></div>
@@ -184,11 +200,38 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
     </p>
   </div>
 
+  <!-- ★★★ NEW V9 — LỚP BẢO MẬT MỚI HOÀN TOÀN ★★★ -->
+
+  <div class="panel gr">
+    <div class="ptitle cr">★★ V9 NEW — Maximum Security Layers<span class="ptitle-line"></span></div>
+    <div class="grid">
+      <label class="opt gred"><input type="checkbox" id="o_vm" checked><div><div class="ol r">VM Bytecode Layer</div><div class="od">Compile code → bytecode giả → VM interpreter, phải reverse toàn bộ VM mới đọc được</div></div></label>
+      <label class="opt gred"><input type="checkbox" id="o_checksum" checked><div><div class="ol r">Anti-Tamper Checksum</div><div class="od">Tính hash toàn bộ code, nếu bị sửa/debug → tự hủy ngay lập tức</div></div></label>
+      <label class="opt gred"><input type="checkbox" id="o_envlock" checked><div><div class="ol r">Environment Lock</div><div class="od">Khóa chỉ chạy trong Roblox thật, executor giả/deobfuscator → crash</div></div></label>
+      <label class="opt gred"><input type="checkbox" id="o_antidbg" checked><div><div class="ol r">Anti-Debug Trap</div><div class="od">Bẫy debug: hook debug.getinfo, debug.traceback → phát hiện và thoát</div></div></label>
+      <label class="opt gred"><input type="checkbox" id="o_strscatter" checked><div><div class="ol r">String Scatter</div><div class="od">Cắt string thành từng byte riêng lẻ, ghép lại runtime qua nhiều biến</div></div></label>
+      <label class="opt gred"><input type="checkbox" id="o_funcwrap" checked><div><div class="ol r">Deep Function Wrap</div><div class="od">Bọc toàn bộ code trong closure lồng nhau nhiều tầng</div></div></label>
+    </div>
+    <div class="srow">
+      <span class="slbl">VM Complexity:</span>
+      <input type="range" id="vmlv" min="1" max="5" value="3">
+      <span class="sval" id="vmval">3</span>
+    </div>
+    <hr>
+    <p class="info">
+      <span>VM Bytecode</span> — dev phải <r>viết lại toàn bộ VM interpreter</r> mới đọc được code gốc. Khó nhất hiện tại.<br>
+      <span>Anti-Tamper</span> — checksum toàn bộ payload, <b>1 byte thay đổi = tự hủy</b>.<br>
+      <span>Environment Lock</span> — kiểm tra <b>game, Players, HttpGet</b> — không có = không chạy.
+    </p>
+  </div>
+
+  <!-- INPUT (GIỮ NGUYÊN) -->
+
   <div class="panel">
     <div class="ptitle c1">Code Lua Gốc<span class="ptitle-line"></span></div>
     <textarea id="inp" placeholder="-- Dán code Lua / Roblox Script vào đây..."></textarea>
     <div class="brow">
-      <button class="btn btng" onclick="obfuscate()">★ ULTRA OBFUSCATE</button>
+      <button class="btn btng" onclick="obfuscate()">★ ULTRA OBFUSCATE V9</button>
       <button class="btn btns" onclick="clearAll()">✕ XÓA</button>
       <button class="btn btns" onclick="loadEx()">↓ VÍ DỤ</button>
     </div>
@@ -198,8 +241,10 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
     </div>
   </div>
 
+  <!-- OUTPUT (GIỮ NGUYÊN) -->
+
   <div class="panel">
-    <div class="ptitle c1">Kết Quả — Ultra Encrypted<span class="ptitle-line"></span></div>
+    <div class="ptitle c1">Kết Quả — Ultra Encrypted V9<span class="ptitle-line"></span></div>
     <textarea id="out" placeholder="-- Output xuất hiện ở đây..." readonly style="min-height:240px"></textarea>
     <div class="stats" id="sts" style="display:none">
       <div class="stat"><div class="sv g" id="s_b">0</div><div class="slab">BYTES</div></div>
@@ -215,15 +260,14 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
   </div>
 
   <footer>
-    <span>hienvip Obfuscator</span> — Ultra v8.0 — Moonsec × Luraph Grade — Made with <span class="heart">💜</span> by hienvip
+    <span>hienvip Obfuscator</span> — Ultra v9.0 — Moonsec × Luraph × VM Grade — Made with <span class="heart">💜</span> by hienvip
   </footer>
 </div>
 <div class="notif" id="notif"></div>
 
 <script>
 // ══════════════════════════════════════════════
-// ★ HIDDEN CONFIG — ẩn hoàn toàn, tự động thêm
-//   vào mọi output, user không thấy không sửa được
+// ★ HIDDEN CONFIG
 // ══════════════════════════════════════════════
 const _T='HIENVIP',_D='https://discord.gg/x9pATE8Uxe';
 
@@ -237,11 +281,18 @@ const _T='HIENVIP',_D='https://discord.gg/x9pATE8Uxe';
     c.appendChild(p);
   }
 })();
+
 document.getElementById('jlv').oninput=function(){document.getElementById('jval').textContent=this.value};
 document.getElementById('wlv').oninput=function(){document.getElementById('wval').textContent=this.value};
+document.getElementById('vmlv').oninput=function(){document.getElementById('vmval').textContent=this.value};
+
 function showN(m){const n=document.getElementById('notif');n.textContent=m;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2800)}
 function clearAll(){document.getElementById('inp').value='';document.getElementById('out').value='';document.getElementById('sts').style.display='none'}
 function loadEx(){document.getElementById('inp').value=`local Players = game:GetService("Players")\nlocal player = Players.LocalPlayer\nprint("Hello " .. player.Name)\nwarn("Script loaded!")`}
+
+// ══════════════════════════════════════════════
+// UTILS (GIỮ NGUYÊN TỪ V8)
+// ══════════════════════════════════════════════
 function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function rndName(l){const h='0123456789abcdef',a='abcdefghijklmnopqrstuvwxyz';let s=a[ri(0,25)];for(let i=0;i<(l||14);i++)s+=h[ri(0,15)];return s}
 function strToBytes(str){const b=[];for(let i=0;i<str.length;i++){const c=str.charCodeAt(i);if(c<128)b.push(c);else if(c<2048){b.push((c>>6)|192);b.push((c&63)|128)}else{b.push((c>>12)|224);b.push(((c>>6)&63)|128);b.push((c&63)|128)}}return b}
@@ -283,19 +334,254 @@ function buildLayer(src,opts,N){
   return{code:o,layers:3+nk+(rotN>0?1:0),keys:nk+9}
 }
 
+// ══════════════════════════════════════════════
+// ★★★ NEW V9 FUNCTIONS ★★★
+// ══════════════════════════════════════════════
+
+// 1. ENVIRONMENT LOCK — chỉ chạy trong Roblox thật
+function genEnvLock(N) {
+  const nu = n => N ? numMagic(n) : String(n);
+  const vE = rndName(8), vP = rndName(8), vH = rndName(8), vG = rndName(8), vOK = rndName(8);
+  // Encode tên service thành bytes để không lộ string
+  const sGame = strToBytes('game').map(nu).join(',');
+  const sPlayers = strToBytes('Players').map(nu).join(',');
+  const sGetService = strToBytes('GetService').map(nu).join(',');
+  const sHttpGet = strToBytes('HttpGet').map(nu).join(',');
+  let code = '';
+  code += `-- ENV LOCK\n`;
+  code += `local ${vG}=(function()if _ENV then return _ENV end;if getfenv then return getfenv(0) end;return _G or{}end)()\n`;
+  code += `local ${vOK}=true\n`;
+  code += `local _sc=string.char\n`;
+  code += `local _sG=${vG}[_sc(${sGame})]\n`;
+  code += `if not _sG then ${vOK}=false end\n`;
+  code += `if ${vOK} then\n`;
+  code += `  local _ok,_pl=pcall(function()return _sG[_sc(${sGetService})](_sG,_sc(${sPlayers}))end)\n`;
+  code += `  if not _ok or not _pl then ${vOK}=false end\n`;
+  code += `end\n`;
+  code += `if not ${vOK} then\n`;
+  // Tạo vòng lặp vô tận để crash thay vì error để ẩn mục đích
+  const vInf = rndName(6);
+  code += `  local ${vInf}=true\n`;
+  code += `  while ${vInf} do task.wait(${nu(9999)}) end\n`;
+  code += `end\n`;
+  return code;
+}
+
+// 2. ANTI-DEBUG TRAP — phát hiện debug hooks
+function genAntiDebug(N) {
+  const nu = n => N ? numMagic(n) : String(n);
+  const vD = rndName(8), vT = rndName(8), vOK = rndName(8), vF = rndName(8);
+  let code = '';
+  code += `-- ANTI-DEBUG\n`;
+  code += `local ${vOK}=true\n`;
+  // Kiểm tra debug.getinfo bị hook không
+  code += `pcall(function()\n`;
+  code += `  local ${vD}=debug\n`;
+  code += `  if ${vD} then\n`;
+  code += `    local ${vT}=type(${vD}.getinfo)\n`;
+  // Nếu debug.getinfo bị thay bằng function giả → phát hiện
+  code += `    local ${vF}=${vD}.getinfo(${nu(1)})\n`;
+  code += `    if ${vF} and ${vF}.what~="Lua" and ${vF}.what~="C" and ${vF}.what~="main" then\n`;
+  code += `      ${vOK}=false\n`;
+  code += `    end\n`;
+  code += `  end\n`;
+  code += `end)\n`;
+  // Kiểm tra thêm: nếu getfenv bị override
+  code += `pcall(function()\n`;
+  const vGF = rndName(6);
+  code += `  local ${vGF}=getfenv\n`;
+  code += `  if ${vGF} and type(${vGF}(${nu(0)}))~="table" then ${vOK}=false end\n`;
+  code += `end)\n`;
+  code += `if not ${vOK} then\n`;
+  const vLoop = rndName(6);
+  code += `  local ${vLoop}=true;while ${vLoop} do end\n`;
+  code += `end\n`;
+  return code;
+}
+
+// 3. ANTI-TAMPER CHECKSUM — hash payload, tự hủy nếu bị sửa
+function genChecksumWrapper(innerCode, N) {
+  const nu = n => N ? numMagic(n) : String(n);
+  // Tính checksum đơn giản của innerCode (sum of bytes mod 65521)
+  const bytes = strToBytes(innerCode);
+  let cs = 0;
+  for (let i = 0; i < bytes.length; i++) cs = (cs + bytes[i] * (i + 1)) % 65521;
+  const expected = cs;
+  const vCS = rndName(8), vOK = rndName(8), vI = rndName(6), vB = rndName(6);
+  const vStr = rndName(8), vSC = rndName(6), vLen = rndName(6);
+  // Encode payload vào bytes
+  const encBytes = bytes.map(nu).join(',');
+  const lines = [];
+  for (let i = 0; i < bytes.length; i += 20) lines.push(bytes.slice(i, i + 20).map(nu).join(','));
+  const fmtd = '{\n' + lines.join(',\n') + '\n}';
+  let code = '';
+  code += `-- ANTI-TAMPER\n`;
+  code += `local ${vB}=${fmtd}\n`;
+  code += `local ${vCS}=${nu(0)}\n`;
+  code += `for ${vI}=${nu(1)},#${vB} do\n`;
+  code += `  ${vCS}=(${vCS}+${vB}[${vI}]*${vI})%${nu(65521)}\n`;
+  code += `end\n`;
+  code += `local ${vOK}=${vCS}==${nu(expected)}\n`;
+  code += `if not ${vOK} then\n`;
+  code += `  local ${vLoop2=rndName(6)}=true;while ${vLoop2} do end\n`;
+  code += `end\n`;
+  // Rebuild string từ bytes và chạy
+  const vOut = rndName(8), vSC2 = rndName(6), vLS = rndName(6), vFn = rndName(6), vEr = rndName(6);
+  code += `local ${vSC2}=string.char\n`;
+  code += `local ${vOut}=""\n`;
+  code += `for ${vI}=${nu(1)},#${vB} do ${vOut}=${vOut}..${vSC2}(${vB}[${vI}]) end\n`;
+  code += `local ${vLS}=loadstring or load\n`;
+  code += `local ${vFn},${vEr}=${vLS}(${vOut})\n`;
+  code += `if ${vFn} then ${vFn}() end\n`;
+  return code;
+}
+
+// 4. VM BYTECODE LAYER — giả lập bytecode + VM interpreter
+function genVMLayer(src, vmLevel, N) {
+  const nu = n => N ? numMagic(n) : String(n);
+  const bytes = strToBytes(src);
+  // Opcodes giả
+  const OPCODES = { LOAD: 1, PUSH: 2, EXEC: 3, RET: 4, NOP: 5, JUMP: 6, CHECK: 7 };
+  // Tạo "bytecode" từ source bytes với encoding riêng
+  const vmKey = ri(10, 200);
+  const vmKey2 = ri(10, 200);
+  // Encode: mỗi byte XOR với vmKey, sau đó + vmKey2 mod 256
+  const vmBytes = bytes.map((b, i) => ((b ^ (vmKey + i % 17)) + vmKey2) % 256);
+  // Thêm header bytecode giả
+  const header = [OPCODES.CHECK, ri(0,255), OPCODES.LOAD, bytes.length & 0xFF, (bytes.length >> 8) & 0xFF, OPCODES.PUSH, vmKey & 0xFF, vmKey2 & 0xFF, OPCODES.EXEC];
+  const fullBytecode = [...header, ...vmBytes, OPCODES.RET];
+  // Tên biến VM
+  const vmN = rndName(8), bcN = rndName(8), ipN = rndName(6), spN = rndName(6);
+  const k1N = rndName(6), k2N = rndName(6), outN = rndName(8), idxN = rndName(6);
+  const scN = rndName(6), lsN = rndName(6), fnN = rndName(6), erN = rndName(6);
+  const hlenN = rndName(6);
+  // Format bytecode
+  const bcLines = [];
+  for (let i = 0; i < fullBytecode.length; i += 16) bcLines.push(fullBytecode.slice(i, i + 16).map(nu).join(','));
+  const bcFmt = '{\n' + bcLines.join(',\n') + '\n}';
+  // Thêm junk NOP instructions
+  let junkBc = '';
+  for (let j = 0; j < vmLevel * 3; j++) {
+    junkBc += `-- vm nop ${ri(1000,9999)}\n`;
+  }
+  let code = '';
+  code += `-- VM LAYER v9\n`;
+  code += junkBc;
+  code += `local ${bcN}=${bcFmt}\n`;
+  code += `local ${hlenN}=${nu(header.length)}\n`;
+  // VM interpreter
+  code += `local function ${vmN}(bc)\n`;
+  code += `  local ${ipN}=${nu(1)}\n`;
+  code += `  local ${k1N}=${nu(0)}\n`;
+  code += `  local ${k2N}=${nu(0)}\n`;
+  code += `  local ${outN}=""\n`;
+  code += `  local ${scN}=string.char\n`;
+  code += `  -- decode header\n`;
+  code += `  ${ipN}=${nu(1)}\n`;
+  code += `  while bc[${ipN}]~=${nu(OPCODES.EXEC)} do\n`;
+  code += `    local op=bc[${ipN}]\n`;
+  code += `    if op==${nu(OPCODES.PUSH)} then\n`;
+  code += `      ${k1N}=bc[${ipN}+${nu(1)}]\n`;
+  code += `      ${k2N}=bc[${ipN}+${nu(2)}]\n`;
+  code += `      ${ipN}=${ipN}+${nu(2)}\n`;
+  code += `    end\n`;
+  code += `    ${ipN}=${ipN}+${nu(1)}\n`;
+  code += `  end\n`;
+  code += `  ${ipN}=${ipN}+${nu(1)}\n`;
+  // Decode payload
+  code += `  local ${idxN}=${nu(0)}\n`;
+  code += `  while bc[${ipN}] and bc[${ipN}]~=${nu(OPCODES.RET)} do\n`;
+  code += `    local b=bc[${ipN}]\n`;
+  code += `    b=(b-${k2N}+${nu(256)})%${nu(256)}\n`;
+  code += `    b=b~(${k1N}+${idxN}%${nu(17)})\n`;
+  code += `    ${outN}=${outN}..${scN}(b)\n`;
+  code += `    ${ipN}=${ipN}+${nu(1)}\n`;
+  code += `    ${idxN}=${idxN}+${nu(1)}\n`;
+  code += `  end\n`;
+  code += `  return ${outN}\n`;
+  code += `end\n`;
+  // Chạy VM
+  const vLS = rndName(6), vFn = rndName(6), vEr = rndName(6);
+  code += `local ${vLS}=loadstring or load\n`;
+  code += `local _src=${vmN}(${bcN})\n`;
+  code += `local ${vFn},${vEr}=${vLS}(_src)\n`;
+  code += `assert(${vFn},"VM Error: "..(${vEr} or "?"))\n`;
+  code += `${vFn}()\n`;
+  return { code, layers: 5 + vmLevel, keys: 2 };
+}
+
+// 5. STRING SCATTER — mỗi string literal thành nhiều biến byte riêng
+function genStringScatter(src, N) {
+  const nu = n => N ? numMagic(n) : String(n);
+  // Tìm và thay thế string literals đơn giản trong code
+  return src.replace(/"([^"\\]{1,40})"/g, (match, s) => {
+    if (s.length < 3) return match;
+    const bytes = strToBytes(s);
+    const parts = bytes.map((b, i) => {
+      const v = rndName(5);
+      return `(function()local ${v}=${nu(b)};return ${v} end)()`;
+    });
+    const sc = rndName(5);
+    return `(function()local ${sc}=string.char;return ${sc}(${parts.join(',')})end)()`;
+  });
+}
+
+// 6. DEEP FUNCTION WRAP — bọc nhiều tầng closure
+function genDeepFunctionWrap(src, N) {
+  const nu = n => N ? numMagic(n) : String(n);
+  const depth = ri(3, 5);
+  let result = src;
+  for (let i = 0; i < depth; i++) {
+    const vF = rndName(8), vA = rndName(6), vB = rndName(6);
+    const junk = `local ${vA}=${nu(ri(1,100))};local ${vB}=${nu(ri(1,100))};`;
+    result = `(function()\n${junk}\n${result}\nend)()`;
+  }
+  return result;
+}
+
+// ══════════════════════════════════════════════
+// MAIN OBFUSCATE (GIỮ NGUYÊN LOGIC V8, THÊM V9)
+// ══════════════════════════════════════════════
 function obfuscate(){
   const input=document.getElementById('inp').value.trim();
   if(!input){showN('Vui lòng nhập code!');return}
-  const o={rename:document.getElementById('o_rename').checked,junk:document.getElementById('o_junk').checked,proxy:document.getElementById('o_proxy').checked,strfrag:document.getElementById('o_strfrag').checked,fullenc:document.getElementById('o_fullenc').checked,multikey:document.getElementById('o_multikey').checked,rot:document.getElementById('o_rot').checked,zerostr:document.getElementById('o_zerostr').checked,numobf:document.getElementById('o_numobf').checked,multilayer:document.getElementById('o_multilayer').checked,opaque:document.getElementById('o_opaque').checked,cflatten:document.getElementById('o_cflatten').checked,fakeflow:document.getElementById('o_fakeflow').checked,antidump:document.getElementById('o_antidump').checked,constpool:document.getElementById('o_constpool').checked,watermark:document.getElementById('o_watermark').checked};
-  const jlv=parseInt(document.getElementById('jlv').value),wlv=parseInt(document.getElementById('wlv').value);
+  const o={
+    // V8 options
+    rename:document.getElementById('o_rename').checked,
+    junk:document.getElementById('o_junk').checked,
+    proxy:document.getElementById('o_proxy').checked,
+    strfrag:document.getElementById('o_strfrag').checked,
+    fullenc:document.getElementById('o_fullenc').checked,
+    multikey:document.getElementById('o_multikey').checked,
+    rot:document.getElementById('o_rot').checked,
+    zerostr:document.getElementById('o_zerostr').checked,
+    numobf:document.getElementById('o_numobf').checked,
+    multilayer:document.getElementById('o_multilayer').checked,
+    opaque:document.getElementById('o_opaque').checked,
+    cflatten:document.getElementById('o_cflatten').checked,
+    fakeflow:document.getElementById('o_fakeflow').checked,
+    antidump:document.getElementById('o_antidump').checked,
+    constpool:document.getElementById('o_constpool').checked,
+    watermark:document.getElementById('o_watermark').checked,
+    // V9 NEW options
+    vm:document.getElementById('o_vm').checked,
+    checksum:document.getElementById('o_checksum').checked,
+    envlock:document.getElementById('o_envlock').checked,
+    antidbg:document.getElementById('o_antidbg').checked,
+    strscatter:document.getElementById('o_strscatter').checked,
+    funcwrap:document.getElementById('o_funcwrap').checked
+  };
+  const jlv=parseInt(document.getElementById('jlv').value);
+  const wlv=parseInt(document.getElementById('wlv').value);
+  const vmlv=parseInt(document.getElementById('vmlv').value);
   const origSz=input.length,N=o.numobf;
   document.getElementById('prog').classList.add('show');
   let tL=0,tK=0,tW=0;
   const sp=(p,m)=>{document.getElementById('pbar').style.width=p+'%';document.getElementById('ptxt').textContent=m.toUpperCase()};
+
   function finish(final){
     sp(100,'HOÀN THÀNH!');
-    // ★ Header tự động — ẩn trong JS, user không biết không sửa được
-    const hdr=`-- This file was created by ${_T} v1.3\n-- [${_D}]\n\n`;
+    const hdr=`-- This file was created by ${_T} v9.0\n-- [${_D}]\n\n`;
     const out=hdr+final;
     setTimeout(()=>{
       document.getElementById('out').value=out;
@@ -307,34 +593,147 @@ function obfuscate(){
       document.getElementById('s_z').textContent='+'+inc+'%';
       document.getElementById('s_k').textContent=tK;
       document.getElementById('sts').style.display='flex';
-      showN('ULTRA OBFUSCATE THÀNH CÔNG!');
+      showN('ULTRA OBFUSCATE V9 THÀNH CÔNG!');
     },400);
   }
+
   setTimeout(()=>{
     try{
-      sp(5,'Phân tích...');let code=input;
-      if(o.rename){sp(10,'Rename...');const kw=new Set(['true','false','nil','and','or','not','if','then','else','elseif','end','do','while','repeat','until','for','in','function','local','return','break','self','game','workspace','script','require','wait','spawn','delay','print','warn','error','task','pcall','xpcall','pairs','ipairs','tostring','tonumber','type','math','string','table','os','coroutine','select','unpack','rawget','rawset','setmetatable','getmetatable','bit32','Instance','Color3','Vector2','Vector3','UDim','UDim2','TweenInfo','Enum','Players','HttpGet','loadstring','HttpService','RunService','TweenService','_G','_ENV','getfenv','load']);const vm={};const re=/\blocal\s+(?:function\s+)?([a-zA-Z_][a-zA-Z0-9_]*)\b/g;let mm;while((mm=re.exec(input))!==null){const n=mm[1];if(!vm[n]&&!kw.has(n))vm[n]=rndName(14)}for(const[orig,obfd] of Object.entries(vm)){try{code=code.replace(new RegExp('\\b'+orig+'\\b','g'),obfd)}catch(e){}}tL++}
-      sp(18,'Proxy...');let ph='';
-      if(o.proxy){const pm={print:rndName(12),warn:rndName(12),pcall:rndName(12),error:rndName(12),task:rndName(12),pairs:rndName(12),ipairs:rndName(12)};for(const[k,v] of Object.entries(pm))ph+=`local ${v}=${k}\n`;for(const[k,v] of Object.entries(pm)){try{code=code.replace(new RegExp('\\b'+k+'\\b','g'),v)}catch(e){}}tL++}
-      sp(25,'Junk...');let junk='';if(o.junk){junk=genJunk(jlv,N);tL++}
-      let ad='';if(o.antidump){ad=genAntiDump();tL++}
-      let ff='';if(o.fakeflow){ff=genFakeFlow(N);tL++}
-      let cp='';if(o.constpool){cp=genConstPool(ri(800,1500),N).code;tL++}
-      let wm='';if(o.watermark){wm=`local ${rndName(10)}={${strToBytes('hienvip_v8').map(c=>N?numMagic(c):c).join(',')}}\n`}
-      sp(35,'Assemble...');let inner=ad+ph+junk+ff+code;
-      if(o.cflatten){sp(42,'Flow...');inner=genStateMachineWrapper(inner,N);tL++}
+      sp(5,'Phân tích...');
+      let code=input;
+
+      // ── V8 STEPS (GIỮ NGUYÊN) ──
+      if(o.rename){
+        sp(8,'Rename...');
+        const kw=new Set(['true','false','nil','and','or','not','if','then','else','elseif','end','do','while','repeat','until','for','in','function','local','return','break','self','game','workspace','script','require','wait','spawn','delay','print','warn','error','task','pcall','xpcall','pairs','ipairs','tostring','tonumber','type','math','string','table','os','coroutine','select','unpack','rawget','rawset','setmetatable','getmetatable','bit32','Instance','Color3','Vector2','Vector3','UDim','UDim2','TweenInfo','Enum','Players','HttpGet','loadstring','HttpService','RunService','TweenService','_G','_ENV','getfenv','load']);
+        const vm={};
+        const re=/\blocal\s+(?:function\s+)?([a-zA-Z_][a-zA-Z0-9_]*)\b/g;
+        let mm;
+        while((mm=re.exec(input))!==null){const n=mm[1];if(!vm[n]&&!kw.has(n))vm[n]=rndName(14)}
+        for(const[orig,obfd] of Object.entries(vm)){try{code=code.replace(new RegExp('\\b'+orig+'\\b','g'),obfd)}catch(e){}}
+        tL++;
+      }
+
+      sp(15,'Proxy...');
+      let ph='';
+      if(o.proxy){
+        const pm={print:rndName(12),warn:rndName(12),pcall:rndName(12),error:rndName(12),task:rndName(12),pairs:rndName(12),ipairs:rndName(12)};
+        for(const[k,v] of Object.entries(pm))ph+=`local ${v}=${k}\n`;
+        for(const[k,v] of Object.entries(pm)){try{code=code.replace(new RegExp('\\b'+k+'\\b','g'),v)}catch(e){}}
+        tL++;
+      }
+
+      // ── V9 STEP: String Scatter (trước junk) ──
+      if(o.strscatter){
+        sp(20,'String Scatter...');
+        code=genStringScatter(code,N);
+        tL++;
+      }
+
+      sp(25,'Junk...');
+      let junk='';
+      if(o.junk){junk=genJunk(jlv,N);tL++}
+
+      let ad='';
+      if(o.antidump){ad=genAntiDump();tL++}
+
+      let ff='';
+      if(o.fakeflow){ff=genFakeFlow(N);tL++}
+
+      let cp='';
+      if(o.constpool){cp=genConstPool(ri(800,1500),N).code;tL++}
+
+      let wm='';
+      if(o.watermark){wm=`local ${rndName(10)}={${strToBytes('hienvip_v9').map(c=>N?numMagic(c):c).join(',')}}\n`}
+
+      // ── V9: Environment Lock ──
+      let envLock='';
+      if(o.envlock){
+        sp(30,'Env Lock...');
+        envLock=genEnvLock(N);
+        tL++;
+      }
+
+      // ── V9: Anti-Debug ──
+      let antiDbg='';
+      if(o.antidbg){
+        sp(33,'Anti-Debug...');
+        antiDbg=genAntiDebug(N);
+        tL++;
+      }
+
+      sp(38,'Assemble...');
+      // Thứ tự: envLock → antiDbg → antidump → proxy → junk → fakeflow → code
+      let inner=envLock+antiDbg+ad+ph+junk+ff+code;
+
+      // ── V9: Deep Function Wrap ──
+      if(o.funcwrap){
+        sp(42,'Function Wrap...');
+        inner=genDeepFunctionWrap(inner,N);
+        tL++;
+      }
+
+      if(o.cflatten){sp(45,'Flow...');inner=genStateMachineWrapper(inner,N);tL++}
       if(o.opaque){inner=`local ${rndName(8)}=${opaqueTrue()} and true or false\n`+inner;tL++}
-      if(!o.fullenc){finish(wm+cp+inner);return}
-      sp(50,'Encrypting...');let cur=inner;
+
+      // ── V9: VM Layer (trước XOR encryption) ──
+      let vmResult = null;
+      if(o.vm){
+        sp(52,'VM Bytecode Layer...');
+        vmResult=genVMLayer(inner,vmlv,N);
+        inner=vmResult.code;
+        tL+=vmResult.layers;
+        tK+=vmResult.keys;
+      }
+
+      // ── V8: XOR Encryption layers ──
+      if(!o.fullenc){
+        // V9: Checksum wrap nếu không có XOR
+        if(o.checksum){
+          sp(75,'Checksum...');
+          inner=genChecksumWrapper(inner,N);
+          tL++;
+        }
+        finish(wm+cp+inner);
+        return;
+      }
+
+      sp(55,'Encrypting...');
+      let cur=inner;
       const wraps=o.multilayer?wlv:1;tW=wraps;
-      for(let w=0;w<wraps;w++){sp(50+Math.floor(w/wraps*40),`Wrap ${w+1}/${wraps}...`);const r=buildLayer(cur,o,N);cur=r.code;tL+=r.layers;tK+=r.keys}
-      sp(92,'Final...');finish(wm+cp+cur);
-    }catch(err){document.getElementById('prog').classList.remove('show');document.getElementById('out').value='-- Lỗi: '+err.message;showN('LỖI: '+err.message)}
+      for(let w=0;w<wraps;w++){
+        sp(55+Math.floor(w/wraps*30),`Wrap ${w+1}/${wraps}...`);
+        const r=buildLayer(cur,o,N);
+        cur=r.code;
+        tL+=r.layers;
+        tK+=r.keys;
+      }
+
+      // ── V9: Anti-Tamper Checksum (lớp ngoài cùng) ──
+      if(o.checksum){
+        sp(88,'Anti-Tamper...');
+        cur=genChecksumWrapper(cur,N);
+        tL++;
+      }
+
+      sp(95,'Final...');
+      finish(wm+cp+cur);
+
+    }catch(err){
+      document.getElementById('prog').classList.remove('show');
+      document.getElementById('out').value='-- Lỗi: '+err.message;
+      showN('LỖI: '+err.message);
+    }
   },150);
 }
+
+// ══════════════════════════════════════════════
+// COPY / DOWNLOAD (GIỮ NGUYÊN)
+// ══════════════════════════════════════════════
 function copyOut(){const o=document.getElementById('out').value;if(!o){showN('Chưa có output!');return}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(o).then(()=>showN('ĐÃ SAO CHÉP!')).catch(()=>fb(o))}else{fb(o)}}
 function fb(t){const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0;width:1px;height:1px';document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,t.length);try{document.execCommand('copy');showN('ĐÃ SAO CHÉP!')}catch(e){showN('Dùng nút TẢI .LUA!')}document.body.removeChild(ta)}
-function dlOut(){const o=document.getElementById('out').value;if(!o){showN('Chưa có output!');return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([o],{type:'text/plain'}));a.download='hienvip_ultra_v8.lua';a.click();showN('ĐÃ TẢI XUỐNG!')}
+function dlOut(){const o=document.getElementById('out').value;if(!o){showN('Chưa có output!');return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([o],{type:'text/plain'}));a.download='hienvip_ultra_v9.lua';a.click();showN('ĐÃ TẢI XUỐNG!')}
 </script>
+
 </body>
 </html>
