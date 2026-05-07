@@ -448,7 +448,7 @@ function obfuscate(){
 function copyOut(){const o=document.getElementById('out').value;if(!o){showN('Chưa có output!');return}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(o).then(()=>showN('ĐÃ SAO CHÉP!')).catch(()=>fb(o))}else{fb(o)}}
 function fb(t){const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0;width:1px;height:1px';document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,t.length);try{document.execCommand('copy');showN('ĐÃ SAO CHÉP!')}catch(e){showN('Dùng nút TẢI .LUA!')}document.body.removeChild(ta)}
 function dlOut(){const o=document.getElementById('out').value;if(!o){showN('Chưa có output!');return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([o],{type:'text/plain'}));a.download='hienvip_ultra_v10.lua';a.click();showN('ĐÃ TẢI XUỐNG!')}
-</script>
 
+</script>
 </body>
 </html>
