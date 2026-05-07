@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -68,7 +67,6 @@ footer span{color:var(--gld)}
   </header>
 
   <!-- INPUT -->
-
   <div class="panel">
     <div class="ptitle">Code Lua Gốc<span class="ptitle-line"></span></div>
     <textarea id="inp" placeholder="-- Dán code Lua / Roblox Script vào đây..."></textarea>
@@ -84,7 +82,6 @@ footer span{color:var(--gld)}
   </div>
 
   <!-- OUTPUT -->
-
   <div class="panel">
     <div class="ptitle">Kết Quả — Ultra Encrypted V10<span class="ptitle-line"></span></div>
     <textarea id="out" placeholder="-- Output xuất hiện ở đây..." readonly></textarea>
@@ -448,7 +445,6 @@ function obfuscate(){
 function copyOut(){const o=document.getElementById('out').value;if(!o){showN('Chưa có output!');return}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(o).then(()=>showN('ĐÃ SAO CHÉP!')).catch(()=>fb(o))}else{fb(o)}}
 function fb(t){const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0;width:1px;height:1px';document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,t.length);try{document.execCommand('copy');showN('ĐÃ SAO CHÉP!')}catch(e){showN('Dùng nút TẢI .LUA!')}document.body.removeChild(ta)}
 function dlOut(){const o=document.getElementById('out').value;if(!o){showN('Chưa có output!');return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([o],{type:'text/plain'}));a.download='hienvip_ultra_v10.lua';a.click();showN('ĐÃ TẢI XUỐNG!')}
-
 </script>
 </body>
 </html>
