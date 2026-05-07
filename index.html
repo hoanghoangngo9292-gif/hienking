@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>hienvip Obfuscator v10.2</title>
+<title>hienvip Obfuscator v10</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a0015;--sur:#0d001f;--bor:#3a0066;--acc:#aa00ff;--ac2:#ff0099;--ac3:#00ffdd;--gld:#ffd700;--txt:#e8ccff;--dim:#7a5a9a}
@@ -63,10 +64,11 @@ footer span{color:var(--gld)}
 <div class="wrap">
   <header>
     <div class="logo">hienvip Obfuscator</div>
-    <div class="sub">ULTRA V10.2 — MAX PROTECTION</div>
+    <div class="sub">ULTRA V10.0 — MAX PROTECTION</div>
   </header>
 
   <!-- INPUT -->
+
   <div class="panel">
     <div class="ptitle">Code Lua Gốc<span class="ptitle-line"></span></div>
     <textarea id="inp" placeholder="-- Dán code Lua / Roblox Script vào đây..."></textarea>
@@ -82,6 +84,7 @@ footer span{color:var(--gld)}
   </div>
 
   <!-- OUTPUT -->
+
   <div class="panel">
     <div class="ptitle">Kết Quả — Ultra Encrypted V10<span class="ptitle-line"></span></div>
     <textarea id="out" placeholder="-- Output xuất hiện ở đây..." readonly></textarea>
@@ -446,5 +449,6 @@ function copyOut(){const o=document.getElementById('out').value;if(!o){showN('Ch
 function fb(t){const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0;width:1px;height:1px';document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,t.length);try{document.execCommand('copy');showN('ĐÃ SAO CHÉP!')}catch(e){showN('Dùng nút TẢI .LUA!')}document.body.removeChild(ta)}
 function dlOut(){const o=document.getElementById('out').value;if(!o){showN('Chưa có output!');return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([o],{type:'text/plain'}));a.download='hienvip_ultra_v10.lua';a.click();showN('ĐÃ TẢI XUỐNG!')}
 </script>
+
 </body>
 </html>
