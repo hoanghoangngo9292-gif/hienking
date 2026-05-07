@@ -6,177 +6,49 @@
 <title>hienvip Obfuscator v8 — ULTRA</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0a0015;
-  --sur:#0d001f;
-  --bor:#3a0066;
-  --acc:#aa00ff;
-  --ac2:#ff0099;
-  --ac3:#00ffdd;
-  --gld:#ffd700;
-  --txt:#e8ccff;
-  --dim:#7a5a9a;
-  --glow:0 0 28px #aa00ffbb;
-  --gglow:0 0 28px #ffd700bb;
-}
+:root{--bg:#0a0015;--sur:#0d001f;--bor:#3a0066;--acc:#aa00ff;--ac2:#ff0099;--ac3:#00ffdd;--gld:#ffd700;--txt:#e8ccff;--dim:#7a5a9a;--glow:0 0 28px #aa00ffbb;--gglow:0 0 28px #ffd700bb}
 *{margin:0;padding:0;box-sizing:border-box}
-
-body{
-  background:var(--bg);
-  color:var(--txt);
-  font-family:'Share Tech Mono',monospace;
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-/* VIBRANT GRADIENT BACKGROUND */
-.bg-gradient{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 80% 60% at 10% 0%,#6600ff44 0%,transparent 60%),
-    radial-gradient(ellipse 60% 50% at 90% 10%,#ff006644 0%,transparent 60%),
-    radial-gradient(ellipse 70% 60% at 50% 100%,#0044ff33 0%,transparent 60%),
-    radial-gradient(ellipse 50% 40% at 80% 60%,#ff00aa22 0%,transparent 60%),
-    radial-gradient(ellipse 60% 50% at 20% 70%,#8800ff22 0%,transparent 60%),
-    linear-gradient(135deg,#0a0015 0%,#120025 30%,#0d001a 60%,#0a0018 100%);
-}
-
-/* animated moving glow */
-.bg-glow{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 40% 30% at var(--gx,30%) var(--gy,40%),#aa00ff1a 0%,transparent 70%);
-  animation:glowMove 8s ease-in-out infinite alternate;
-}
-@keyframes glowMove{
-  0%{background:radial-gradient(ellipse 40% 30% at 20% 30%,#aa00ff22 0%,transparent 70%),radial-gradient(ellipse 30% 25% at 75% 65%,#ff009922 0%,transparent 70%)}
-  50%{background:radial-gradient(ellipse 50% 40% at 60% 20%,#6600ff22 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 30% 75%,#00ffdd18 0%,transparent 70%)}
-  100%{background:radial-gradient(ellipse 40% 30% at 80% 50%,#ff006622 0%,transparent 70%),radial-gradient(ellipse 35% 28% at 15% 20%,#aa00ff22 0%,transparent 70%)}
-}
-
-/* grid */
-.bg-grid{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(170,0,255,.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(170,0,255,.06) 1px,transparent 1px);
-  background-size:40px 40px;
-}
-
-.scan{
-  position:fixed;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,#aa00ffdd,#ff009988,#00ffdd66,transparent);
-  animation:scan 6s linear infinite;z-index:3;pointer-events:none;
-  filter:blur(1px);
-}
-@keyframes scan{0%{top:-2px;opacity:1}100%{top:100vh;opacity:0}}
-
-.corner{position:fixed;width:60px;height:60px;z-index:2;pointer-events:none}
-.corner.tl{top:12px;left:12px;border-top:2px solid #aa00ff99;border-left:2px solid #aa00ff99;box-shadow:-4px -4px 12px #aa00ff33}
-.corner.tr{top:12px;right:12px;border-top:2px solid #ff009999;border-right:2px solid #ff009999;box-shadow:4px -4px 12px #ff009933}
-.corner.bl{bottom:12px;left:12px;border-bottom:2px solid #00ffdd99;border-left:2px solid #00ffdd99;box-shadow:-4px 4px 12px #00ffdd33}
-.corner.br{bottom:12px;right:12px;border-bottom:2px solid #ffd70099;border-right:2px solid #ffd70099;box-shadow:4px 4px 12px #ffd70033}
-
+body{background:var(--bg);color:var(--txt);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden}
+.bg-gradient{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 10% 0%,#6600ff44 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 90% 10%,#ff006644 0%,transparent 60%),radial-gradient(ellipse 70% 60% at 50% 100%,#0044ff33 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 80% 60%,#ff00aa22 0%,transparent 60%),linear-gradient(135deg,#0a0015 0%,#120025 30%,#0d001a 60%,#0a0018 100%)}
+.bg-glow{position:fixed;inset:0;z-index:0;pointer-events:none;animation:glowMove 8s ease-in-out infinite alternate}
+@keyframes glowMove{0%{background:radial-gradient(ellipse 40% 30% at 20% 30%,#aa00ff22 0%,transparent 70%),radial-gradient(ellipse 30% 25% at 75% 65%,#ff009922 0%,transparent 70%)}50%{background:radial-gradient(ellipse 50% 40% at 60% 20%,#6600ff22 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 30% 75%,#00ffdd18 0%,transparent 70%)}100%{background:radial-gradient(ellipse 40% 30% at 80% 50%,#ff006622 0%,transparent 70%),radial-gradient(ellipse 35% 28% at 15% 20%,#aa00ff22 0%,transparent 70%)}}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(170,0,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(170,0,255,.06) 1px,transparent 1px);background-size:40px 40px}
 .particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .p{position:absolute;width:2px;height:2px;border-radius:50%;animation:pfloat linear infinite;opacity:0}
-@keyframes pfloat{
-  0%{transform:translateY(100vh);opacity:0}
-  10%{opacity:.9}90%{opacity:.9}
-  100%{transform:translateY(-10px) translateX(40px);opacity:0}
-}
-
+@keyframes pfloat{0%{transform:translateY(100vh);opacity:0}10%{opacity:.9}90%{opacity:.9}100%{transform:translateY(-10px) translateX(40px);opacity:0}}
 .wrap{position:relative;z-index:2;max-width:980px;margin:0 auto;padding:30px 20px}
-
-/* ══ HEADER ══ */
 header{text-align:center;margin-bottom:50px;padding:44px 0 10px}
-
-.logo{
-  font-family:'Orbitron',sans-serif;
-  font-size:clamp(26px,7vw,58px);
-  font-weight:900;
-  background:linear-gradient(135deg,#dd00ff,#ff00cc,#00ffee,#ffd700,#ff6600);
-  background-size:300% 300%;
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  letter-spacing:4px;
-  animation:flick 8s infinite,gradShift 4s ease infinite;
-  filter:drop-shadow(0 0 30px #aa00ffbb);
-}
+.logo{font-family:'Orbitron',sans-serif;font-size:clamp(26px,7vw,58px);font-weight:900;background:linear-gradient(135deg,#dd00ff,#ff00cc,#00ffee,#ffd700,#ff6600);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:4px;animation:flick 8s infinite,gradShift 4s ease infinite;filter:drop-shadow(0 0 30px #aa00ffbb)}
 @keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 @keyframes flick{0%,93%,100%{opacity:1}94%{opacity:.4}95%{opacity:1}97%{opacity:.3}98.5%{opacity:1}}
-
-.sub{color:var(--dim);font-size:11px;margin-top:12px;letter-spacing:6px;text-transform:uppercase}
-
-.version-line{
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  margin:16px 0;color:var(--dim);font-size:10px;letter-spacing:3px;
-}
-.version-line::before,.version-line::after{content:'';flex:1;max-width:120px;height:1px;}
+.sub{color:var(--dim);font-size:11px;margin-top:12px;letter-spacing:5px;text-transform:uppercase}
+.version-line{display:flex;align-items:center;justify-content:center;gap:12px;margin:16px 0;color:var(--dim);font-size:10px;letter-spacing:3px}
+.version-line::before,.version-line::after{content:'';flex:1;max-width:120px;height:1px}
 .version-line::before{background:linear-gradient(90deg,transparent,#aa00ff88)}
 .version-line::after{background:linear-gradient(90deg,#aa00ff88,transparent)}
-
 .badges{display:flex;justify-content:center;gap:7px;margin-top:16px;flex-wrap:wrap}
 .badge{font-size:9px;padding:4px 12px;border-radius:20px;letter-spacing:2px;font-weight:bold;text-transform:uppercase;transition:all .3s;cursor:default}
 .b1{background:#aa00ff22;border:1px solid #aa00ff55;color:#dd99ff}
 .b1:hover{background:#aa00ff44;border-color:#aa00ffaa;box-shadow:0 0 16px #aa00ff66;transform:translateY(-2px)}
-.b2{background:linear-gradient(135deg,#ffd70022,#ff880022);border:1px solid #ffd70077;color:var(--gld);animation:gpulse 2s ease-in-out infinite}
-.b2:hover{box-shadow:0 0 24px #ffd70099;transform:translateY(-2px)}
+.bprem{background:linear-gradient(135deg,#ffd700,#ff8800);color:#000;font-weight:900;border:2px solid #ffd70088;box-shadow:0 0 18px #ffd700aa,0 0 40px #ffd70044;animation:gpulse 2s ease-in-out infinite;font-size:10px;padding:5px 16px}
+.bprem:hover{box-shadow:0 0 32px #ffd700ee;transform:translateY(-2px)}
 .b3{background:#00ffdd18;border:1px solid #00ffdd44;color:#00ffdd}
 .b3:hover{background:#00ffdd33;border-color:#00ffddaa;box-shadow:0 0 16px #00ffdd55;transform:translateY(-2px)}
-@keyframes gpulse{0%,100%{box-shadow:0 0 8px #ffd70055}50%{box-shadow:0 0 24px #ffd700dd,0 0 48px #ffd70033}}
-
-/* ══ PANELS ══ */
-.panel{
-  background:linear-gradient(135deg,#0d001fee,#08001588);
-  border:1px solid var(--bor);
-  border-radius:16px;
-  padding:28px;margin-bottom:16px;
-  position:relative;overflow:hidden;
-  transition:border-color .3s,box-shadow .3s;
-  backdrop-filter:blur(12px);
-  box-shadow:0 4px 30px #aa00ff0a,inset 0 1px 0 #ffffff08;
-}
-.panel:hover{
-  border-color:#5500aa;
-  box-shadow:0 0 40px #aa00ff15,0 4px 30px #aa00ff0a,inset 0 0 30px #aa00ff08;
-}
-.panel::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--acc),var(--ac2),transparent);
-  opacity:.8;
-}
-.panel.gp{border-color:#332200;box-shadow:0 4px 30px #ffd7000a,inset 0 1px 0 #ffffff08}
-.panel.gp::before{background:linear-gradient(90deg,transparent,#ffd700,#ff8800,#ffd700,transparent)}
+@keyframes gpulse{0%,100%{box-shadow:0 0 10px #ffd70077,0 0 30px #ffd70033}50%{box-shadow:0 0 28px #ffd700ee,0 0 55px #ffd70066}}
+.panel{background:linear-gradient(135deg,#0d001fee,#08001588);border:1px solid var(--bor);border-radius:16px;padding:28px;margin-bottom:16px;position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;backdrop-filter:blur(12px);box-shadow:0 4px 30px #aa00ff0a,inset 0 1px 0 #ffffff08}
+.panel:hover{border-color:#5500aa;box-shadow:0 0 40px #aa00ff15,0 4px 30px #aa00ff0a,inset 0 0 30px #aa00ff08}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--acc),var(--ac2),transparent);opacity:.8}
+.panel.gp{border-color:#332200}.panel.gp::before{background:linear-gradient(90deg,transparent,#ffd700,#ff8800,#ffd700,transparent)}
 .panel.gp:hover{border-color:#553300;box-shadow:0 0 40px #ffd70015,0 4px 30px #ffd7000a,inset 0 0 30px #ffd70008}
-.panel.gp2{border-color:#002233;box-shadow:0 4px 30px #00ffdd0a,inset 0 1px 0 #ffffff08}
-.panel.gp2::before{background:linear-gradient(90deg,transparent,#00ffdd,#0088ff,#00ffdd,transparent)}
+.panel.gp2{border-color:#002233}.panel.gp2::before{background:linear-gradient(90deg,transparent,#00ffdd,#0088ff,#00ffdd,transparent)}
 .panel.gp2:hover{border-color:#003344;box-shadow:0 0 40px #00ffdd15,0 4px 30px #00ffdd0a,inset 0 0 30px #00ffdd08}
-
-.panel::after{
-  content:'';position:absolute;bottom:0;right:0;
-  width:40px;height:40px;
-  border-bottom:1px solid #aa00ff22;border-right:1px solid #aa00ff22;
-  border-radius:0 0 16px 0;
-}
-
-.ptitle{
-  font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:3px;
-  text-transform:uppercase;margin-bottom:20px;
-  display:flex;align-items:center;gap:10px;
-}
-.ptitle.c1{color:var(--acc)}
-.ptitle.c2{color:var(--gld)}
-.ptitle.c3{color:var(--ac3)}
+.panel::after{content:'';position:absolute;bottom:0;right:0;width:40px;height:40px;border-bottom:1px solid #aa00ff22;border-right:1px solid #aa00ff22;border-radius:0 0 16px 0}
+.ptitle{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.ptitle.c1{color:var(--acc)}.ptitle.c2{color:var(--gld)}.ptitle.c3{color:var(--ac3)}
 .ptitle::before{content:'◆';font-size:7px;opacity:.8}
 .ptitle-line{flex:1;height:1px;background:currentColor;opacity:.15}
-
-/* ══ OPTIONS ══ */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:10px}
-.opt{
-  display:flex;align-items:flex-start;gap:10px;cursor:pointer;
-  padding:11px 14px;border:1px solid #2a005588;border-radius:10px;
-  transition:all .25s;user-select:none;position:relative;overflow:hidden;
-  background:#ffffff04;
-}
+.opt{display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:11px 14px;border:1px solid #2a005588;border-radius:10px;transition:all .25s;user-select:none;position:relative;overflow:hidden;background:#ffffff04}
 .opt::after{content:'';position:absolute;inset:0;opacity:0;background:linear-gradient(135deg,#aa00ff0d,transparent);transition:opacity .25s}
 .opt:hover::after{opacity:1}
 .opt:hover{border-color:#aa00ff77;background:#aa00ff0a;transform:translateY(-1px);box-shadow:0 4px 15px #aa00ff22}
@@ -184,119 +56,58 @@ header{text-align:center;margin-bottom:50px;padding:44px 0 10px}
 .opt.go:hover{border-color:#ffd70077;background:#ffd7000a;box-shadow:0 4px 15px #ffd70022}
 .opt.gc::after{background:linear-gradient(135deg,#00ffdd0d,transparent)}
 .opt.gc:hover{border-color:#00ffdd77;background:#00ffdd0a;box-shadow:0 4px 15px #00ffdd22}
-
-.opt input[type=checkbox]{
-  appearance:none;width:16px;height:16px;
-  border:1px solid var(--dim);border-radius:4px;
-  cursor:pointer;position:relative;flex-shrink:0;margin-top:1px;
-  transition:all .2s;background:#ffffff05;
-}
+.opt input[type=checkbox]{appearance:none;width:16px;height:16px;border:1px solid var(--dim);border-radius:4px;cursor:pointer;position:relative;flex-shrink:0;margin-top:1px;transition:all .2s;background:#ffffff05}
 .opt input[type=checkbox]:checked{background:var(--acc);border-color:var(--acc);box-shadow:0 0 12px #aa00ffaa}
 .opt.go input[type=checkbox]:checked{background:var(--gld);border-color:var(--gld);box-shadow:0 0 12px #ffd700aa}
 .opt.gc input[type=checkbox]:checked{background:var(--ac3);border-color:var(--ac3);box-shadow:0 0 12px #00ffddaa}
 .opt input[type=checkbox]:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#000;font-size:10px;font-weight:bold}
-.ol{font-size:12px;color:var(--txt);font-weight:bold}
-.ol.g{color:var(--gld)}.ol.c{color:var(--ac3)}
+.ol{font-size:12px;color:var(--txt);font-weight:bold}.ol.g{color:var(--gld)}.ol.c{color:var(--ac3)}
 .od{font-size:10px;color:var(--dim);margin-top:3px;line-height:1.5}
-
-/* ══ SLIDERS ══ */
 .srow{display:flex;align-items:center;gap:14px;margin-top:16px}
 .slbl{font-size:11px;color:var(--dim);white-space:nowrap;min-width:95px;letter-spacing:1px}
 input[type=range]{flex:1;appearance:none;height:4px;background:linear-gradient(90deg,#aa00ff44,#ff009944);border-radius:2px;outline:none;cursor:pointer}
 input[type=range]::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,#aa00ff,#ff0099);box-shadow:0 0 14px #aa00ffcc;cursor:pointer;border:2px solid #fff3;transition:transform .2s}
 input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.3)}
 .sval{font-size:13px;font-family:'Orbitron',sans-serif;color:var(--acc);min-width:24px;text-align:right;font-weight:700}
-
-/* ══ TEXTAREAS ══ */
-textarea{
-  width:100%;background:#06001288;
-  border:1px solid var(--bor);border-radius:10px;
-  color:#d0a0ff;font-family:'Share Tech Mono',monospace;font-size:12px;
-  line-height:1.7;padding:16px;resize:vertical;outline:none;
-  transition:border-color .3s,box-shadow .3s;min-height:180px;
-  backdrop-filter:blur(8px);
-}
+textarea{width:100%;background:#06001288;border:1px solid var(--bor);border-radius:10px;color:#d0a0ff;font-family:'Share Tech Mono',monospace;font-size:12px;line-height:1.7;padding:16px;resize:vertical;outline:none;transition:border-color .3s,box-shadow .3s;min-height:180px;backdrop-filter:blur(8px)}
 textarea:focus{border-color:var(--acc);box-shadow:0 0 0 2px #aa00ff22,0 0 25px #aa00ff18}
 textarea::placeholder{color:#3a1a5a}
 #out{color:#00ffdd !important}
-
-/* ══ BUTTONS ══ */
 .brow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.btn{
-  font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;
-  letter-spacing:2px;padding:13px 22px;border-radius:9px;border:none;
-  cursor:pointer;transition:all .25s;text-transform:uppercase;
-  position:relative;overflow:hidden;
-}
+.btn{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;padding:13px 22px;border-radius:9px;border:none;cursor:pointer;transition:all .25s;text-transform:uppercase;position:relative;overflow:hidden}
 .btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#ffffff18,transparent 50%);opacity:0;transition:opacity .25s}
 .btn:hover::before{opacity:1}
-
-.btng{
-  background:linear-gradient(135deg,#ffd700,#ff8800,#ffaa00);
-  background-size:200% 200%;
-  color:#000;flex:1;min-width:160px;font-weight:900;font-size:11px;
-  box-shadow:0 0 28px #ffd700bb,0 4px 20px #ff880066,inset 0 1px 0 #ffffff44;
-  animation:btnShift 3s ease infinite;
-}
+.btng{background:linear-gradient(135deg,#ffd700,#ff8800,#ffaa00);background-size:200% 200%;color:#000;flex:1;min-width:160px;font-weight:900;font-size:11px;box-shadow:0 0 28px #ffd700bb,0 4px 20px #ff880066,inset 0 1px 0 #ffffff44;animation:btnShift 3s ease infinite}
 .btng:hover{transform:translateY(-3px);box-shadow:0 0 50px #ffd700ee,0 8px 30px #ff880099}
 .btng:active{transform:translateY(0)}
 @keyframes btnShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-
 .btns{background:#ffffff08;border:1px solid var(--bor);color:var(--dim)}
 .btns:hover{border-color:var(--acc);color:var(--acc);background:#aa00ff12;box-shadow:0 0 12px #aa00ff33}
 .btnc{background:linear-gradient(135deg,#00ffdd18,#0088ff18);border:1px solid #00ffdd55;color:#00ffdd}
 .btnc:hover{background:linear-gradient(135deg,#00ffdd2a,#0088ff2a);box-shadow:0 0 20px #00ffdd44;transform:translateY(-2px)}
-
-/* ══ PROGRESS ══ */
 .prog{display:none;margin-top:16px}.prog.show{display:block}
 .pbg{background:#06001288;border:1px solid var(--bor);border-radius:6px;height:6px;overflow:hidden}
-.pbar{
-  height:100%;
-  background:linear-gradient(90deg,var(--acc),var(--gld),var(--ac2),var(--ac3),var(--acc));
-  background-size:200% 100%;
-  border-radius:6px;transition:width .15s;width:0%;position:relative;
-  animation:barMove 1.5s linear infinite;
-}
+.pbar{height:100%;background:linear-gradient(90deg,var(--acc),var(--gld),var(--ac2),var(--ac3),var(--acc));background-size:200% 100%;border-radius:6px;transition:width .15s;width:0%;position:relative;animation:barMove 1.5s linear infinite}
 @keyframes barMove{0%{background-position:0% 0%}100%{background-position:200% 0%}}
 .pbar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,#ffffff44,transparent);animation:shine 1.2s linear infinite}
 @keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 .ptxt{font-size:10px;color:var(--dim);margin-top:10px;text-align:center;letter-spacing:3px}
-
-/* ══ STATS ══ */
 .stats{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
-.stat{
-  background:linear-gradient(135deg,#aa00ff0a,#ff009906);
-  border:1px solid #aa00ff33;border-radius:10px;
-  padding:12px 14px;flex:1;min-width:70px;text-align:center;transition:all .3s;
-}
+.stat{background:linear-gradient(135deg,#aa00ff0a,#ff009906);border:1px solid #aa00ff33;border-radius:10px;padding:12px 14px;flex:1;min-width:70px;text-align:center;transition:all .3s}
 .stat:hover{border-color:#aa00ff66;box-shadow:0 0 20px #aa00ff33;transform:translateY(-2px)}
 .sv{font-family:'Orbitron',sans-serif;font-size:14px;color:var(--acc);font-weight:700}
 .sv.g{color:var(--gld)}.sv.c{color:var(--ac3)}
 .slab{font-size:9px;color:var(--dim);margin-top:4px;letter-spacing:2px}
-
 hr{border:none;border-top:1px solid #3a006644;margin:16px 0}
 .info{font-size:10px;color:var(--dim);line-height:2}
 .info span{color:var(--gld);font-weight:bold}.info b{color:var(--ac3)}
-
-/* ══ FOOTER ══ */
 footer{text-align:center;color:var(--dim);font-size:10px;padding:30px 0;letter-spacing:4px;position:relative}
 footer::before{content:'';display:block;height:1px;background:linear-gradient(90deg,transparent,#aa00ff55,#ff009944,transparent);margin-bottom:20px}
 footer span{color:var(--gld)}
 footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
 @keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
-
-/* ══ NOTIF ══ */
-.notif{
-  position:fixed;bottom:28px;right:18px;
-  background:linear-gradient(135deg,#aa00ff,#ff0099);color:#fff;
-  font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:2px;
-  padding:13px 20px;border-radius:10px;
-  transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);
-  z-index:999;box-shadow:var(--glow),0 10px 30px #00000088;
-  border:1px solid #ffffff22;
-}
+.notif{position:fixed;bottom:28px;right:18px;background:linear-gradient(135deg,#aa00ff,#ff0099);color:#fff;font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:2px;padding:13px 20px;border-radius:10px;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);z-index:999;box-shadow:var(--glow),0 10px 30px #00000088;border:1px solid #ffffff22}
 .notif.show{transform:translateY(0);opacity:1}
-
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:#0a0015}
 ::-webkit-scrollbar-thumb{background:linear-gradient(#aa00ff,#ff0099);border-radius:3px}
@@ -306,20 +117,15 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
 <div class="bg-gradient"></div>
 <div class="bg-glow"></div>
 <div class="bg-grid"></div>
-<div class="scan"></div>
-<div class="corner tl"></div>
-<div class="corner tr"></div>
-<div class="corner bl"></div>
-<div class="corner br"></div>
 <div class="particles" id="particles"></div>
 
 <div class="wrap">
   <header>
     <div class="logo">hienvip Obfuscator</div>
-    <div class="sub">Ultra v8.0 — Moonsec × Luraph Grade</div>
+    <div class="sub">ULTRA V8.0 — HIENVIP — MOONSEC × LURAPH</div>
     <div class="version-line">◈ MAXIMUM PROTECTION ◈</div>
     <div class="badges">
-      <span class="badge b2">★ ULTRA v8</span>
+      <span class="badge bprem">★ PREMIUM</span>
       <span class="badge b1">MULTI-LAYER WRAP</span>
       <span class="badge b1">CONTROL FLOW</span>
       <span class="badge b1">OPAQUE PRED</span>
@@ -331,14 +137,10 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
   <div class="panel">
     <div class="ptitle c1">Lớp Bảo Vệ Cơ Bản<span class="ptitle-line"></span></div>
     <div class="grid">
-      <label class="opt"><input type="checkbox" id="o_rename" checked>
-        <div><div class="ol">Rename Vars</div><div class="od">Đổi tên biến → hex ngẫu nhiên 14 ký tự</div></div></label>
-      <label class="opt"><input type="checkbox" id="o_junk" checked>
-        <div><div class="ol">Junk Injection</div><div class="od">Dead code + fake branches</div></div></label>
-      <label class="opt"><input type="checkbox" id="o_proxy" checked>
-        <div><div class="ol">Proxy Functions</div><div class="od">Ẩn stdlib calls qua alias</div></div></label>
-      <label class="opt"><input type="checkbox" id="o_strfrag" checked>
-        <div><div class="ol">String Fragment</div><div class="od">Cắt nhỏ string thành mảng số</div></div></label>
+      <label class="opt"><input type="checkbox" id="o_rename" checked><div><div class="ol">Rename Vars</div><div class="od">Đổi tên biến → hex ngẫu nhiên 14 ký tự</div></div></label>
+      <label class="opt"><input type="checkbox" id="o_junk" checked><div><div class="ol">Junk Injection</div><div class="od">Dead code + fake branches</div></div></label>
+      <label class="opt"><input type="checkbox" id="o_proxy" checked><div><div class="ol">Proxy Functions</div><div class="od">Ẩn stdlib calls qua alias</div></div></label>
+      <label class="opt"><input type="checkbox" id="o_strfrag" checked><div><div class="ol">String Fragment</div><div class="od">Cắt nhỏ string thành mảng số</div></div></label>
     </div>
     <div class="srow">
       <span class="slbl">Junk Level:</span>
@@ -350,18 +152,12 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
   <div class="panel gp">
     <div class="ptitle c2">★ Moonsec Grade — Multi-Wrap Encryption<span class="ptitle-line"></span></div>
     <div class="grid">
-      <label class="opt go"><input type="checkbox" id="o_fullenc" checked>
-        <div><div class="ol g">Triple XOR</div><div class="od">3 khóa XOR độc lập mỗi byte</div></div></label>
-      <label class="opt go"><input type="checkbox" id="o_multikey" checked>
-        <div><div class="ol g">7 Key Pool</div><div class="od">Pool 7 khóa ngẫu nhiên</div></div></label>
-      <label class="opt go"><input type="checkbox" id="o_rot" checked>
-        <div><div class="ol g">Byte Rotation</div><div class="od">Xoay + đảo bit ngẫu nhiên</div></div></label>
-      <label class="opt go"><input type="checkbox" id="o_zerostr" checked>
-        <div><div class="ol g">Zero String Mode</div><div class="od">0% string đọc được trong output</div></div></label>
-      <label class="opt go"><input type="checkbox" id="o_numobf" checked>
-        <div><div class="ol g">Number Magic</div><div class="od">Số → biểu thức toán phức tạp</div></div></label>
-      <label class="opt go"><input type="checkbox" id="o_multilayer" checked>
-        <div><div class="ol g">Multi-Layer Wrap</div><div class="od">Bọc nhiều vòng loadstring</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_fullenc" checked><div><div class="ol g">Triple XOR</div><div class="od">3 khóa XOR độc lập mỗi byte</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_multikey" checked><div><div class="ol g">7 Key Pool</div><div class="od">Pool 7 khóa ngẫu nhiên</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_rot" checked><div><div class="ol g">Byte Rotation</div><div class="od">Xoay + đảo bit ngẫu nhiên</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_zerostr" checked><div><div class="ol g">Zero String Mode</div><div class="od">0% string đọc được trong output</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_numobf" checked><div><div class="ol g">Number Magic</div><div class="od">Số → biểu thức toán phức tạp</div></div></label>
+      <label class="opt go"><input type="checkbox" id="o_multilayer" checked><div><div class="ol g">Multi-Layer Wrap</div><div class="od">Bọc nhiều vòng loadstring</div></div></label>
     </div>
     <div class="srow">
       <span class="slbl">Wrap Layers:</span>
@@ -373,23 +169,17 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
   <div class="panel gp2">
     <div class="ptitle c3">◈ Luraph Grade — Control Flow Obfuscation<span class="ptitle-line"></span></div>
     <div class="grid">
-      <label class="opt gc"><input type="checkbox" id="o_opaque" checked>
-        <div><div class="ol c">Opaque Predicates</div><div class="od">Điều kiện luôn true/false nhưng không thể biết</div></div></label>
-      <label class="opt gc"><input type="checkbox" id="o_cflatten" checked>
-        <div><div class="ol c">Control Flow Flatten</div><div class="od">Flatten luồng thực thi qua switch table</div></div></label>
-      <label class="opt gc"><input type="checkbox" id="o_fakeflow" checked>
-        <div><div class="ol c">Fake Flow Paths</div><div class="od">Nhánh chết không bao giờ chạy</div></div></label>
-      <label class="opt gc"><input type="checkbox" id="o_antidump" checked>
-        <div><div class="ol c">Anti-Dump Layer</div><div class="od">Wrapper env check + self-modify</div></div></label>
-      <label class="opt gc"><input type="checkbox" id="o_constpool" checked>
-        <div><div class="ol c">Constant Pool</div><div class="od">Hàng nghìn hằng số giả mạo</div></div></label>
-      <label class="opt gc"><input type="checkbox" id="o_watermark" checked>
-        <div><div class="ol c">Hidden Watermark</div><div class="od">Chữ ký mã hóa vô hình</div></div></label>
+      <label class="opt gc"><input type="checkbox" id="o_opaque" checked><div><div class="ol c">Opaque Predicates</div><div class="od">Điều kiện luôn true/false nhưng không thể biết</div></div></label>
+      <label class="opt gc"><input type="checkbox" id="o_cflatten" checked><div><div class="ol c">Control Flow Flatten</div><div class="od">Flatten luồng thực thi qua switch table</div></div></label>
+      <label class="opt gc"><input type="checkbox" id="o_fakeflow" checked><div><div class="ol c">Fake Flow Paths</div><div class="od">Nhánh chết không bao giờ chạy</div></div></label>
+      <label class="opt gc"><input type="checkbox" id="o_antidump" checked><div><div class="ol c">Anti-Dump Layer</div><div class="od">Wrapper env check + self-modify</div></div></label>
+      <label class="opt gc"><input type="checkbox" id="o_constpool" checked><div><div class="ol c">Constant Pool</div><div class="od">Hàng nghìn hằng số giả mạo</div></div></label>
+      <label class="opt gc"><input type="checkbox" id="o_watermark" checked><div><div class="ol c">Hidden Watermark</div><div class="od">Chữ ký mã hóa vô hình</div></div></label>
     </div>
     <hr>
     <p class="info">
-      <span>Control Flow Flatten</span> — biến luồng code thành <b>state machine</b>, mỗi bước là một state, không thể đọc thứ tự thực thi.<br>
-      <span>Opaque Predicates</span> — thêm điều kiện toán học phức tạp luôn cho kết quả cố định nhưng <b>không thể phân tích tĩnh</b>.<br>
+      <span>Control Flow Flatten</span> — biến luồng code thành <b>state machine</b>, không thể đọc thứ tự thực thi.<br>
+      <span>Opaque Predicates</span> — điều kiện toán học phức tạp, <b>không thể phân tích tĩnh</b>.<br>
       <span>Constant Pool</span> — hàng nghìn hằng số nhiễu làm <b>deobfuscator crash hoặc timeout</b>.
     </p>
   </div>
@@ -431,373 +221,120 @@ footer .heart{color:#ff0099;animation:heartbeat 1.5s ease infinite}
 <div class="notif" id="notif"></div>
 
 <script>
+// ══════════════════════════════════════════════
+// ★ HIDDEN CONFIG — ẩn hoàn toàn, tự động thêm
+//   vào mọi output, user không thấy không sửa được
+// ══════════════════════════════════════════════
+const _T='HIENVIP',_D='https://discord.gg/x9pATE8Uxe';
+
 (function(){
   const c=document.getElementById('particles');
-  const colors=['#aa00ff','#ff0099','#00ffdd','#ffd700','#6600ff'];
+  const cols=['#aa00ff','#ff0099','#00ffdd','#ffd700','#6600ff'];
   for(let i=0;i<45;i++){
     const p=document.createElement('div');p.className='p';
-    const clr=colors[Math.floor(Math.random()*colors.length)];
-    const sz=Math.random()<.3?1:2;
-    p.style.cssText=`left:${Math.random()*100}%;animation-duration:${10+Math.random()*16}s;animation-delay:${Math.random()*12}s;opacity:0;background:${clr};width:${sz}px;height:${sz}px;box-shadow:0 0 4px ${clr}`;
+    const cl=cols[Math.floor(Math.random()*cols.length)],sz=Math.random()<.3?1:2;
+    p.style.cssText=`left:${Math.random()*100}%;animation-duration:${10+Math.random()*16}s;animation-delay:${Math.random()*12}s;opacity:0;background:${cl};width:${sz}px;height:${sz}px;box-shadow:0 0 4px ${cl}`;
     c.appendChild(p);
   }
 })();
-
 document.getElementById('jlv').oninput=function(){document.getElementById('jval').textContent=this.value};
 document.getElementById('wlv').oninput=function(){document.getElementById('wval').textContent=this.value};
-
 function showN(m){const n=document.getElementById('notif');n.textContent=m;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2800)}
 function clearAll(){document.getElementById('inp').value='';document.getElementById('out').value='';document.getElementById('sts').style.display='none'}
-function loadEx(){document.getElementById('inp').value=`local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-print("Hello " .. player.Name)
-warn("Script loaded!")
-task.wait(1)
-print("Running...")`}
-
+function loadEx(){document.getElementById('inp').value=`local Players = game:GetService("Players")\nlocal player = Players.LocalPlayer\nprint("Hello " .. player.Name)\nwarn("Script loaded!")`}
 function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a}
-function rndName(l){
-  const h='0123456789abcdef',a='abcdefghijklmnopqrstuvwxyz';
-  let s=a[ri(0,25)];
-  for(let i=0;i<(l||14);i++)s+=h[ri(0,15)];
-  return s;
-}
-function strToBytes(str){
-  const b=[];
-  for(let i=0;i<str.length;i++){
-    const c=str.charCodeAt(i);
-    if(c<128)b.push(c);
-    else if(c<2048){b.push((c>>6)|192);b.push((c&63)|128)}
-    else{b.push((c>>12)|224);b.push(((c>>6)&63)|128);b.push((c&63)|128)}
-  }
-  return b;
-}
+function rndName(l){const h='0123456789abcdef',a='abcdefghijklmnopqrstuvwxyz';let s=a[ri(0,25)];for(let i=0;i<(l||14);i++)s+=h[ri(0,15)];return s}
+function strToBytes(str){const b=[];for(let i=0;i<str.length;i++){const c=str.charCodeAt(i);if(c<128)b.push(c);else if(c<2048){b.push((c>>6)|192);b.push((c&63)|128)}else{b.push((c>>12)|224);b.push(((c>>6)&63)|128);b.push((c&63)|128)}}return b}
 function genKeys(l){const k=[];for(let i=0;i<l;i++)k.push(ri(1,254));return k}
-
-function numMagic(n){
-  const t=ri(0,4);
-  if(t===0){const a=ri(1,60);return`(${n+a}-${a})`}
-  if(t===1){const a=ri(2,8);return`(${n*a}//${a})`}
-  if(t===2){const a=ri(1,40),b=ri(1,40);return`(${n+a+b}-${a}-${b})`}
-  if(t===3){const a=ri(1,50);return`((${n+a})-${a})`}
-  const a=ri(1,30);return`(${a}+(${n-a}))`;
-}
-
-function opaqueTrue(){
-  const ops=[
-    ()=>{const n=ri(2,15);return`(${n}*${n}+${n})%2==0`},
-    ()=>{const n=ri(1,20);return`${n}*${n}>=${n}`},
-    ()=>{const a=ri(1,10),b=ri(1,10);return`${a*a}+${b*b}>0`},
-    ()=>`(function()local _=0;for __=1,10 do _=_+1 end;return _>5 end)()`,
-    ()=>{const n=ri(3,9);return`(${n}%${ri(2,n-1)}+1)>0`}
-  ];
-  return ops[ri(0,ops.length-1)]();
-}
-function opaqueFalse(){
-  const ops=[
-    ()=>{const n=ri(1,20);return`${n}*0>1`},
-    ()=>`false and true`,
-    ()=>{const n=ri(2,15);return`${n*n}<${n-1}`},
-    ()=>`(function()return false end)()`
-  ];
-  return ops[ri(0,ops.length-1)]();
-}
-
-function genJunk(lv,N){
-  const lines=[];
-  const nm=()=>rndName(10);
-  const nu=n=>N?numMagic(n):String(n);
-  const templates=[
-    ()=>`local ${nm()}=${nu(ri(0,999))}`,
-    ()=>`local ${nm()}=${nu(ri(0,99))}+${nu(ri(0,99))}`,
-    ()=>`if ${opaqueFalse()} then\nlocal ${nm()}=${nu(ri(0,99))}\nend`,
-    ()=>`do\nlocal ${nm()}=${nu(ri(100,999))}\nlocal ${nm()}=${nu(ri(1,50))}\nend`,
-    ()=>{const v=nm();return`local ${v}={${[...Array(ri(3,8))].map(()=>nu(ri(0,255))).join(',')}}`},
-    ()=>`if ${opaqueTrue()} then\nlocal ${nm()}=${nu(ri(0,99))}\nend`,
-    ()=>{const a=nm(),b=nm();return`local ${a},${b}=${nu(ri(0,50))},${nu(ri(0,50))}\nif ${a}>${b} then ${a},${b}=${b},${a} end`},
-    ()=>{const v=nm();return`local ${v}=${nu(ri(1,10))}\nfor _=1,0 do ${v}=${v}+1 end`},
-  ];
-  for(let i=0;i<lv*5;i++)lines.push(templates[ri(0,templates.length-1)]());
-  return lines.join('\n')+'\n';
-}
-
-function genConstPool(count,N){
-  const poolName=rndName(8);
-  const vals=[...Array(count)].map(()=>N?numMagic(ri(0,255)):ri(0,255));
-  const lines=[];
-  for(let i=0;i<vals.length;i+=20)lines.push(vals.slice(i,i+20).join(','));
-  return {name:poolName,code:`local ${poolName}={\n${lines.join(',\n')}\n}\n`};
-}
-
-function genStateMachineWrapper(innerCode,N){
-  const stateVar=rndName(8);
-  const n0=N?numMagic(0):'0';
-  const stateCount=ri(4,7);
-  const entryState=ri(1,stateCount);
-  let stateBody='';
-  for(let s=1;s<=stateCount;s++){
-    if(s===entryState){
-      stateBody+=`if ${stateVar}==${N?numMagic(s):s} then\n${innerCode}\n${stateVar}=-1\n`;
-    } else {
-      const jv=rndName(6);
-      stateBody+=`if ${stateVar}==${N?numMagic(s):s} then\nlocal ${jv}=${N?numMagic(ri(0,99)):ri(0,99)}\n${stateVar}=-1\n`;
-    }
-    stateBody+=`end\n`;
-  }
-  return `local ${stateVar}=${N?numMagic(entryState):entryState}\nwhile ${stateVar}>=${n0} do\n${stateBody}end\n`;
-}
-
-function genFakeFlow(N){
-  const sections=[];
-  for(let i=0;i<ri(3,6);i++){
-    const v=rndName(8);
-    sections.push(`if ${opaqueFalse()} then\nlocal ${v}=${N?numMagic(ri(0,999)):ri(0,999)}\nprint(${v})\nend`);
-  }
-  return sections.join('\n')+'\n';
-}
-
-function genAntiDump(){
-  const v1=rndName(8),v2=rndName(8),v3=rndName(8);
-  return `local ${v1}=type\nlocal ${v2}=tostring\nlocal ${v3}=rawget\n`;
-}
-
-function encryptBytes(bytes,keys1,keys2,keys3,rotN){
-  let b=[...bytes];
-  b=b.map((x,i)=>x^keys1[i%keys1.length]);
-  b=b.map((x,i)=>x^keys2[i%keys2.length]);
-  b=b.map((x,i)=>x^keys3[i%keys3.length]);
-  if(rotN>0)b=b.map(x=>(x+rotN)%256);
-  return b;
-}
-
-function fmtBytesFull(bytes,perLine){
-  perLine=perLine||14;
-  const lines=[];
-  for(let i=0;i<bytes.length;i+=perLine)lines.push(bytes.slice(i,i+perLine).join(','));
-  return '{\n'+lines.join(',\n')+'\n}';
-}
-
-function buildZeroStringHeader(N,scVar,mfVar,lsVar){
-  const nm=()=>rndName(6);
-  const vGG=nm(),vTY=nm(),vSL=nm(),vML=nm(),vMN=nm(),vFN2=nm(),vLN=nm();
-  const nu=n=>N?numMagic(n):String(n);
-  const charCodes=[99,104,97,114];
-  const mathCodes=[109,97,116,104];
-  const floorCodes=[102,108,111,111,114];
-  const lsCodes=[108,111,97,100,115,116,114,105,110,103];
-  let h='';
-  h+=`local ${vGG}=(function()if _ENV then return _ENV end;if getfenv then return getfenv(0) end;return _G or{}end)()\n`;
-  h+=`local ${vTY}=type("")\n`;
-  h+=`local ${vSL}=${vGG}[${vTY}]\n`;
-  h+=`local ${scVar}=${vSL}[${vSL}.char(${charCodes.map(nu).join(',')})]\n`;
-  h+=`local ${vMN}=${scVar}(${mathCodes.map(nu).join(',')})\n`;
-  h+=`local ${vFN2}=${scVar}(${floorCodes.map(nu).join(',')})\n`;
-  h+=`local ${vLN}=${scVar}(${lsCodes.map(nu).join(',')})\n`;
-  h+=`local ${vML}=${vGG}[${vMN}]\n`;
-  h+=`local ${mfVar}=${vML}[${vFN2}]\n`;
-  h+=`local ${lsVar}=${vGG}[${vLN}] or load\n`;
-  return h;
-}
-
-function buildXorFunc(xfName,mfName,N){
-  const v=()=>rndName(6);
-  const va=v(),vb=v(),vr=v(),vm=v(),vi=v(),vab=v(),vbb=v();
-  const nu=n=>N?numMagic(n):String(n);
-  return `local function ${xfName}(${va},${vb})\nlocal ${vr}=${nu(0)}\nlocal ${vm}=${nu(1)}\nfor ${vi}=${nu(1)},${nu(8)} do\nlocal ${vab}=${va}%${nu(2)}\nlocal ${vbb}=${vb}%${nu(2)}\nif ${vab}~=${vbb} then ${vr}=${vr}+${vm} end\n${va}=${mfName}(${va}/${nu(2)})\n${vb}=${mfName}(${vb}/${nu(2)})\n${vm}=${vm}*${nu(2)}\nend\nreturn ${vr}\nend\n`;
-}
-
-function buildEncryptedLayer(sourceCode,opts,N){
-  const bytes=strToBytes(sourceCode);
-  const nk=opts.multikey?7:3;
-  const k1=genKeys(nk),k2=genKeys(4),k3=genKeys(5);
-  const rotN=opts.rot?ri(15,100):0;
+function numMagic(n){const t=ri(0,4);if(t===0){const a=ri(1,60);return`(${n+a}-${a})`}if(t===1){const a=ri(2,8);return`(${n*a}//${a})`}if(t===2){const a=ri(1,40),b=ri(1,40);return`(${n+a+b}-${a}-${b})`}if(t===3){const a=ri(1,50);return`((${n+a})-${a})`}const a=ri(1,30);return`(${a}+(${n-a}))`}
+function opaqueTrue(){const ops=[()=>{const n=ri(2,15);return`(${n}*${n}+${n})%2==0`},()=>{const n=ri(1,20);return`${n}*${n}>=${n}`},()=>{const a=ri(1,10),b=ri(1,10);return`${a*a}+${b*b}>0`},()=>`(function()local _=0;for __=1,10 do _=_+1 end;return _>5 end)()`,()=>{const n=ri(3,9);return`(${n}%${ri(2,n-1)}+1)>0`}];return ops[ri(0,ops.length-1)]()}
+function opaqueFalse(){const ops=[()=>{const n=ri(1,20);return`${n}*0>1`},()=>`false and true`,()=>{const n=ri(2,15);return`${n*n}<${n-1}`},()=>`(function()return false end)()`];return ops[ri(0,ops.length-1)]()}
+function genJunk(lv,N){const lines=[];const nm=()=>rndName(10);const nu=n=>N?numMagic(n):String(n);const t=[()=>`local ${nm()}=${nu(ri(0,999))}`,()=>`local ${nm()}=${nu(ri(0,99))}+${nu(ri(0,99))}`,()=>`if ${opaqueFalse()} then\nlocal ${nm()}=${nu(ri(0,99))}\nend`,()=>`do\nlocal ${nm()}=${nu(ri(100,999))}\nlocal ${nm()}=${nu(ri(1,50))}\nend`,()=>{const v=nm();return`local ${v}={${[...Array(ri(3,8))].map(()=>nu(ri(0,255))).join(',')}}`},()=>`if ${opaqueTrue()} then\nlocal ${nm()}=${nu(ri(0,99))}\nend`,()=>{const a=nm(),b=nm();return`local ${a},${b}=${nu(ri(0,50))},${nu(ri(0,50))}\nif ${a}>${b} then ${a},${b}=${b},${a} end`},()=>{const v=nm();return`local ${v}=${nu(ri(1,10))}\nfor _=1,0 do ${v}=${v}+1 end`}];for(let i=0;i<lv*5;i++)lines.push(t[ri(0,t.length-1)]());return lines.join('\n')+'\n'}
+function genConstPool(count,N){const pn=rndName(8);const vals=[...Array(count)].map(()=>N?numMagic(ri(0,255)):ri(0,255));const lines=[];for(let i=0;i<vals.length;i+=20)lines.push(vals.slice(i,i+20).join(','));return{code:`local ${pn}={\n${lines.join(',\n')}\n}\n`}}
+function genStateMachineWrapper(innerCode,N){const sv=rndName(8);const n0=N?numMagic(0):'0';const sc=ri(4,7),es=ri(1,sc);let sb='';for(let s=1;s<=sc;s++){if(s===es){sb+=`if ${sv}==${N?numMagic(s):s} then\n${innerCode}\n${sv}=-1\n`}else{sb+=`if ${sv}==${N?numMagic(s):s} then\nlocal ${rndName(6)}=${N?numMagic(ri(0,99)):ri(0,99)}\n${sv}=-1\n`}sb+=`end\n`}return`local ${sv}=${N?numMagic(es):es}\nwhile ${sv}>=${n0} do\n${sb}end\n`}
+function genFakeFlow(N){const s=[];for(let i=0;i<ri(3,6);i++){const v=rndName(8);s.push(`if ${opaqueFalse()} then\nlocal ${v}=${N?numMagic(ri(0,999)):ri(0,999)}\nprint(${v})\nend`)}return s.join('\n')+'\n'}
+function genAntiDump(){return`local ${rndName(8)}=type\nlocal ${rndName(8)}=tostring\nlocal ${rndName(8)}=rawget\n`}
+function encryptBytes(bytes,k1,k2,k3,rotN){let b=[...bytes];b=b.map((x,i)=>x^k1[i%k1.length]);b=b.map((x,i)=>x^k2[i%k2.length]);b=b.map((x,i)=>x^k3[i%k3.length]);if(rotN>0)b=b.map(x=>(x+rotN)%256);return b}
+function fmtBytes(bytes,pl){pl=pl||14;const lines=[];for(let i=0;i<bytes.length;i+=pl)lines.push(bytes.slice(i,i+pl).join(','));return'{\n'+lines.join(',\n')+'\n}'}
+function buildZSH(N,scV,mfV,lsV){const nm=()=>rndName(6);const vG=nm(),vT=nm(),vS=nm(),vM=nm(),vMN=nm(),vF=nm(),vL=nm();const nu=n=>N?numMagic(n):String(n);let h='';h+=`local ${vG}=(function()if _ENV then return _ENV end;if getfenv then return getfenv(0) end;return _G or{}end)()\n`;h+=`local ${vT}=type("")\nlocal ${vS}=${vG}[${vT}]\nlocal ${scV}=${vS}[${vS}.char(${[99,104,97,114].map(nu).join(',')})]\n`;h+=`local ${vMN}=${scV}(${[109,97,116,104].map(nu).join(',')})\n`;h+=`local ${vF}=${scV}(${[102,108,111,111,114].map(nu).join(',')})\n`;h+=`local ${vL}=${scV}(${[108,111,97,100,115,116,114,105,110,103].map(nu).join(',')})\n`;h+=`local ${vM}=${vG}[${vMN}]\nlocal ${mfV}=${vM}[${vF}]\nlocal ${lsV}=${vG}[${vL}] or load\n`;return h}
+function buildXor(xf,mf,N){const v=()=>rndName(6);const va=v(),vb=v(),vr=v(),vm=v(),vi=v(),vab=v(),vbb=v();const nu=n=>N?numMagic(n):String(n);return`local function ${xf}(${va},${vb})\nlocal ${vr}=${nu(0)}\nlocal ${vm}=${nu(1)}\nfor ${vi}=${nu(1)},${nu(8)} do\nlocal ${vab}=${va}%${nu(2)}\nlocal ${vbb}=${vb}%${nu(2)}\nif ${vab}~=${vbb} then ${vr}=${vr}+${vm} end\n${va}=${mf}(${va}/${nu(2)})\n${vb}=${mf}(${vb}/${nu(2)})\n${vm}=${vm}*${nu(2)}\nend\nreturn ${vr}\nend\n`}
+function buildLayer(src,opts,N){
+  const bytes=strToBytes(src),nk=opts.multikey?7:3;
+  const k1=genKeys(nk),k2=genKeys(4),k3=genKeys(5),rotN=opts.rot?ri(15,100):0;
   const enc=encryptBytes(bytes,k1,k2,k3,rotN);
   const scV=rndName(6),mfV=rndName(6),lsV=rndName(6),xfV=rndName(6);
   const dtV=rndName(6),k1V=rndName(6),k2V=rndName(6),k3V=rndName(6);
-  const rtV=rndName(6),ouV=rndName(6),viV=rndName(6),vbV=rndName(6),fnV=rndName(6);
+  const rtV=rndName(6),ouV=rndName(6),viV=rndName(6),vbV=rndName(6),fnV=rndName(6),eV=rndName(6);
   const nu=n=>N?numMagic(n):String(n);
-  let out='';
-  if(opts.zerostr)out+=buildZeroStringHeader(N,scV,mfV,lsV);
-  else out+=`local ${scV}=string.char\nlocal ${mfV}=math.floor\nlocal ${lsV}=loadstring or load\n`;
-  out+=buildXorFunc(xfV,mfV,N);
-  out+=`local ${dtV}=${fmtBytesFull(enc,N?12:16)}\n`;
-  out+=`local ${k1V}={${k1.map(nu).join(',')}}\n`;
-  out+=`local ${k2V}={${k2.map(nu).join(',')}}\n`;
-  out+=`local ${k3V}={${k3.map(nu).join(',')}}\n`;
-  out+=`local ${rtV}=${nu(rotN)}\n`;
-  out+=`local ${ouV}=""\n`;
-  out+=`for ${viV}=${nu(1)},#${dtV} do\n`;
-  out+=`local ${vbV}=${dtV}[${viV}]\n`;
-  out+=`${vbV}=(${vbV}-${rtV}+${nu(256)})%${nu(256)}\n`;
-  out+=`${vbV}=${xfV}(${vbV},${k3V}[((${viV}-${nu(1)})%#${k3V})+${nu(1)}])\n`;
-  out+=`${vbV}=${xfV}(${vbV},${k2V}[((${viV}-${nu(1)})%#${k2V})+${nu(1)}])\n`;
-  out+=`${vbV}=${xfV}(${vbV},${k1V}[((${viV}-${nu(1)})%#${k1V})+${nu(1)}])\n`;
-  out+=`${ouV}=${ouV}..${scV}(${vbV})\n`;
-  out+=`end\n`;
-  out+=`local ${fnV}=${lsV}(${ouV})\nif ${fnV} then ${fnV}() end\n`;
-  return {code:out,layers:3+nk+(rotN>0?1:0),keys:nk+9};
+  let o='';
+  if(opts.zerostr)o+=buildZSH(N,scV,mfV,lsV);
+  else o+=`local ${scV}=string.char\nlocal ${mfV}=math.floor\nlocal ${lsV}=loadstring or load\n`;
+  o+=buildXor(xfV,mfV,N);
+  o+=`local ${dtV}=${fmtBytes(enc,N?12:16)}\nlocal ${k1V}={${k1.map(nu).join(',')}}\nlocal ${k2V}={${k2.map(nu).join(',')}}\nlocal ${k3V}={${k3.map(nu).join(',')}}\nlocal ${rtV}=${nu(rotN)}\nlocal ${ouV}=""\n`;
+  o+=`for ${viV}=${nu(1)},#${dtV} do\nlocal ${vbV}=${dtV}[${viV}]\n`;
+  o+=`${vbV}=(${vbV}-${rtV}+${nu(256)})%${nu(256)}\n`;
+  o+=`${vbV}=${xfV}(${vbV},${k3V}[((${viV}-${nu(1)})%#${k3V})+${nu(1)}])\n`;
+  o+=`${vbV}=${xfV}(${vbV},${k2V}[((${viV}-${nu(1)})%#${k2V})+${nu(1)}])\n`;
+  o+=`${vbV}=${xfV}(${vbV},${k1V}[((${viV}-${nu(1)})%#${k1V})+${nu(1)}])\n`;
+  o+=`${ouV}=${ouV}..${scV}(${vbV})\nend\n`;
+  o+=`local ${fnV},${eV}=${lsV}(${ouV})\n`;
+  o+=`assert(${fnV} and type(${fnV})=="function","${_T} decompression error: "..(${eV} or "unknown").." (does your environment support load/loadstring?)")\n`;
+  o+=`${fnV}()\n`;
+  return{code:o,layers:3+nk+(rotN>0?1:0),keys:nk+9}
 }
 
 function obfuscate(){
   const input=document.getElementById('inp').value.trim();
   if(!input){showN('Vui lòng nhập code!');return}
-  const o={
-    rename:    document.getElementById('o_rename').checked,
-    junk:      document.getElementById('o_junk').checked,
-    proxy:     document.getElementById('o_proxy').checked,
-    strfrag:   document.getElementById('o_strfrag').checked,
-    fullenc:   document.getElementById('o_fullenc').checked,
-    multikey:  document.getElementById('o_multikey').checked,
-    rot:       document.getElementById('o_rot').checked,
-    zerostr:   document.getElementById('o_zerostr').checked,
-    numobf:    document.getElementById('o_numobf').checked,
-    multilayer:document.getElementById('o_multilayer').checked,
-    opaque:    document.getElementById('o_opaque').checked,
-    cflatten:  document.getElementById('o_cflatten').checked,
-    fakeflow:  document.getElementById('o_fakeflow').checked,
-    antidump:  document.getElementById('o_antidump').checked,
-    constpool: document.getElementById('o_constpool').checked,
-    watermark: document.getElementById('o_watermark').checked,
-  };
-  const jlv=parseInt(document.getElementById('jlv').value);
-  const wlv=parseInt(document.getElementById('wlv').value);
-  const origSz=input.length;
-  const N=o.numobf;
+  const o={rename:document.getElementById('o_rename').checked,junk:document.getElementById('o_junk').checked,proxy:document.getElementById('o_proxy').checked,strfrag:document.getElementById('o_strfrag').checked,fullenc:document.getElementById('o_fullenc').checked,multikey:document.getElementById('o_multikey').checked,rot:document.getElementById('o_rot').checked,zerostr:document.getElementById('o_zerostr').checked,numobf:document.getElementById('o_numobf').checked,multilayer:document.getElementById('o_multilayer').checked,opaque:document.getElementById('o_opaque').checked,cflatten:document.getElementById('o_cflatten').checked,fakeflow:document.getElementById('o_fakeflow').checked,antidump:document.getElementById('o_antidump').checked,constpool:document.getElementById('o_constpool').checked,watermark:document.getElementById('o_watermark').checked};
+  const jlv=parseInt(document.getElementById('jlv').value),wlv=parseInt(document.getElementById('wlv').value);
+  const origSz=input.length,N=o.numobf;
   document.getElementById('prog').classList.add('show');
-  let totalLayers=0,totalKeys=0,totalWraps=0;
-
-  function sp(p,m){
-    document.getElementById('pbar').style.width=p+'%';
-    document.getElementById('ptxt').textContent=m.toUpperCase();
-  }
-
+  let tL=0,tK=0,tW=0;
+  const sp=(p,m)=>{document.getElementById('pbar').style.width=p+'%';document.getElementById('ptxt').textContent=m.toUpperCase()};
   function finish(final){
     sp(100,'HOÀN THÀNH!');
+    // ★ Header tự động — ẩn trong JS, user không biết không sửa được
+    const hdr=`-- This file was created by ${_T} v1.3\n-- [${_D}]\n\n`;
+    const out=hdr+final;
     setTimeout(()=>{
-      document.getElementById('out').value=final;
+      document.getElementById('out').value=out;
       document.getElementById('prog').classList.remove('show');
-      const inc=Math.round(((final.length-origSz)/origSz)*100);
-      document.getElementById('s_b').textContent=final.length.toLocaleString();
-      document.getElementById('s_l').textContent=totalLayers;
-      document.getElementById('s_w').textContent=totalWraps;
+      const inc=Math.round(((out.length-origSz)/origSz)*100);
+      document.getElementById('s_b').textContent=out.length.toLocaleString();
+      document.getElementById('s_l').textContent=tL;
+      document.getElementById('s_w').textContent=tW;
       document.getElementById('s_z').textContent='+'+inc+'%';
-      document.getElementById('s_k').textContent=totalKeys;
+      document.getElementById('s_k').textContent=tK;
       document.getElementById('sts').style.display='flex';
       showN('ULTRA OBFUSCATE THÀNH CÔNG!');
     },400);
   }
-
   setTimeout(()=>{
     try{
-      sp(5,'Phân tích code...');
-      let code=input;
-
-      if(o.rename){
-        sp(10,'Rename variables...');
-        const kw=new Set(['true','false','nil','and','or','not','if','then','else','elseif',
-          'end','do','while','repeat','until','for','in','function','local','return','break',
-          'self','game','workspace','script','require','wait','spawn','delay','print','warn',
-          'error','task','pcall','xpcall','pairs','ipairs','tostring','tonumber','type','math',
-          'string','table','os','coroutine','select','unpack','rawget','rawset','setmetatable',
-          'getmetatable','bit32','Instance','Color3','Vector2','Vector3','UDim','UDim2',
-          'TweenInfo','Enum','Players','HttpGet','loadstring','HttpService','RunService',
-          'TweenService','_G','_ENV','getfenv','load']);
-        const vm={};
-        const re=/\blocal\s+(?:function\s+)?([a-zA-Z_][a-zA-Z0-9_]*)\b/g;
-        let mm;
-        while((mm=re.exec(input))!==null){
-          const nm2=mm[1];
-          if(!vm[nm2]&&!kw.has(nm2))vm[nm2]=rndName(14);
-        }
-        for(const[orig,obfd] of Object.entries(vm)){
-          try{code=code.replace(new RegExp('\\b'+orig+'\\b','g'),obfd)}catch(e){}
-        }
-        totalLayers++;
-      }
-
-      sp(18,'Proxy functions...');
-      let proxyHdr='';
-      if(o.proxy){
-        const pm={print:rndName(12),warn:rndName(12),pcall:rndName(12),error:rndName(12),
-          task:rndName(12),pairs:rndName(12),ipairs:rndName(12)};
-        for(const[orig,alias] of Object.entries(pm))proxyHdr+=`local ${alias}=${orig}\n`;
-        for(const[orig,alias] of Object.entries(pm)){
-          try{code=code.replace(new RegExp('\\b'+orig+'\\b','g'),alias)}catch(e){}
-        }
-        totalLayers++;
-      }
-
-      sp(25,'Inject junk code...');
-      let junk='';
-      if(o.junk){junk=genJunk(jlv,N);totalLayers++}
-
-      let antiDump='';
-      if(o.antidump){antiDump=genAntiDump();totalLayers++}
-
-      let fakeFlow='';
-      if(o.fakeflow){fakeFlow=genFakeFlow(N);totalLayers++}
-
-      let constPoolCode='';
-      if(o.constpool){const cp=genConstPool(ri(800,1500),N);constPoolCode=cp.code;totalLayers++}
-
-      let wm='';
-      if(o.watermark){
-        const wmB=strToBytes('hienvip_v8');
-        wm=`local ${rndName(10)}={${wmB.map(c=>N?numMagic(c):c).join(',')}}\n`;
-      }
-
-      sp(35,'Assemble inner code...');
-      let inner=antiDump+proxyHdr+junk+fakeFlow+code;
-
-      if(o.cflatten){sp(42,'Control flow flatten...');inner=genStateMachineWrapper(inner,N);totalLayers++}
-      if(o.opaque){const opV=rndName(8);inner=`local ${opV}=${opaqueTrue()} and true or false\n`+inner;totalLayers++}
-      if(!o.fullenc){finish(wm+constPoolCode+inner);return}
-
-      sp(50,'Encrypting layer 1...');
-      let currentCode=inner;
-      const wraps=o.multilayer?wlv:1;
-      totalWraps=wraps;
-
-      for(let w=0;w<wraps;w++){
-        sp(50+Math.floor(w/wraps*40),`Encrypting wrap ${w+1}/${wraps}...`);
-        const res=buildEncryptedLayer(currentCode,o,N);
-        currentCode=res.code;totalLayers+=res.layers;totalKeys+=res.keys;
-      }
-
-      sp(92,'Assembling final output...');
-      finish(wm+constPoolCode+currentCode);
-
-    }catch(err){
-      document.getElementById('prog').classList.remove('show');
-      document.getElementById('out').value='-- Lỗi: '+err.message+'\n'+err.stack;
-      showN('LỖI: '+err.message);
-    }
+      sp(5,'Phân tích...');let code=input;
+      if(o.rename){sp(10,'Rename...');const kw=new Set(['true','false','nil','and','or','not','if','then','else','elseif','end','do','while','repeat','until','for','in','function','local','return','break','self','game','workspace','script','require','wait','spawn','delay','print','warn','error','task','pcall','xpcall','pairs','ipairs','tostring','tonumber','type','math','string','table','os','coroutine','select','unpack','rawget','rawset','setmetatable','getmetatable','bit32','Instance','Color3','Vector2','Vector3','UDim','UDim2','TweenInfo','Enum','Players','HttpGet','loadstring','HttpService','RunService','TweenService','_G','_ENV','getfenv','load']);const vm={};const re=/\blocal\s+(?:function\s+)?([a-zA-Z_][a-zA-Z0-9_]*)\b/g;let mm;while((mm=re.exec(input))!==null){const n=mm[1];if(!vm[n]&&!kw.has(n))vm[n]=rndName(14)}for(const[orig,obfd] of Object.entries(vm)){try{code=code.replace(new RegExp('\\b'+orig+'\\b','g'),obfd)}catch(e){}}tL++}
+      sp(18,'Proxy...');let ph='';
+      if(o.proxy){const pm={print:rndName(12),warn:rndName(12),pcall:rndName(12),error:rndName(12),task:rndName(12),pairs:rndName(12),ipairs:rndName(12)};for(const[k,v] of Object.entries(pm))ph+=`local ${v}=${k}\n`;for(const[k,v] of Object.entries(pm)){try{code=code.replace(new RegExp('\\b'+k+'\\b','g'),v)}catch(e){}}tL++}
+      sp(25,'Junk...');let junk='';if(o.junk){junk=genJunk(jlv,N);tL++}
+      let ad='';if(o.antidump){ad=genAntiDump();tL++}
+      let ff='';if(o.fakeflow){ff=genFakeFlow(N);tL++}
+      let cp='';if(o.constpool){cp=genConstPool(ri(800,1500),N).code;tL++}
+      let wm='';if(o.watermark){wm=`local ${rndName(10)}={${strToBytes('hienvip_v8').map(c=>N?numMagic(c):c).join(',')}}\n`}
+      sp(35,'Assemble...');let inner=ad+ph+junk+ff+code;
+      if(o.cflatten){sp(42,'Flow...');inner=genStateMachineWrapper(inner,N);tL++}
+      if(o.opaque){inner=`local ${rndName(8)}=${opaqueTrue()} and true or false\n`+inner;tL++}
+      if(!o.fullenc){finish(wm+cp+inner);return}
+      sp(50,'Encrypting...');let cur=inner;
+      const wraps=o.multilayer?wlv:1;tW=wraps;
+      for(let w=0;w<wraps;w++){sp(50+Math.floor(w/wraps*40),`Wrap ${w+1}/${wraps}...`);const r=buildLayer(cur,o,N);cur=r.code;tL+=r.layers;tK+=r.keys}
+      sp(92,'Final...');finish(wm+cp+cur);
+    }catch(err){document.getElementById('prog').classList.remove('show');document.getElementById('out').value='-- Lỗi: '+err.message;showN('LỖI: '+err.message)}
   },150);
 }
-
-function copyOut(){
-  const o=document.getElementById('out').value;
-  if(!o){showN('Chưa có output!');return}
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(o).then(()=>showN('ĐÃ SAO CHÉP!')).catch(()=>fallbackCopy(o));
-  }else{fallbackCopy(o)}
-}
-function fallbackCopy(text){
-  const ta=document.createElement('textarea');
-  ta.value=text;ta.style.cssText='position:fixed;opacity:0;width:1px;height:1px';
-  document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,text.length);
-  try{document.execCommand('copy');showN('ĐÃ SAO CHÉP!')}catch(e){showN('Dùng nút TẢI .LUA!')}
-  document.body.removeChild(ta);
-}
-function dlOut(){
-  const o=document.getElementById('out').value;
-  if(!o){showN('Chưa có output!');return}
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([o],{type:'text/plain'}));
-  a.download='hienvip_ultra_v8.lua';a.click();
-  showN('ĐÃ TẢI XUỐNG!');
-}
+function copyOut(){const o=document.getElementById('out').value;if(!o){showN('Chưa có output!');return}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(o).then(()=>showN('ĐÃ SAO CHÉP!')).catch(()=>fb(o))}else{fb(o)}}
+function fb(t){const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0;width:1px;height:1px';document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,t.length);try{document.execCommand('copy');showN('ĐÃ SAO CHÉP!')}catch(e){showN('Dùng nút TẢI .LUA!')}document.body.removeChild(ta)}
+function dlOut(){const o=document.getElementById('out').value;if(!o){showN('Chưa có output!');return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([o],{type:'text/plain'}));a.download='hienvip_ultra_v8.lua';a.click();showN('ĐÃ TẢI XUỐNG!')}
 </script>
 </body>
 </html>
