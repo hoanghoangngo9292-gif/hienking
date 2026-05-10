@@ -6,6 +6,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
 -- ================================
 -- 🔑 LẤY HWID
@@ -24,13 +25,10 @@ local function isExpired(dateStr)
     local y, m, d = dateStr:match("(%d+)-(%d+)-(%d+)")
     if not y then return true end
     y, m, d = tonumber(y), tonumber(m), tonumber(d)
-
-    -- UTC+7 cho Viet Nam
     local nowUTC = os.time()
     local nowVN = nowUTC + 7 * 3600
     local t = os.date("!*t", nowVN)
     local todayY, todayM, todayD = t.year, t.month, t.day
-
     if todayY > y then return true end
     if todayY == y and todayM > m then return true end
     if todayY == y and todayM == m and todayD > d then return true end
@@ -117,7 +115,6 @@ local function createBaseUI(titleText, titleColor)
     Owner.Position = UDim2.new(0.638, 0, 0.383, 0)
     Owner.Size = UDim2.new(0.276, 0, 0.518, 0)
     Owner.Image = "rbxassetid://108249120255582"
-
     Instance.new("UICorner", Owner).CornerRadius = UDim.new(0.1, 0)
 
     local Cancel = Instance.new("ImageButton")
@@ -220,15 +217,13 @@ local function createBaseUI(titleText, titleColor)
     FACEBOOK.Font = Enum.Font.Merriweather
     Instance.new("UICorner", FACEBOOK).CornerRadius = UDim.new(0.1, 0)
     FACEBOOK.MouseButton1Up:Connect(function()
-    local cb = toclipboard
-    if cb then cb("https://www.facebook.com/share/1Akictracm/?mibextid=wwXIfr") end
-    FACEBOOK.Text = "✅ Copied!"
-    task.wait(1.5)
-    FACEBOOK.Text = "Facebook"
-end)
+        local cb = toclipboard
+        if cb then cb("https://www.facebook.com/share/1Akictracm/?mibextid=wwXIfr") end
+        FACEBOOK.Text = "✅ Copied!"
+        task.wait(1.5)
+        FACEBOOK.Text = "Facebook"
+    end)
 
-
-    -- Animate mở
     local openTween = TweenService:Create(SSS, TweenInfo.new(0.3, Enum.EasingStyle.Back), {
         Size = UDim2.new(1, 0, 1, 0)
     })
@@ -327,12 +322,101 @@ local function runFixLag()
     local VirtualUser = game:GetService("VirtualUser")
 
     -- =========================
-    -- 🚀 FPS CAP 150
+    -- 🚀 FPS CAP (PC 150 / Mobile 60)
     -- =========================
-    pcall(function() settings().Rendering.QualityLevel = Enum.QualityLevel.Level01 end)
-    pcall(function() if setfpscap then setfpscap(150) end end)
-    pcall(function() if syn and syn.set_fps_cap then syn.set_fps_cap(150) end end)
-    pcall(function() if rconsoleprint then setfpscap(150) end end)
+    local isMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
+
+    local function setFPSCap(cap)
+        pcall(function() if setfpscap then setfpscap(cap) end end)
+        pcall(function() if syn and syn.set_fps_cap then syn.set_fps_cap(cap) end end)
+        pcall(function() if rconsoleprint then setfpscap(cap) end end)
+        pcall(function() if setfps then setfps(cap) end end)
+        pcall(function() if fps_cap then fps_cap(cap) end end)
+        pcall(function() if set_fps_cap then set_fps_cap(cap) end end)
+        pcall(function() if fluxus and fluxus.set_fps_cap then fluxus.set_fps_cap(cap) end end)
+        pcall(function() settings().Rendering.QualityLevel = Enum.QualityLevel.Level01 end)
+        pcall(function() settings().Rendering.FrameRateManager = 0 end)
+    end
+
+    if isMobile then
+        setFPSCap(60)
+    else
+        setFPSCap(150)
+    end
+
+    -- Giữ FPS cap mỗi 30s tránh bị reset
+    task.spawn(function()
+        while true do
+            task.wait(30)
+            setFPSCap(isMobile and 60 or 150)
+        end
+    end)
+
+    -- =========================
+    -- 🛡️ CHỐNG DROP FPS / DELAY / RUNG / LAG SPIKE
+    -- =========================
+
+    -- 1. Chống rung character khi lag
+    task.spawn(function()
+        while true do
+            task.wait(1)
+            pcall(function()
+                local char = LocalPlayer.Character
+                if char then
+                    local hrp = char:FindFirstChild("HumanoidRootPart")
+                    if hrp then
+                        hrp.CustomPhysicalProperties = PhysicalProperties.new(
+                            0.7, 0.3, 0.5, 0.1, 0.1
+                        )
+                    end
+                    -- Giảm network ownership delay
+                    for _, part in ipairs(char:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            pcall(function()
+                                part:SetNetworkOwner(LocalPlayer)
+                            end)
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+
+    -- 2. Chống frame drop: giảm tải mỗi 3s
+    task.spawn(function()
+        while true do
+            task.wait(3)
+            pcall(function()
+                settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+                settings().Rendering.FrameRateManager = 0
+                settings().Physics.AllowSleep = true
+                settings().Physics.PhysicsEnvironmentalThrottle =
+                    Enum.EnviromentalPhysicsThrottle.Always
+            end)
+            collectgarbage("collect")
+        end
+    end)
+
+    -- 3. Detect lag spike -> clean RAM ngay lập tức
+    local lastHB = tick()
+    RunService.Heartbeat:Connect(function(dt)
+        local now = tick()
+        local spike = now - lastHB
+        lastHB = now
+        if spike > 0.1 then
+            pcall(function() collectgarbage("collect") end)
+        end
+    end)
+
+    -- 4. Giữ network ổn định mỗi 5s
+    task.spawn(function()
+        while true do
+            task.wait(5)
+            pcall(function()
+                settings().Network.IncomingReplicationLag = 0
+            end)
+        end
+    end)
 
     -- =========================
     -- 🌑 TẮT LIGHTING NẶNG
@@ -397,7 +481,7 @@ local function runFixLag()
     end)
 
     -- =========================
-    -- ⚡ FIXLAG GIỮ NPC (không xóa NPC/quái)
+    -- ⚡ FIXLAG GIỮ NPC
     -- =========================
     local function isNPCPart(v)
         local parent = v.Parent
@@ -539,7 +623,6 @@ local function runFixLag()
     -- =========================
     -- 🛑 ANTI AFK 4 LỚP
     -- =========================
-    -- Lớp 1: Idled event
     pcall(function()
         LocalPlayer.Idled:Connect(function()
             VirtualUser:CaptureController()
@@ -547,7 +630,6 @@ local function runFixLag()
         end)
     end)
 
-    -- Lớp 2: Spam input mỗi 55s
     task.spawn(function()
         while true do
             task.wait(55)
@@ -558,7 +640,6 @@ local function runFixLag()
         end
     end)
 
-    -- Lớp 3: Giả di chuyển nhẹ mỗi 110s
     task.spawn(function()
         while true do
             task.wait(110)
@@ -574,7 +655,6 @@ local function runFixLag()
         end
     end)
 
-    -- Lớp 4: Jump nhẹ mỗi 3 phút
     task.spawn(function()
         while true do
             task.wait(180)
@@ -805,13 +885,13 @@ local function runFixLag()
     pcall(function()
         StarterGui:SetCore("SendNotification", {
             Title = "HIEN VIP",
-            Text = "✅ Fix Lag + AntiAFK + auto clean ram  + AutoRejoin ACTIVE",
+            Text = " Fix Lag + Fulloption ACTIVE ✅",
             Duration = 5
         })
     end)
 
     -- =========================
-    -- 🌈 UI BANNER "HIEN VIP FIX LAG SUCCESS"
+    -- 🌈 UI BANNER
     -- =========================
     local bannerGui = Instance.new("ScreenGui", game.CoreGui)
     bannerGui.ResetOnSpawn = false
@@ -905,84 +985,83 @@ local function runFixLag()
     end)
 
     -- =========================
-    -- 💬 DISCORD POPUP (hien sau khi banner xong, khong block)
+    -- 💬 DISCORD POPUP
     -- =========================
     task.delay(4.5, function()
+        local discordGui = Instance.new("ScreenGui", game.CoreGui)
+        discordGui.ResetOnSpawn = false
 
-    local discordGui = Instance.new("ScreenGui", game.CoreGui)
-    discordGui.ResetOnSpawn = false
+        local discordBg = Instance.new("Frame", discordGui)
+        discordBg.Size = UDim2.new(0,0,0,0)
+        discordBg.Position = UDim2.new(0.5,0,0.5,0)
+        discordBg.BackgroundColor3 = Color3.fromRGB(10,10,20)
+        discordBg.BackgroundTransparency = 0.1
+        discordBg.BorderSizePixel = 0
+        Instance.new("UICorner", discordBg)
 
-    local discordBg = Instance.new("Frame", discordGui)
-    discordBg.Size = UDim2.new(0,0,0,0)
-    discordBg.Position = UDim2.new(0.5,0,0.5,0)
-    discordBg.BackgroundColor3 = Color3.fromRGB(10,10,20)
-    discordBg.BackgroundTransparency = 0.1
-    discordBg.BorderSizePixel = 0
-    Instance.new("UICorner", discordBg)
+        local dStroke = Instance.new("UIStroke")
+        dStroke.Parent = discordBg
+        dStroke.Thickness = 2
+        dStroke.Color = Color3.fromRGB(88,101,242)
 
-    local dStroke = Instance.new("UIStroke")
-    dStroke.Parent = discordBg
-    dStroke.Thickness = 2
-    dStroke.Color = Color3.fromRGB(88,101,242)
+        local dTitle = Instance.new("TextLabel", discordBg)
+        dTitle.Size = UDim2.new(1,0,0,40)
+        dTitle.Position = UDim2.new(0,0,0,5)
+        dTitle.BackgroundTransparency = 1
+        dTitle.Text = "HIEN VIP - THONG BAO"
+        dTitle.TextScaled = true
+        dTitle.Font = Enum.Font.GothamBlack
+        dTitle.TextColor3 = Color3.fromRGB(88,101,242)
+        dTitle.TextStrokeTransparency = 0
+        dTitle.TextStrokeColor3 = Color3.new(0,0,0)
 
-    local dTitle = Instance.new("TextLabel", discordBg)
-    dTitle.Size = UDim2.new(1,0,0,40)
-    dTitle.Position = UDim2.new(0,0,0,5)
-    dTitle.BackgroundTransparency = 1
-    dTitle.Text = "HIEN VIP - THONG BAO"
-    dTitle.TextScaled = true
-    dTitle.Font = Enum.Font.GothamBlack
-    dTitle.TextColor3 = Color3.fromRGB(88,101,242)
-    dTitle.TextStrokeTransparency = 0
-    dTitle.TextStrokeColor3 = Color3.new(0,0,0)
+        local dDesc = Instance.new("TextLabel", discordBg)
+        dDesc.Size = UDim2.new(0.95,0,0,55)
+        dDesc.Position = UDim2.new(0.025,0,0,45)
+        dDesc.BackgroundTransparency = 1
+        dDesc.Text = "bạn muốn biết script update hay ra script mới hãy tham gia sever discord để biết nhé!:"
+        dDesc.TextScaled = true
+        dDesc.Font = Enum.Font.Gotham
+        dDesc.TextColor3 = Color3.fromRGB(255,255,255)
+        dDesc.TextWrapped = true
 
-    local dDesc = Instance.new("TextLabel", discordBg)
-    dDesc.Size = UDim2.new(0.95,0,0,55)
-    dDesc.Position = UDim2.new(0.025,0,0,45)
-    dDesc.BackgroundTransparency = 1
-    dDesc.Text = "bạn muốn biết script update hay ra script mới hãy tham gia sever discord để biết nhé!:"
-    dDesc.TextScaled = true
-    dDesc.Font = Enum.Font.Gotham
-    dDesc.TextColor3 = Color3.fromRGB(255,255,255)
-    dDesc.TextWrapped = true
+        local dLink = Instance.new("TextButton", discordBg)
+        dLink.Size = UDim2.new(0.9,0,0,32)
+        dLink.Position = UDim2.new(0.05,0,0,108)
+        dLink.BackgroundColor3 = Color3.fromRGB(25,25,45)
+        dLink.BorderSizePixel = 0
+        dLink.Text = "discord.gg/x9pATE8Uxe"
+        dLink.TextScaled = true
+        dLink.Font = Enum.Font.GothamBold
+        dLink.TextColor3 = Color3.fromRGB(0,255,170)
+        Instance.new("UICorner", dLink)
 
-    local dLink = Instance.new("TextButton", discordBg)
-    dLink.Size = UDim2.new(0.9,0,0,32)
-    dLink.Position = UDim2.new(0.05,0,0,108)
-    dLink.BackgroundColor3 = Color3.fromRGB(25,25,45)
-    dLink.BorderSizePixel = 0
-    dLink.Text = "discord.gg/x9pATE8Uxe"
-    dLink.TextScaled = true
-    dLink.Font = Enum.Font.GothamBold
-    dLink.TextColor3 = Color3.fromRGB(0,255,170)
-    Instance.new("UICorner", dLink)
+        local dLinkStroke = Instance.new("UIStroke")
+        dLinkStroke.Parent = dLink
+        dLinkStroke.Thickness = 1
+        dLinkStroke.Color = Color3.fromRGB(0,255,170)
 
-    local dLinkStroke = Instance.new("UIStroke")
-    dLinkStroke.Parent = dLink
-    dLinkStroke.Thickness = 1
-    dLinkStroke.Color = Color3.fromRGB(0,255,170)
+        dLink.MouseButton1Click:Connect(function()
+            local cb = toclipboard or setclipboard
+            if cb then cb("https://discord.gg/x9pATE8Uxe") end
+            dLink.Text = "✅ Đã copy!"
+            task.delay(1.5, function() dLink.Text = "discord.gg/x9pATE8Uxe" end)
+        end)
 
-    dLink.MouseButton1Click:Connect(function()
-        local cb = toclipboard or setclipboard
-        if cb then cb("https://discord.gg/x9pATE8Uxe") end
-        dLink.Text = "✅ Đã copy!"
-        task.delay(1.5, function() dLink.Text = "discord.gg/x9pATE8Uxe" end)
+        TweenService:Create(discordBg, TweenInfo.new(0.4, Enum.EasingStyle.Back), {
+            Size = UDim2.new(0,460,0,150),
+            Position = UDim2.new(0.5,-230,0.5,-75)
+        }):Play()
+
+        task.delay(2, function()
+            TweenService:Create(discordBg, TweenInfo.new(0.4), {BackgroundTransparency = 1}):Play()
+            TweenService:Create(dTitle, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
+            TweenService:Create(dDesc, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
+            TweenService:Create(dLink, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
+            task.wait(0.5)
+            discordGui:Destroy()
+        end)
     end)
-
-    TweenService:Create(discordBg, TweenInfo.new(0.4, Enum.EasingStyle.Back), {
-        Size = UDim2.new(0,460,0,150),
-        Position = UDim2.new(0.5,-230,0.5,-75)
-    }):Play()
-
-    task.delay(2, function()
-        TweenService:Create(discordBg, TweenInfo.new(0.4), {BackgroundTransparency = 1}):Play()
-        TweenService:Create(dTitle, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
-        TweenService:Create(dDesc, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
-        TweenService:Create(dLink, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
-        task.wait(0.5)
-        discordGui:Destroy()
-    end)
-    end) -- ket thuc task.delay popup
 
     -- =========================
     -- 📊 FPS COUNTER
@@ -1025,10 +1104,8 @@ local function runFixLag()
         end
     end)
 
-    -- WATERMARK REMOVED - replaced by QuickDiscord button
-
     -- =========================
-    -- 👤 INFO BAR: Ten user + Thoi han
+    -- 👤 INFO BAR
     -- =========================
     local infoGui = Instance.new("ScreenGui", game.CoreGui)
     infoGui.ResetOnSpawn = false
@@ -1068,7 +1145,7 @@ local function runFixLag()
     end)
 
     -- =========================
-    -- ⚡ NUT DISCORD NHANH (top-right, 1 cham copy)
+    -- ⚡ NUT DISCORD NHANH
     -- =========================
     local quickGui = Instance.new("ScreenGui", game.CoreGui)
     quickGui.ResetOnSpawn = false
@@ -1115,12 +1192,11 @@ local function runFixLag()
 end
 
 -- ================================
--- 🔐 KHỞI CHẠY NGAY LAP TUC
+-- 🔐 KHỞI CHẠY NGAY LẬP TỨC
 -- ================================
 local myHWID = getHWID()
 local myName = game:GetService("Players").LocalPlayer.Name
 
--- Hien loading indicator NGAY LAP TUC trong khi doi API
 local loadGui = Instance.new("ScreenGui", game.CoreGui)
 loadGui.ResetOnSpawn = false
 local loadBg = Instance.new("Frame", loadGui)
@@ -1144,7 +1220,6 @@ loadLabel.TextColor3 = Color3.fromRGB(0, 255, 127)
 loadLabel.TextStrokeTransparency = 0
 loadLabel.TextStrokeColor3 = Color3.new(0,0,0)
 
--- Dot nhay de biet dang load
 task.spawn(function()
     local dots = {".", "..", "..."}
     local i = 1
@@ -1155,10 +1230,8 @@ task.spawn(function()
     end
 end)
 
--- Check whitelist trong background
 task.spawn(function()
     local status, myDate = checkWhitelist(myHWID)
-    -- An loading indicator
     pcall(function() loadGui:Destroy() end)
 
     if status == "whitelisted" then
@@ -1167,8 +1240,8 @@ task.spawn(function()
         local remaining = daysRemaining(myDate)
         pcall(function()
             StarterGui2:SetCore("SendNotification", {
-                Title = "HIEN VIP - Xin chao " .. myName .. "!",
-                Text = "Thoi han: " .. remaining,
+                Title = "HIEN VIP - Xin chào " .. myName .. "!",
+                Text = "Thời hạn: " .. remaining,
                 Duration = 5
             })
         end)
