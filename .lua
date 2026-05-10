@@ -59,8 +59,8 @@ local function checkWhitelist(hwid)
         if not hwids then return end
         for _, entry in ipairs(hwids) do
             if entry.hwid == hwid then
-                _date = entry.date
-                if isExpired(entry.date) then
+                _date = entry.expDate  -- ✅ FIX: đổi từ entry.date → entry.expDate
+                if isExpired(entry.expDate) then  -- ✅ FIX: đổi từ entry.date → entry.expDate
                     _status = "expired"
                 else
                     _status = "whitelisted"
@@ -344,7 +344,6 @@ local function runFixLag()
         setFPSCap(150)
     end
 
-    -- Giữ FPS cap mỗi 30s tránh bị reset
     task.spawn(function()
         while true do
             task.wait(30)
@@ -356,7 +355,6 @@ local function runFixLag()
     -- 🛡️ CHỐNG DROP FPS / DELAY / RUNG / LAG SPIKE
     -- =========================
 
-    -- 1. Chống rung character khi lag
     task.spawn(function()
         while true do
             task.wait(1)
@@ -369,7 +367,6 @@ local function runFixLag()
                             0.7, 0.3, 0.5, 0.1, 0.1
                         )
                     end
-                    -- Giảm network ownership delay
                     for _, part in ipairs(char:GetDescendants()) do
                         if part:IsA("BasePart") then
                             pcall(function()
@@ -382,7 +379,6 @@ local function runFixLag()
         end
     end)
 
-    -- 2. Chống frame drop: giảm tải mỗi 3s
     task.spawn(function()
         while true do
             task.wait(3)
@@ -397,7 +393,6 @@ local function runFixLag()
         end
     end)
 
-    -- 3. Detect lag spike -> clean RAM ngay lập tức
     local lastHB = tick()
     RunService.Heartbeat:Connect(function(dt)
         local now = tick()
@@ -408,7 +403,6 @@ local function runFixLag()
         end
     end)
 
-    -- 4. Giữ network ổn định mỗi 5s
     task.spawn(function()
         while true do
             task.wait(5)
@@ -544,8 +538,10 @@ local function runFixLag()
     workspace.DescendantAdded:Connect(function(v)
         task.defer(function()
             processObject(v)
-            for _, child in ipairs(v:GetDescendants()) do
+            local children = v:GetDescendants()
+            for i, child in ipairs(children) do
                 processObject(child)
+                if i % 50 == 0 then task.wait() end
             end
         end)
     end)
@@ -732,42 +728,112 @@ local function runFixLag()
 
     -- ⛵ SAILOR PIECE
     if placeId == 11483202072 then
-        local function cleanSailor()
-            for _,v in pairs(workspace:GetDescendants()) do
+
+        local function isSailorNPC(part)
+            local p = part.Parent
+            while p and p ~= workspace do
+                if p:FindFirstChildOfClass("Humanoid") then return true end
+                p = p.Parent
+            end
+            return false
+        end
+
+        local function isMyChar(part)
+            local char = LocalPlayer.Character
+            if not char then return false end
+            local p = part.Parent
+            while p do
+                if p == char then return true end
+                p = p.Parent
+            end
+            return false
+        end
+
+        local function deleteSailorMap()
+            local list = workspace:GetDescendants()
+            local i = 0
+            for _, v in ipairs(list) do
+                i = i + 1
                 pcall(function()
                     if v:IsA("ParticleEmitter") or v:IsA("Trail")
                     or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
                         v.Enabled = false
+                        return
                     end
-                    if v:IsA("Decal") or v:IsA("Texture") then v:Destroy() end
-                    if v:IsA("BasePart") then
-                        v.CastShadow = false
-                        v.Reflectance = 0
-                        v.Material = Enum.Material.SmoothPlastic
+                    if v:IsA("SelectionBox") or v:IsA("SelectionSphere")
+                    or v:IsA("Decal") or v:IsA("Texture") then
+                        v:Destroy()
+                        return
                     end
-                    if v:IsA("SelectionBox") or v:IsA("SelectionSphere") then v:Destroy() end
+                    if v:IsA("BasePart") or v:IsA("MeshPart") or v:IsA("UnionOperation") or v:IsA("SpecialMesh") then
+                        if not isSailorNPC(v) and not isMyChar(v) then
+                            local parent = v.Parent
+                            if parent and parent:IsA("Model") and parent ~= workspace then
+                                if not parent:FindFirstChildOfClass("Humanoid") then
+                                    v:Destroy()
+                                end
+                            end
+                        end
+                    end
                 end)
+                if i % 80 == 0 then task.wait() end
             end
         end
-        cleanSailor()
+
+        task.delay(2, function()
+            task.spawn(deleteSailorMap)
+        end)
+
         task.spawn(function()
             while true do
-                cleanSailor()
+                task.wait(30)
+                task.spawn(deleteSailorMap)
+            end
+        end)
+
+        workspace.DescendantAdded:Connect(function(v)
+            task.defer(function()
+                pcall(function()
+                    if isSailorNPC(v) or isMyChar(v) then return end
+                    if v:IsA("BasePart") or v:IsA("MeshPart") or v:IsA("UnionOperation") then
+                        local parent = v.Parent
+                        if parent and parent:IsA("Model") and parent ~= workspace then
+                            if not parent:FindFirstChildOfClass("Humanoid") then
+                                v:Destroy()
+                            end
+                        end
+                    end
+                    if v:IsA("ParticleEmitter") or v:IsA("Trail")
+                    or v:IsA("Smoke") or v:IsA("Fire") or v:IsA("Sparkles") then
+                        v.Enabled = false
+                    end
+                end)
+            end)
+        end)
+
+        task.spawn(function()
+            while true do
+                task.wait(3)
                 local char = LocalPlayer.Character
                 if char and char:FindFirstChild("HumanoidRootPart") then
                     local pos = char.HumanoidRootPart.Position
-                    for _,v in pairs(workspace:GetDescendants()) do
+                    local i = 0
+                    for _, v in ipairs(workspace:GetDescendants()) do
+                        i = i + 1
                         pcall(function()
-                            if v:IsA("BasePart") and v.Parent ~= char then
-                                local dist = (v.Position - pos).Magnitude
-                                v.LocalTransparencyModifier = dist > 150 and 1 or 0
+                            if v:IsA("BasePart") and not isMyChar(v) then
+                                if isSailorNPC(v) then
+                                    local dist = (v.Position - pos).Magnitude
+                                    v.LocalTransparencyModifier = dist > 120 and 1 or 0
+                                end
                             end
                         end)
+                        if i % 100 == 0 then task.wait() end
                     end
                 end
-                task.wait(3)
             end
         end)
+
         task.spawn(function()
             while true do
                 task.wait(5)
@@ -787,10 +853,15 @@ local function runFixLag()
     if placeId == 119038583929525 then
         task.spawn(function()
             while true do
-                task.wait(15)
+                task.wait(10)
                 pcall(function()
-                    VirtualUser:CaptureController()
-                    VirtualUser:ClickButton2(Vector2.new(0,0))
+                    local char = LocalPlayer.Character
+                    if char and char:FindFirstChild("HumanoidRootPart") then
+                        local hrp = char.HumanoidRootPart
+                        hrp.CFrame = hrp.CFrame * CFrame.new(0.5, 0, 0)
+                        task.wait(0.3)
+                        hrp.CFrame = hrp.CFrame * CFrame.new(-0.5, 0, 0)
+                    end
                 end)
             end
         end)
