@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>hienvip Obfuscator v10</title>
+<title>Hienios Obfuscator v16.6</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0015;--bor:#3a0066;--acc:#aa00ff;--ac2:#ff0099;--ac3:#00ffdd;--gld:#ffd700;--txt:#e8ccff;--dim:#7a5a9a;--glow:0 0 28px #aa00ffbb}
+:root{--bg:#0a0015;--bor:#3a0066;--acc:#aa00ff;--ac2:#ff0099;--ac3:#00ffdd;--gld:#ffd700;--txt:#e8ccff;--dim:#7a5a9a}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--txt);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden}
 .bg-g{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 10% 0%,#6600ff44 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 90% 10%,#ff006644 0%,transparent 60%),linear-gradient(135deg,#0a0015 0%,#120025 30%,#0d001a 60%,#0a0018 100%)}
 .bg-gr{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(170,0,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(170,0,255,.05) 1px,transparent 1px);background-size:40px 40px}
 .pts{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .p{position:absolute;border-radius:50%;animation:pf linear infinite;opacity:0}
-@keyframes pf{0%{transform:translateY(100vh);opacity:0}10%{opacity:.8}90%{opacity:.8}100%{transform:translateY(-10px) translateX(30px);opacity:0}}
+@keyframes pf{0%{transform:translateY(100vh);opacity:0}10%{opacity:.8}90%{opacity:.8}100%{transform:translateY(-10px);opacity:0}}
 .wrap{position:relative;z-index:2;max-width:820px;margin:0 auto;padding:28px 18px}
 header{text-align:center;margin-bottom:32px;padding:32px 0 8px}
 .logo{font-family:'Orbitron',sans-serif;font-size:clamp(20px,5.5vw,46px);font-weight:900;background:linear-gradient(135deg,#dd00ff,#ff00cc,#00ffee,#ffd700,#ff6600);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;animation:fl 8s infinite,gs 4s ease infinite;filter:drop-shadow(0 0 24px #aa00ffbb)}
@@ -38,19 +37,18 @@ header{text-align:center;margin-bottom:32px;padding:32px 0 8px}
 textarea{width:100%;background:#03000c;border:1px solid var(--bor);border-radius:8px;color:#c8a0ff;font-family:'Share Tech Mono',monospace;font-size:12px;line-height:1.7;padding:13px;resize:vertical;outline:none;transition:border-color .22s;min-height:200px}
 textarea:focus{border-color:var(--acc);box-shadow:0 0 0 2px #aa00ff14}
 textarea::placeholder{color:#260844}
-#out{color:#00ffdd !important;min-height:240px}
+#out{color:#00ffdd !important;min-height:240px;font-size:11px}
 .br{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
 .btn{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;padding:11px 18px;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-transform:uppercase}
-.btng{background:linear-gradient(135deg,#ffd700,#ff8800);color:#000;flex:1;min-width:140px;font-weight:900;box-shadow:0 0 20px #ffd700bb;animation:bs 3s ease infinite;background-size:200% 200%}
+.btng{background:linear-gradient(135deg,#ffd700,#ff8800);color:#000;flex:1;min-width:140px;font-weight:900;box-shadow:0 0 20px #ffd700bb;background-size:200% 200%}
 .btng:hover{transform:translateY(-2px);box-shadow:0 0 36px #ffd700ee}
-@keyframes bs{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .btns{background:#ffffff06;border:1px solid var(--bor);color:var(--dim)}
 .btns:hover{border-color:var(--acc);color:var(--acc)}
 .btnc{background:#00ffdd10;border:1px solid #00ffdd44;color:#00ffdd}
 .btnc:hover{background:#00ffdd20;transform:translateY(-1px)}
 .prog{display:none;margin-top:12px}.prog.show{display:block}
 .pbg{background:#03000c;border:1px solid var(--bor);border-radius:4px;height:5px;overflow:hidden}
-.pbar{height:100%;background:linear-gradient(90deg,var(--acc),var(--gld),var(--ac2),var(--ac3),var(--acc));background-size:200% 100%;border-radius:4px;transition:width .12s;width:0%;animation:bm 1.5s linear infinite}
+.pbar{height:100%;background:linear-gradient(90deg,var(--acc),var(--gld),var(--ac2),var(--ac3),var(--acc));background-size:200% 100%;border-radius:4px;transition:width .18s;width:0%;animation:bm 1.5s linear infinite}
 @keyframes bm{0%{background-position:0%}100%{background-position:200%}}
 .ptxt{font-size:9px;color:var(--dim);margin-top:6px;text-align:center;letter-spacing:2px}
 .sts{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
@@ -63,38 +61,32 @@ footer::before{content:'';display:block;height:1px;background:linear-gradient(90
 footer span{color:var(--gld)}
 .hrt{color:#ff0099;animation:hb 1.5s ease infinite;display:inline-block}
 @keyframes hb{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
-.nf{position:fixed;bottom:22px;right:14px;background:linear-gradient(135deg,#aa00ff,#ff0099);color:#fff;font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;padding:10px 16px;border-radius:8px;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;box-shadow:var(--glow)}
+.nf{position:fixed;bottom:22px;right:14px;background:linear-gradient(135deg,#aa00ff,#ff0099);color:#fff;font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;padding:10px 16px;border-radius:8px;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;box-shadow:0 0 28px #aa00ffbb}
 .nf.show{transform:translateY(0);opacity:1}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:#0a0015}
-::-webkit-scrollbar-thumb{background:linear-gradient(#aa00ff,#ff0099);border-radius:3px}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#0a0015}::-webkit-scrollbar-thumb{background:linear-gradient(#aa00ff,#ff0099);border-radius:3px}
 </style>
 </head>
 <body>
-<div class="bg-g"></div>
-<div class="bg-gr"></div>
-<div class="pts" id="pts"></div>
+<div class="bg-g"></div><div class="bg-gr"></div><div class="pts" id="pts"></div>
 <div class="wrap">
   <header>
-    <div class="logo">hienvip Obfuscator</div>
-    <div class="sub">ULTRA V10 — VM × HELLFIRE × TRAP CHAIN</div>
+    <div class="logo">Hienios Obfuscator</div>
+    <div class="sub">ULTRA V16.6 — LURA STYLE × BASE85 × XOR</div>
     <div class="bdg">
       <span class="b bp">★ PREMIUM</span>
-      <span class="b b1">VM BYTECODE</span>
-      <span class="b b1">MULTI-LAYER XOR</span>
-      <span class="b b1">CONTROL FLOW</span>
-      <span class="b b3">ANTI-DEOBF</span>
-      <span class="b bn">★ TRAP CHAIN</span>
-      <span class="b bn">POLYMORPHIC</span>
-      <span class="b bn">GARBAGE FLOOD</span>
+      <span class="b b1">BASE85</span>
+      <span class="b b1">XOR MULTI-KEY</span>
+      <span class="b b1">LURA STYLE</span>
+      <span class="b b3">ENV LOCK</span>
+      <span class="b bn">★ ANTI-DEBUG</span>
+      <span class="b bn">ROBLOX READY</span>
     </div>
   </header>
-
   <div class="panel">
     <div class="pt">Code Lua Gốc<span class="ptl"></span></div>
     <textarea id="inp" placeholder="-- Dán code Lua / Roblox Script vào đây..."></textarea>
     <div class="br">
-      <button class="btn btng" onclick="obf()">★ ULTRA OBFUSCATE V10</button>
+      <button class="btn btng" onclick="obf()">★ ULTRA OBFUSCATE V16.6</button>
       <button class="btn btns" onclick="clr()">✕ XÓA</button>
     </div>
     <div class="prog" id="prog">
@@ -102,325 +94,285 @@ footer span{color:var(--gld)}
       <div class="ptxt" id="ptx">ĐANG XỬ LÝ...</div>
     </div>
   </div>
-
   <div class="panel op">
-    <div class="pt c">Kết Quả — Ultra Encrypted V10<span class="ptl"></span></div>
+    <div class="pt c">Kết Quả — Ultra Encrypted V16.6<span class="ptl"></span></div>
     <textarea id="out" placeholder="-- Output xuất hiện ở đây..." readonly></textarea>
     <div class="sts" id="sts" style="display:none">
       <div class="st"><div class="sv g" id="sb">0</div><div class="sl">BYTES</div></div>
-      <div class="st"><div class="sv g" id="sl">0</div><div class="sl">LAYERS</div></div>
-      <div class="st"><div class="sv c" id="sw">0</div><div class="sl">WRAP</div></div>
-      <div class="st"><div class="sv" id="sz">0%</div><div class="sl">SIZE↑</div></div>
-      <div class="st"><div class="sv g" id="sk">0</div><div class="sl">KEYS</div></div>
+      <div class="st"><div class="sv g" id="sl">0</div><div class="sl">LINES</div></div>
+      <div class="st"><div class="sv c" id="sw">0x</div><div class="sl">SIZE↑</div></div>
+      <div class="st"><div class="sv" id="sk">0</div><div class="sl">KEYS</div></div>
     </div>
     <div class="br">
       <button class="btn btnc" onclick="cpOut()">📋 SAO CHÉP</button>
       <button class="btn btns" onclick="dlOut()">⬇ TẢI .LUA</button>
     </div>
   </div>
-
-  <footer><span>hienvip Obfuscator</span> — v10.0 — Made with <span class="hrt">💜</span> by hienvip</footer>
+  <footer><span>Hienios Obfuscator</span> — v16.6 — Made with <span class="hrt">💜</span> by hienvip</footer>
 </div>
 <div class="nf" id="nf"></div>
-
 <script>
-// particles
-(function(){var c=document.getElementById('pts'),cols=['#aa00ff','#ff0099','#00ffdd','#ffd700','#6600ff'];for(var i=0;i<38;i++){var p=document.createElement('div');p.className='p';var cl=cols[Math.floor(Math.random()*cols.length)],sz=Math.random()<.3?1:2;p.style.cssText='left:'+Math.random()*100+'%;width:'+sz+'px;height:'+sz+'px;background:'+cl+';animation-duration:'+(10+Math.random()*16)+'s;animation-delay:'+Math.random()*12+'s;opacity:0;box-shadow:0 0 4px '+cl;c.appendChild(p);}})();
+(function(){
+  var c=document.getElementById('pts'),cols=['#aa00ff','#ff0099','#00ffdd','#ffd700','#6600ff'];
+  for(var i=0;i<38;i++){
+    var p=document.createElement('div');p.className='p';
+    var cl=cols[Math.floor(Math.random()*cols.length)],sz=Math.random()<.3?1:2;
+    p.style.cssText='left:'+Math.random()*100+'%;width:'+sz+'px;height:'+sz+'px;background:'+cl+';animation-duration:'+(10+Math.random()*16)+'s;animation-delay:'+Math.random()*12+'s;opacity:0;box-shadow:0 0 4px '+cl;
+    c.appendChild(p);
+  }
+})();
 
 function showN(m){var n=document.getElementById('nf');n.textContent=m;n.classList.add('show');setTimeout(function(){n.classList.remove('show')},2600)}
 function clr(){document.getElementById('inp').value='';document.getElementById('out').value='';document.getElementById('sts').style.display='none'}
 function sp(p,m){document.getElementById('pb').style.width=p+'%';document.getElementById('ptx').textContent=m.toUpperCase()}
-
-/* ── CORE UTILS ── */
 function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a}
-function rn(l){var h='0123456789abcdef',a='abcdefghijklmnopqrstuvwxyz',s=a[ri(0,25)];for(var i=0;i<(l||14);i++)s+=h[ri(0,15)];return s}
-function s2b(str){var b=[];for(var i=0;i<str.length;i++){var c=str.charCodeAt(i);if(c<128)b.push(c);else if(c<2048){b.push((c>>6)|192);b.push((c&63)|128)}else{b.push((c>>12)|224);b.push(((c>>6)&63)|128);b.push((c&63)|128)}}return b}
-function gk(l){var k=[];for(var i=0;i<l;i++)k.push(ri(1,254));return k}
-// numMagic: số → biểu thức toán
-function nm(n){var t=ri(0,4);if(t===0){var a=ri(1,60);return'('+(n+a)+'-'+a+')'}if(t===1){var a=ri(2,8);return'('+(n*a)+'//'+a+')'}if(t===2){var a=ri(1,40),b=ri(1,40);return'('+(n+a+b)+'-'+a+'-'+b+')'}if(t===3){var a=ri(1,50);return'(('+(n+a)+')-'+a+')'}var a=ri(1,30);return'('+a+'+'+(n-a)+')'}
-// strMagic: string → string.char(bytes)
-function sm(s){return'string.char('+s2b(s).join(',')+')';}
-function opT(){var ops=[function(){var n=ri(2,15);return'('+n+'*'+n+'+'+n+')%2==0'},function(){var n=ri(1,20);return n+'*'+n+'>='+n},function(){return'(function()local _=0;for __=1,10 do _=_+1 end;return _>5 end)()'},function(){var n=ri(3,9);return'('+n+'%'+ri(2,n-1)+'+1)>0'}];return ops[ri(0,ops.length-1)]()}
-function opF(){var ops=[function(){var n=ri(1,20);return n+'*0>1'},function(){return'false and true'},function(){var n=ri(2,15);return(n*n)+'<'+(n-1)},function(){return'(function()return false end)()'}];return ops[ri(0,ops.length-1)]()}
 
-/* ── GENERATORS ── */
-function genJunk(lv){
-  var lines=[],t=[
-    function(){return'local '+rn(10)+'='+nm(ri(0,999))},
-    function(){return'local '+rn(10)+'='+nm(ri(0,99))+'+'+nm(ri(0,99))},
-    function(){return'if '+opF()+' then\nlocal '+rn(10)+'='+nm(ri(0,99))+'\nend'},
-    function(){return'do\nlocal '+rn(10)+'='+nm(ri(100,999))+'\nlocal '+rn(10)+'='+nm(ri(1,50))+'\nend'},
-    function(){var v=rn(10);return'local '+v+'={'+Array.from({length:ri(3,8)},function(){return nm(ri(0,255))}).join(',')+'}'},
-    function(){return'if '+opT()+' then\nlocal '+rn(10)+'='+nm(ri(0,99))+'\nend'},
-  ];
-  for(var i=0;i<lv*5;i++)lines.push(t[ri(0,t.length-1)]());
-  return lines.join('\n')+'\n';
-}
-function genCP(count){
-  var pn=rn(8),vals=Array.from({length:count},function(){return nm(ri(0,255))}),lines=[];
-  for(var i=0;i<vals.length;i+=20)lines.push(vals.slice(i,i+20).join(','));
-  return'local '+pn+'={\n'+lines.join(',\n')+'\n}\n';
-}
-function genSMW(inner){
-  var sv=rn(8),sc=ri(4,7),es=ri(1,sc),sb='';
-  for(var s=1;s<=sc;s++){
-    if(s===es)sb+='if '+sv+'=='+nm(s)+' then\n'+inner+'\n'+sv+'=-1\n';
-    else sb+='if '+sv+'=='+nm(s)+' then\nlocal '+rn(6)+'='+nm(ri(0,99))+'\n'+sv+'=-1\n';
-    sb+='end\n';
+// Pool tên biến chữ + số giống Luraph thật (I, p, F, Y, X, u, U, d, l, o, z, B, b, c, e, f, g, h, j, m, n, s, t, w, x, a, q, v, Q, W ...)
+// Luraph dùng kiểu: I, p, r, Y, X, F, y, k, u, U, d, l, o, z, B, b, c, ...
+// Ta mix chữ cái + số để tạo biến dài hơn như: I0, p1, F2, ...
+var LURA_POOL = [
+  'I','p','r','Y','X','F','y','k','u','U','d','l','o','z','B','b','c','e',
+  'f','g','h','j','m','n','s','t','w','x','a','q','v','Q','W','A','C','D',
+  'E','G','H','J','K','L','M','N','O','P','R','S','T','V','Z'
+];
+
+// Sinh tên biến giống Luraph: 1 ký tự đơn trước, rồi 2 ký tự
+function makeLuraVars(count) {
+  var used = {};
+  var vars = [];
+  var LUA_KEYWORDS = ['do','if','in','or','and','end','for','nil','not','true','then','else',
+    'false','local','while','until','break','return','repeat','function'];
+  
+  // Tạo pool: 1 char trước
+  var singles = [];
+  for(var i=0;i<LURA_POOL.length;i++) singles.push(LURA_POOL[i]);
+  // Rồi 2 chars (char+char, char+digit)
+  var doubles = [];
+  for(var i=0;i<LURA_POOL.length;i++){
+    for(var j=0;j<LURA_POOL.length;j++){
+      doubles.push(LURA_POOL[i]+LURA_POOL[j]);
+    }
+    for(var d=0;d<=9;d++){
+      doubles.push(LURA_POOL[i]+d);
+    }
   }
-  return'local '+sv+'='+nm(es)+'\nwhile '+sv+'>='+nm(0)+' do\n'+sb+'end\n';
+  // Shuffle doubles
+  for(var i=doubles.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=doubles[i];doubles[i]=doubles[j];doubles[j]=tmp;
+  }
+  
+  var allPool = singles.concat(doubles);
+  
+  for(var n=0;n<count;n++){
+    var v;
+    var found=false;
+    for(var pi=0;pi<allPool.length;pi++){
+      v=allPool[pi];
+      if(!used[v] && LUA_KEYWORDS.indexOf(v)<0){
+        used[v]=1;
+        vars.push(v);
+        found=true;
+        break;
+      }
+    }
+    if(!found) vars.push('_v'+n); // fallback
+  }
+  return vars;
 }
-function genFF(){
-  var s=[];
-  for(var i=0;i<ri(3,5);i++){var v=rn(8);s.push('if '+opF()+' then\nlocal '+v+'='+nm(ri(0,999))+'\nend')}
-  return s.join('\n')+'\n';
-}
-function encB(bytes,k1,k2,k3,rotN){
-  var b=bytes.slice();
-  b=b.map(function(x,i){return x^k1[i%k1.length]});
-  b=b.map(function(x,i){return x^k2[i%k2.length]});
-  b=b.map(function(x,i){return x^k3[i%k3.length]});
-  if(rotN>0)b=b.map(function(x){return(x+rotN)%256});
+
+// UTF-8 encode
+function s2b(s){
+  var b=[];
+  for(var i=0;i<s.length;i++){
+    var c=s.charCodeAt(i);
+    if(c<128)b.push(c);
+    else if(c<2048){b.push((c>>6)|192);b.push((c&63)|128)}
+    else{b.push((c>>12)|224);b.push(((c>>6)&63)|128);b.push((c&63)|128)}
+  }
   return b;
 }
-function fmtB(bytes,pl){
-  pl=pl||14;var lines=[];
-  for(var i=0;i<bytes.length;i+=pl)lines.push(bytes.slice(i,i+pl).join(','));
-  return'{\n'+lines.join(',\n')+'\n}';
-}
-function buildZSH(scV,mfV,lsV){
-  var vG=rn(6),vT=rn(6),vS=rn(6),vM=rn(6),vMN=rn(6),vF=rn(6),vL=rn(6),h='';
-  h+='local '+vG+'=(function()if _ENV then return _ENV end;if getfenv then return getfenv(0) end;return _G or{}end)()\n';
-  h+='local '+vT+'=type("")\nlocal '+vS+'='+vG+'['+vT+']\n';
-  h+='local '+scV+'='+vS+'['+vS+'.char('+[99,104,97,114].map(nm).join(',')+')]\n';
-  h+='local '+vMN+'='+scV+'('+[109,97,116,104].map(nm).join(',')+')\n';
-  h+='local '+vF+'='+scV+'('+[102,108,111,111,114].map(nm).join(',')+')\n';
-  h+='local '+vL+'='+scV+'('+[108,111,97,100,115,116,114,105,110,103].map(nm).join(',')+')\n';
-  h+='local '+vM+'='+vG+'['+vMN+']\nlocal '+mfV+'='+vM+'['+vF+']\nlocal '+lsV+'='+vG+'['+vL+'] or load\n';
-  return h;
-}
-function buildXorFn(xf,mf){
-  var va=rn(6),vb=rn(6),vr=rn(6),vm=rn(6),vi=rn(6),vab=rn(6),vbb=rn(6);
-  return'local function '+xf+'('+va+','+vb+')\nlocal '+vr+'='+nm(0)+'\nlocal '+vm+'='+nm(1)+'\nfor '+vi+'='+nm(1)+','+nm(8)+' do\nlocal '+vab+'='+va+'%'+nm(2)+'\nlocal '+vbb+'='+vb+'%'+nm(2)+'\nif '+vab+'~='+vbb+' then '+vr+'='+vr+'+'+vm+' end\n'+va+'='+mf+'('+va+'/'+nm(2)+')\n'+vb+'='+mf+'('+vb+'/'+nm(2)+')\n'+vm+'='+vm+'*'+nm(2)+'\nend\nreturn '+vr+'\nend\n';
-}
-function buildLayer(src){
-  var bytes=s2b(src),nk=7,k1=gk(nk),k2=gk(4),k3=gk(5),rotN=ri(15,100);
-  var enc=encB(bytes,k1,k2,k3,rotN);
-  var scV=rn(6),mfV=rn(6),lsV=rn(6),xfV=rn(6),dtV=rn(6),k1V=rn(6),k2V=rn(6),k3V=rn(6),rtV=rn(6),ouV=rn(6),viV=rn(6),vbV=rn(6),fnV=rn(6),eV=rn(6),o='';
-  o+=buildZSH(scV,mfV,lsV);
-  o+=buildXorFn(xfV,mfV);
-  o+='local '+dtV+'='+fmtB(enc,12)+'\n';
-  o+='local '+k1V+'={'+k1.map(nm).join(',')+'}'+'\nlocal '+k2V+'={'+k2.map(nm).join(',')+'}'+'\nlocal '+k3V+'={'+k3.map(nm).join(',')+'}'+'\n';
-  o+='local '+rtV+'='+nm(rotN)+'\nlocal '+ouV+'=""\n';
-  o+='for '+viV+'='+nm(1)+',#'+dtV+' do\nlocal '+vbV+'='+dtV+'['+viV+']\n';
-  o+=vbV+'=('+vbV+'-'+rtV+'+'+nm(256)+')%'+nm(256)+'\n';
-  o+=vbV+'='+xfV+'('+vbV+','+k3V+'[(('+viV+'-'+nm(1)+')%#'+k3V+')+'+nm(1)+'])\n';
-  o+=vbV+'='+xfV+'('+vbV+','+k2V+'[(('+viV+'-'+nm(1)+')%#'+k2V+')+'+nm(1)+'])\n';
-  o+=vbV+'='+xfV+'('+vbV+','+k1V+'[(('+viV+'-'+nm(1)+')%#'+k1V+')+'+nm(1)+'])\n';
-  o+=ouV+'='+ouV+'..'+scV+'('+vbV+')\nend\n';
-  o+='local '+fnV+','+eV+'='+lsV+'('+ouV+')\nassert('+fnV+' and type('+fnV+')=="function","hienvip err: "..('+eV+' or "?"))\n'+fnV+'()\n';
-  return{code:o,layers:3+nk+1,keys:nk+9};
+
+// XOR bytes với key
+function xorB(b,k){return b.map(function(x,i){return x^k[i%k.length]})}
+
+// Base85 encode: 4 bytes → 5 printable chars
+function b85enc(bytes){
+  var b=bytes.slice();
+  var pad=0;
+  while(b.length%4){b.push(0);pad++}
+  var out='';
+  for(var i=0;i<b.length;i+=4){
+    var n=((b[i]*256+b[i+1])*256+b[i+2])*256+b[i+3];
+    var r='';
+    for(var j=0;j<5;j++){
+      var ch=n%85+33;
+      if(ch===34)ch=35;
+      if(ch===92)ch=93;
+      r=String.fromCharCode(ch)+r;
+      n=Math.floor(n/85);
+    }
+    out+=r;
+  }
+  return {data:out,pad:pad};
 }
 
-/* ── V9 SECURITY ── */
-function genEnvLock(){
-  var vG=rn(8),vOK=rn(8),vI=rn(6),c='';
-  c+='local '+vG+'=(function()if _ENV then return _ENV end;if getfenv then return getfenv(0) end;return _G or{}end)()\n';
-  c+='local '+vOK+'=true\nlocal _sc9=string.char\n';
-  c+='local _sG9='+vG+'[_sc9('+s2b('game').map(nm).join(',')+')]\n';
-  c+='if not _sG9 then '+vOK+'=false end\n';
-  c+='if '+vOK+' then\nlocal _ok9,_pl9=pcall(function()return _sG9[_sc9('+s2b('GetService').map(nm).join(',')+')](';
-  c+='_sG9,_sc9('+s2b('Players').map(nm).join(',')+'))end)\n';
-  c+='if not _ok9 or not _pl9 then '+vOK+'=false end\nend\n';
-  c+='if not '+vOK+' then\nlocal '+vI+'=true\nwhile '+vI+' do task.wait(9999) end\nend\n';
-  return c;
-}
-function genAntiDbg(){
-  var vD=rn(8),vF=rn(8),vOK=rn(8),vGF=rn(6),vLp=rn(6),c='';
-  c+='local '+vOK+'=true\n';
-  c+='pcall(function()\nlocal '+vD+'=debug\nif '+vD+' then\nlocal '+vF+'='+vD+'.getinfo(1)\n';
-  c+='if '+vF+' and '+vF+'.what~="Lua" and '+vF+'.what~="C" and '+vF+'.what~="main" then '+vOK+'=false\nend\nend\nend)\n';
-  c+='pcall(function()\nlocal '+vGF+'=getfenv\nif '+vGF+' and type('+vGF+'(0))~="table" then '+vOK+'=false end\nend)\n';
-  c+='if not '+vOK+' then\nlocal '+vLp+'=true;while '+vLp+' do end\nend\n';
-  return c;
-}
-function genCsumWrap(inner){
-  var bytes=s2b(inner),cs=0;
-  for(var i=0;i<bytes.length;i++)cs=(cs+bytes[i]*(i+1))%65521;
-  var vCS=rn(8),vI=rn(6),vB=rn(6),vOk=rn(8),vOut=rn(8),vSC=rn(6),vLS=rn(6),vFn=rn(6),vEr=rn(6),vLp=rn(6),lines=[],c='';
-  for(var i=0;i<bytes.length;i+=20)lines.push(bytes.slice(i,i+20).map(nm).join(','));
-  c+='local '+vB+'={\n'+lines.join(',\n')+'\n}\nlocal '+vCS+'=0\n';
-  c+='for '+vI+'=1,#'+vB+' do\n'+vCS+'=('+vCS+'+'+vB+'['+vI+']*'+vI+')%65521\nend\n';
-  c+='if not ('+vCS+'=='+nm(cs)+') then\nlocal '+vLp+'=true;while true do end\nend\n';
-  c+='local '+vSC+'=string.char\nlocal '+vOut+'=""\n';
-  c+='for '+vI+'=1,#'+vB+' do '+vOut+'='+vOut+'..'+vSC+'('+vB+'['+vI+']) end\n';
-  c+='local '+vLS+'=loadstring or load\nlocal '+vFn+','+vEr+'='+vLS+'('+vOut+')\nif '+vFn+' then '+vFn+'() end\n';
-  return c;
-}
-function genVM(src,lv){
-  var bytes=s2b(src),vk=ri(10,200),vk2=ri(10,200);
-  var vmB=bytes.map(function(b,i){return((b^(vk+i%17))+vk2)%256});
-  var hdr=[7,ri(0,255),1,bytes.length&0xFF,(bytes.length>>8)&0xFF,2,vk&0xFF,vk2&0xFF,3];
-  var full=hdr.concat(vmB).concat([4]);
-  var vmN=rn(8),bcN=rn(8),ipN=rn(6),k1N=rn(6),k2N=rn(6),outN=rn(8),idxN=rn(6),scN=rn(6),vLS=rn(6),vFn=rn(6),vEr=rn(6),bcL=[],c='';
-  for(var i=0;i<full.length;i+=16)bcL.push(full.slice(i,i+16).map(nm).join(','));
-  c+='local '+bcN+'={\n'+bcL.join(',\n')+'\n}\n';
-  c+='local function '+vmN+'(bc)\nlocal '+ipN+'=1;local '+k1N+'=0;local '+k2N+'=0;local '+outN+'="";local '+scN+'=string.char\n';
-  c+='while bc['+ipN+']~='+nm(3)+' do\nlocal op=bc['+ipN+']\nif op=='+nm(2)+' then '+k1N+'=bc['+ipN+'+1];'+k2N+'=bc['+ipN+'+2];'+ipN+'='+ipN+'+2 end\n'+ipN+'='+ipN+'+1\nend\n'+ipN+'='+ipN+'+1\n';
-  c+='local '+idxN+'=0\nwhile bc['+ipN+'] and bc['+ipN+']~='+nm(4)+' do\nlocal b=bc['+ipN+']\nb=(b-'+k2N+'+256)%256\nb=b~('+k1N+'+'+idxN+'%17)\n'+outN+'='+outN+'..'+scN+'(b)\n'+ipN+'='+ipN+'+1;'+idxN+'='+idxN+'+1\nend\nreturn '+outN+'\nend\n';
-  c+='local '+vLS+'=loadstring or load\nlocal _vs='+vmN+'('+bcN+')\nlocal '+vFn+','+vEr+'='+vLS+'(_vs)\nassert('+vFn+',"VM Err: "..('+vEr+' or "?"))\n'+vFn+'()\n';
-  return{code:c,layers:5+lv,keys:2};
-}
-function genDFW(src){
-  var depth=ri(3,5),result=src;
-  for(var i=0;i<depth;i++){var vA=rn(6),vB=rn(6);result='(function()\nlocal '+vA+'='+nm(ri(1,100))+';local '+vB+'='+nm(ri(1,100))+';\n'+result+'\nend)()'}
-  return result;
-}
-function genSS(src){
-  return src.replace(/"([^"\\]{1,40})"/g,function(match,s){
-    if(s.length<3)return match;
-    var bytes=s2b(s),parts=bytes.map(function(b){var v=rn(5);return'(function()local '+v+'='+nm(b)+';return '+v+' end)()'}),sc=rn(5);
-    return'(function()local '+sc+'=string.char;return '+sc+'('+parts.join(',')+')'+'end)()';
-  });
+function buildLura(encData, pad, key1, key2){
+  // Dùng hàm sinh biến giống Luraph
+  var V = makeLuraVars(50);
+  var i=0;
+  var vSB=V[i++], vSC=V[i++], vLS=V[i++], vGS=V[i++], vUP=V[i++];
+  var vF=V[i++],  vSR=V[i++], vSP=V[i++], vPCL=V[i++],vSM=V[i++];
+  var vDAT=V[i++],vOUT=V[i++],vZ=V[i++],  vH=V[i++],  vA=V[i++];
+  var vB=V[i++],  vC=V[i++],  vD=V[i++],  vE=V[i++],  vN=V[i++];
+  var vK1=V[i++], vK2=V[i++], vKL=V[i++], vK2L=V[i++];
+  var vENV=V[i++],vOK=V[i++], vFN=V[i++], vER=V[i++];
+  var vR=V[i++],  vU=V[i++],  vL=V[i++],  vM=V[i++],  vP=V[i++];
+
+  var k1str=key1.join(',');
+  var k2str=key2.join(',');
+  var kl1=key1.length;
+  var kl2=key2.length;
+
+  // XOR encData với key2 để lưu trữ
+  var encBytes=[];
+  for(var j=0;j<encData.length;j++){
+    encBytes.push(encData.charCodeAt(j)^key2[j%kl2]);
+  }
+  var esc2='';
+  for(var j=0;j<encBytes.length;j++){
+    var c=encBytes[j];
+    if(c===92)esc2+='\\\\';
+    else if(c===34)esc2+='\\"';
+    else if(c===10)esc2+='\\n';
+    else if(c===13)esc2+='\\r';
+    else if(c===0)esc2+='\\0';
+    else if(c<32)esc2+='\\'+c;
+    else esc2+=String.fromCharCode(c);
+  }
+
+  var L='';
+  // === Dòng đầu đúng định dạng ===
+  L+='-- This file was protected using Hienios Obfuscator v16.6 [https://discord.gg/x9pATE8Uxe]\n\n';
+  L+='return(function()';
+  L+='local '+vSB+','+vSC+','+vLS+','+vGS+','+vF+','+vSP+'=';
+  L+='string.byte,string.char,loadstring or load,string.gsub,{},string.pack;';
+  L+='for '+vU+'=0,255 do '+vF+'['+vU+']='+vSC+'('+vU+');end;'+vF+'=tostring;';
+  L+='local '+vK1+'={'+k1str+'};local '+vKL+'='+kl1+';';
+  L+='local '+vK2+'={'+k2str+'};local '+vK2L+'='+kl2+';';
+
+  // Decoder base85 + xor1
+  L+='local '+vZ+'=function('+vDAT+')local '+vOUT+'={};local '+vN+'=0;';
+  L+='for '+vR+'=1,#'+vDAT+',5 do ';
+  L+='local '+vA+','+vB+','+vC+','+vD+','+vE+'='+vSB+'('+vDAT+','+vR+','+vR+'+4);';
+  L+='local '+vM+'=(((('+vA+'-33)*85+('+vB+'-33))*85+('+vC+'-33))*85+('+vD+'-33))*85+('+vE+'-33);';
+  L+='local '+vP+'='+vM+'%256;'+vM+'=math.floor('+vM+'/256);';
+  L+='local '+vL+'='+vM+'%256;'+vM+'=math.floor('+vM+'/256);';
+  L+='local '+vH+'='+vM+'%256;'+vM+'=math.floor('+vM+'/256);';
+  L+='local '+vA+'='+vM+'%256;';
+  L+=vN+'='+vN+'+1;'+vOUT+'['+vN+']='+vSC+'('+vA+'^'+vK1+'[(('+vN+'-1)%'+vKL+')+1]);';
+  L+=vN+'='+vN+'+1;'+vOUT+'['+vN+']='+vSC+'('+vH+'^'+vK1+'[(('+vN+'-1)%'+vKL+')+1]);';
+  L+=vN+'='+vN+'+1;'+vOUT+'['+vN+']='+vSC+'('+vL+'^'+vK1+'[(('+vN+'-1)%'+vKL+')+1]);';
+  L+=vN+'='+vN+'+1;'+vOUT+'['+vN+']='+vSC+'('+vP+'^'+vK1+'[(('+vN+'-1)%'+vKL+')+1]);';
+  L+='end;';
+  if(pad>0)L+='for '+vU+'=1,'+pad+' do table.remove('+vOUT+');end;';
+  L+='return table.concat('+vOUT+');end;';
+
+  // Decode key2 từ raw string
+  L+='local '+vR+'=0;';
+  L+='local '+vDAT+'='+vGS+'("'+esc2+'",".",function('+vM+')';
+  L+=vR+'='+vR+'+1;return '+vSC+'('+vSB+'('+vM+')^'+vK2+'[(('+vR+'-1)%'+vK2L+')+1]);';
+  L+='end);';
+
+  // ENV lock
+  L+='local '+vENV+'=(function()if _ENV then return _ENV elseif getfenv then return getfenv(0)end;return _G or{}end)();';
+  L+='if not '+vENV+'["game"]then while true do task.wait(9e9)end end;';
+
+  // Anti debug
+  L+='local '+vOK+'=true;';
+  L+='pcall(function()if debug and debug.getinfo then local _=debug.getinfo(1);if _ and _.what~="Lua"and _.what~="C"and _.what~="main"then '+vOK+'=false end end end);';
+  L+='if not '+vOK+' then while true do end end;';
+
+  // Execute
+  L+='local '+vFN+','+vER+'='+vLS+'('+vZ+'('+vDAT+'));';
+  // === Dòng cuối đúng định dạng ===
+  L+='assert('+vFN+',"Hienios decompression error: "..tostring('+vER+').." (does your environment support load/loadstring?)");';
+  L+='return '+vFN+'()';
+  L+='end)()';
+
+  return L;
 }
 
-/* ── V10 NEW ── */
-function genGarb(lv){
-  var count=lv*120,c='',tpls=[
-    function(){var fn=rn(10),a=rn(6),b=rn(6),r=rn(6);return'local function '+fn+'('+a+','+b+')\nlocal '+r+'=0\nfor _=1,0 do '+r+'='+r+'+'+a+'*'+b+' end\nreturn '+r+'\nend\n'},
-    function(){var t=rn(10),k1=rn(6),k2=rn(6);return'local '+t+'={'+k1+'='+nm(ri(0,999))+','+k2+'='+nm(ri(0,999))+'}\n'},
-    function(){var fn=rn(10),n=rn(5);return'local function '+fn+'('+n+')\nif '+opF()+' then return '+fn+'('+n+'-1) end\nreturn '+nm(ri(0,100))+'\nend\n'},
-    function(){var v=rn(10),e=nm(ri(1,100));for(var i=0;i<ri(2,5);i++){var op=ri(0,1)?'+':'-';e='('+e+op+nm(ri(1,50))+')';}return'local '+v+'='+e+'\n'},
-    function(){var v=rn(10),bts=Array.from({length:ri(4,9)},function(){return ri(65,122)});return'local '+v+'=(function()\nlocal _s=""\nfor _,_c in ipairs({'+bts.map(nm).join(',')+'})'+'do _s=_s..string.char(_c) end\nreturn _s\nend)()\n'},
-  ];
-  for(var i=0;i<count;i++)c+=tpls[ri(0,tpls.length-1)]();
-  return c;
-}
-function genTrap(){
-  var count=ri(4,7),c='',tv=Array.from({length:count},function(){return rn(8)});
-  for(var i=0;i<tv.length;i++)c+='local '+tv[i]+'=true\n';
-  for(var i=1;i<count;i++){var ck=rn(8),lv=rn(6);c+='local '+ck+'='+tv[i-1]+' and ('+opT()+')\nif not '+ck+' then\n'+tv[i]+'=false\nlocal '+lv+'=true;while '+lv+' do end\nend\n'}
-  var fv=rn(8),fl=rn(6);c+='local '+fv+'=true\n';
-  for(var i=0;i<tv.length;i++)c+=fv+'='+fv+' and '+tv[i]+'\n';
-  c+='if not '+fv+' then\nlocal '+fl+'=true;while '+fl+' do end\nend\n';
-  return c;
-}
-function genPoly(src){
-  var bytes=s2b(src),salt=ri(50,200),enc=bytes.map(function(b,i){return b^((salt+i*7)%256)});
-  var eV=rn(8),oV=rn(8),iV=rn(5),bV=rn(5),scV=rn(6),lsV=rn(6),fnV=rn(6),erV=rn(6),stV=rn(8),lines=[],c='';
-  for(var i=0;i<enc.length;i+=16)lines.push(enc.slice(i,i+16).map(nm).join(','));
-  c+='local '+stV+'='+nm(salt)+'\nlocal '+eV+'={\n'+lines.join(',\n')+'\n}\nlocal '+oV+'=""\nlocal '+scV+'=string.char\n';
-  c+='for '+iV+'=1,#'+eV+' do\nlocal '+bV+'='+eV+'['+iV+']\n'+bV+'='+bV+'~(('+stV+'+('+iV+'-1)*7)%256)\n'+oV+'='+oV+'..'+scV+'('+bV+')\nend\n';
-  c+='local '+lsV+'=loadstring or load\nlocal '+fnV+','+erV+'='+lsV+'('+oV+')\nassert('+fnV+',"Poly err: "..('+erV+' or "?"))\n'+fnV+'()\n';
-  return{code:c,layers:3,keys:2};
-}
-function genMut(){var c='';for(var i=0;i<ri(14,24);i++)c+='local '+rn(ri(8,14))+'='+nm(ri(0,999999))+'\n';return c}
-function genTblPx(){
-  var pN=rn(10),rg=rn(8),rs=rn(8),idx=rn(6),val=rn(6),tbl=rn(6),jv=rn(6),c='';
-  c+='local '+rg+'=rawget\nlocal '+rs+'=rawset\n';
-  c+='local function '+pN+'('+tbl+','+idx+','+val+')\nif '+val+'~=nil then return '+rs+'('+tbl+','+idx+','+val+')\nelse\nlocal '+jv+'='+nm(ri(1,100))+'\nif '+opF()+' then return '+jv+' end\nreturn '+rg+'('+tbl+','+idx+')\nend\nend\n';
-  return c;
-}
-
-/* ── MAIN ── */
 function obf(){
   var input=document.getElementById('inp').value.trim();
   if(!input){showN('Vui lòng nhập code!');return}
   var origSz=input.length;
   document.getElementById('prog').classList.add('show');
-  var tL=0,tK=0,tW=0;
-
-  function done(final){
-    sp(100,'HOÀN THÀNH!');
-    // Header dòng đầu mã hoá string
-    var hdr='--// string.char('+s2b('This file was created by HIENVIP v1.3 [https://discord.gg/x9pATE8Uxe]').join(',')+')';
-    var out=hdr+'\n\n'+final;
-    setTimeout(function(){
-      document.getElementById('out').value=out;
-      document.getElementById('prog').classList.remove('show');
-      var inc=Math.round(((out.length-origSz)/origSz)*100);
-      document.getElementById('sb').textContent=out.length.toLocaleString();
-      document.getElementById('sl').textContent=tL;
-      document.getElementById('sw').textContent=tW;
-      document.getElementById('sz').textContent='+'+inc+'%';
-      document.getElementById('sk').textContent=tK;
-      document.getElementById('sts').style.display='flex';
-      showN('V10 THÀNH CÔNG!');
-    },380);
-  }
 
   setTimeout(function(){
     try{
-      sp(3,'Phân tích...');
-      var code=input;
+      sp(15,'UTF-8 encode...');
+      var src=s2b(input);
 
-      // Rename
-      sp(5,'Rename...');
-      var kw=new Set(['true','false','nil','and','or','not','if','then','else','elseif','end','do','while','repeat','until','for','in','function','local','return','break','self','game','workspace','script','require','wait','spawn','delay','print','warn','error','task','pcall','xpcall','pairs','ipairs','tostring','tonumber','type','math','string','table','os','coroutine','select','unpack','rawget','rawset','setmetatable','getmetatable','bit32','Instance','Color3','Vector2','Vector3','UDim','UDim2','TweenInfo','Enum','Players','HttpGet','loadstring','HttpService','RunService','TweenService','_G','_ENV','getfenv','load']);
-      var vmap={},re=/\blocal\s+(?:function\s+)?([a-zA-Z_][a-zA-Z0-9_]*)\b/g,mm;
-      while((mm=re.exec(input))!==null){var n=mm[1];if(!vmap[n]&&!kw.has(n))vmap[n]=rn(14)}
-      for(var orig in vmap){try{code=code.replace(new RegExp('\\b'+orig+'\\b','g'),vmap[orig])}catch(e){}}
-      tL++;
+      sp(30,'XOR key1...');
+      var kl1=ri(10,20);
+      var key1=[];for(var i=0;i<kl1;i++)key1.push(ri(1,127));
+      var enc=xorB(src,key1);
 
-      // Proxy
-      sp(8,'Proxy...');
-      var ph='',pmk={print:rn(12),warn:rn(12),pcall:rn(12),error:rn(12),task:rn(12),pairs:rn(12),ipairs:rn(12)};
-      for(var k in pmk)ph+='local '+pmk[k]+'='+k+'\n';
-      for(var k in pmk){try{code=code.replace(new RegExp('\\b'+k+'\\b','g'),pmk[k])}catch(e){}}
-      tL++;
+      sp(50,'Base85...');
+      var res=b85enc(enc);
+      var encData=res.data;
+      var pad=res.pad;
 
-      // String scatter
-      sp(11,'String Scatter...');code=genSS(code);tL++;
+      sp(65,'XOR key2...');
+      var kl2=ri(6,14);
+      var key2=[];for(var i=0;i<kl2;i++)key2.push(ri(1,127));
 
-      // Base stuff
-      sp(14,'Build...');
-      var junk=genJunk(5);tL++;
-      var ad='local '+rn(8)+'=type\nlocal '+rn(8)+'=tostring\nlocal '+rn(8)+'=rawget\n';tL++;
-      var ff=genFF();tL++;
-      var cp=genCP(ri(700,1200));tL++;
-      var wm='local '+rn(10)+'={'+s2b('hienvip_v10').map(nm).join(',')+'}'+'\n';
+      sp(80,'Build Lua...');
+      var out=buildLura(encData,pad,key1,key2);
 
-      // V9
-      sp(18,'Env Lock...');var envL=genEnvLock();tL++;
-      sp(21,'Anti-Debug...');var adbg=genAntiDbg();tL++;
+      sp(100,'XONG!');
+      var lines=out.split('\n').length;
+      var bytes=out.length;
 
-      // V10
-      sp(24,'Garbage Flood...');var garb=genGarb(3);tL+=3;
-      sp(28,'Trap Chain...');var trap=genTrap();tL+=2;
-      sp(31,'Table Proxy...');var tpx=genTblPx();tL++;
-      sp(33,'Mutation...');var mut=genMut();tL++;
-
-      sp(37,'Assemble...');
-      var inner=mut+garb+envL+adbg+trap+tpx+ad+ph+junk+ff+code;
-
-      sp(41,'Deep Wrap...');inner=genDFW(inner);tL++;
-      sp(45,'Flow Flatten...');inner=genSMW(inner);tL++;
-      inner='local '+rn(8)+'='+opT()+' and true or false\n'+inner;tL++;
-
-      sp(51,'VM Layer...');var vmR=genVM(inner,3);inner=vmR.code;tL+=vmR.layers;tK+=vmR.keys;
-      sp(59,'Polymorphic...');var pr=genPoly(inner);inner=pr.code;tL+=pr.layers;tK+=pr.keys;
-
-      sp(65,'XOR Encrypt...');
-      var cur=inner;tW=2;
-      for(var w=0;w<2;w++){sp(65+w*11,'XOR '+(w+1)+'/2...');var r=buildLayer(cur);cur=r.code;tL+=r.layers;tK+=r.keys}
-
-      sp(88,'Anti-Tamper...');cur=genCsumWrap(cur);tL++;
-      sp(95,'Final...');
-      done(wm+cp+cur);
-
+      setTimeout(function(){
+        document.getElementById('out').value=out;
+        document.getElementById('prog').classList.remove('show');
+        document.getElementById('sb').textContent=bytes.toLocaleString();
+        document.getElementById('sl').textContent=lines.toLocaleString();
+        document.getElementById('sw').textContent=(Math.round(bytes/origSz*10)/10)+'x';
+        document.getElementById('sk').textContent=kl1+'+'+kl2;
+        document.getElementById('sts').style.display='flex';
+        showN('XONG! '+bytes.toLocaleString()+' bytes');
+      },300);
     }catch(err){
       document.getElementById('prog').classList.remove('show');
-      document.getElementById('out').value='-- Loi: '+err.message;
-      showN('LOI: '+err.message);
-      console.error(err);
+      document.getElementById('out').value='-- LOI: '+err.message+'\n'+err.stack;
+      showN('LOI: '+err.message);console.error(err);
     }
-  },200);
+  },150);
 }
 
-function cpOut(){var o=document.getElementById('out').value;if(!o){showN('Chua co output!');return}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(o).then(function(){showN('DA SAO CHEP!')}).catch(function(){fb(o)})}else{fb(o)}}
-function fb(t){var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0;width:1px;height:1px';document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,t.length);try{document.execCommand('copy');showN('DA SAO CHEP!')}catch(e){showN('Dung nut TAI!')}document.body.removeChild(ta)}
-function dlOut(){var o=document.getElementById('out').value;if(!o){showN('Chua co output!');return}var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([o],{type:'text/plain'}));a.download='hienvip_v10.lua';a.click();showN('DA TAI!')}
+function cpOut(){
+  var o=document.getElementById('out').value;
+  if(!o){showN('Chua!');return}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(o).then(function(){showN('SAO CHEP!')}).catch(function(){fb(o)})
+  }else fb(o)
+}
+function fb(t){
+  var a=document.createElement('textarea');a.value=t;
+  a.style.cssText='position:fixed;opacity:0;top:0;left:0;width:1px;height:1px';
+  document.body.appendChild(a);a.select();a.setSelectionRange(0,99999);
+  try{document.execCommand('copy');showN('SAO CHEP!')}catch(e){showN('Dung TAI!')}
+  document.body.removeChild(a)
+}
+function dlOut(){
+  var o=document.getElementById('out').value;if(!o){showN('Chua!');return}
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([o],{type:'text/plain'}));
+  a.download='hienios_v16.6.lua';a.click();showN('DA TAI!')
+}
 </script>
-
 </body>
 </html>
